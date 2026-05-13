@@ -1,2 +1,6 @@
 #pragma once
-class Coordinates {};
+class Coordinates {
+    Coordinates(int x,int y);
+    int getX();
+    int getY();
+};

@@ -1,0 +1,29 @@
+\doxysection{Building.\+hpp}
+\hypertarget{Building_8hpp_source}{}\label{Building_8hpp_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBuilding}{Building}}}
+\DoxyCodeLine{00004\ \{}
+\DoxyCodeLine{00005\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classBuilding}{\string~Building}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{classBuilding}{Building}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classBuilding}{Building}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{auto}\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classBuilding}{Building}}\&)\ -\/>\ \mbox{\hyperlink{classBuilding}{Building}}\&\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classBuilding}{Building}}(\mbox{\hyperlink{classBuilding}{Building}}\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{auto}\ operator=(\mbox{\hyperlink{classBuilding}{Building}}\&\&)\ -\/>\ \mbox{\hyperlink{classBuilding}{Building}}\&\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ setOnFire();}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ extinguishFire();}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ decayToRuin();}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ restoreRuin();}
+\DoxyCodeLine{00018\ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ applyProbabilities();}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Constructor\ (protected\ if\ you\ don't\ want\ direct\ instantiation\ of\ 'Building')}}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classBuilding}{Building}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00024\ \};}
+
+\end{DoxyCode}

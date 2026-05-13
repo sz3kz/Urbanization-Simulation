@@ -18,6 +18,8 @@ public:
     
     virtual void applyProbabilities();
 
+    void doTurn();
+
 protected:
     // Constructor (protected if you don't want direct instantiation of 'Building')
     Building() = default;
