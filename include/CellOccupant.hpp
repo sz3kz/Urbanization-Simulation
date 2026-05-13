@@ -1,2 +1,5 @@
 #pragma once
-class CellOccupant {};
+#include "Building.hpp"
+class CellOccupant {
+    Building* getOccupant();
+};

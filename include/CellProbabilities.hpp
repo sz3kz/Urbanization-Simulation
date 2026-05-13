@@ -1,3 +1,6 @@
 #pragma once
 
-class CellProbabilities {};
+class CellProbabilities {
+    void recalculateProbabilities();
+    void doTurn();
+};

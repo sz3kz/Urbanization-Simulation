@@ -1,2 +1,5 @@
 #pragma once
-class RandomEvent {};
+#include "Coordinates.hpp"
+class RandomEvent {
+    void doEvent(Coordinates coords);
+};
