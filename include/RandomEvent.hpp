@@ -1,5 +1,2 @@
-
-class RandomEvent
-{
-
-}
+#pragma once
+class RandomEvent {};
