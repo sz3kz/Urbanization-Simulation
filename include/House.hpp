@@ -1,0 +1,5 @@
+
+class House : public Building
+{
+
+}

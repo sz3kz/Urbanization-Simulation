@@ -1,0 +1,5 @@
+
+class Church : public Building
+{
+
+}

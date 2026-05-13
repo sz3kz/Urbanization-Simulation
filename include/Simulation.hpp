@@ -1,4 +1,5 @@
 #include World.hpp
+#include Coordinates.hpp
 class Simulation
 {
 	void iterate();

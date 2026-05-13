@@ -1,0 +1,5 @@
+
+class Tornado : public Disaster
+{
+
+}

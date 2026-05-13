@@ -1,0 +1,5 @@
+
+class Fire : public Disaster
+{
+
+}
