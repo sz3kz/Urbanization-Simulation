@@ -1,5 +1,5 @@
+#pragma once
+#include "RandomEvent.hpp"
 
-class Disaster : public RandomEvent
-{
 
-}
+class Disaster : public RandomEvent {};
