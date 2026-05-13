@@ -3,6 +3,7 @@
 
 
 class Disaster : public RandomEvent {
+    Disaster();
     void doEvent(Coordinates coords);
     void doEvent(Coordinates coords, int severity);
 };

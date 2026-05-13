@@ -1,4 +1,6 @@
 #pragma once
 #include "Building.hpp"
 
-class House : public Building {};
+class House : public Building {
+    House();
+};

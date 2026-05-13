@@ -3,6 +3,7 @@
 #include "Coordinates.hpp"
 class Simulation
 {
+	Simulation(Coordinates size);
 	void iterate();
 	auto checkCellExists(Coordinates const& coords) -> bool;
 	auto checkCellEmpty(Coordinates coords) -> bool;
