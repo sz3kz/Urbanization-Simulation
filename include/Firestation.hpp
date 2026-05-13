@@ -1,5 +1,4 @@
+#pragma once
+#include "Building.hpp"
 
-class Firestation : public Building
-{
-
-}
+class Firestation : public Building {};
