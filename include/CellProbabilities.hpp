@@ -1,5 +1,3 @@
+#pragma once
 
-class CellProbabilities
-{
-	//na razie brak zaplanowanych funkcji
-}
+class CellProbabilities {};
