@@ -1,5 +1,2 @@
-
-class CellOccupant
-{
-
-}
+#pragma once
+class CellOccupant {};
