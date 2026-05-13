@@ -1,11 +1,11 @@
-#include World.hpp
-#include Coordinates.hpp
+#pragma once
+#include "World.hpp"
+#include "Coordinates.hpp"
 class Simulation
 {
 	void iterate();
-	bool checkCellExists(Coordinates const& coords);
-	bool checkCellEmpty(Coordinates coords);
-	BuildingTypes getCellBuildingTypes(Coordinates coords);
+	auto checkCellExists(Coordinates const& coords) -> bool;
+	auto checkCellEmpty(Coordinates coords) -> bool;
+	auto getCellBuildingTypes(Coordinates coords) -> BuildingTypes;
 	void appluProbability(Coordinates Coords);
-	
-}
+};

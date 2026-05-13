@@ -1,5 +1,4 @@
+#pragma once
+#include "Building.hpp"
 
-class Shop : public Building
-{
-
-}
+class Shop : public Building {};

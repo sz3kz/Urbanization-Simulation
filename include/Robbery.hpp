@@ -1,5 +1,4 @@
+#pragma once
+#include "Disaster.hpp"
 
-class Robbery : public Disaster
-{
-
-}
+class Robbery : public Disaster {};
