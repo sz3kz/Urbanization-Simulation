@@ -1,5 +1,2 @@
-
-class Coordinates
-{
-//tu na razie tylko zmienne
-}
+#pragma once
+class Coordinates {};
