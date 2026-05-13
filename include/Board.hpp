@@ -1,5 +1,7 @@
-#include CellOccupant.hpp
+#pragma once
+#include "CellOccupant.hpp"
+#include "Coordinates.hpp"
 class Board
 {
-	CellOccupant* getCellOccupant(Coordinates coords); 
-}
+	 auto getCellOccupant(Coordinates coords) -> CellOccupant*;
+};
