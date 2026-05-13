@@ -1,0 +1,20 @@
+@startuml
+title Cykl życia Iteracji Symulacji (Simulation Engine)
+
+[*] --> Initialized : Start programu
+
+state Initialized {
+  state "Zerowanie plansz" as Reset
+  state "Obliczanie Prawdopodobieństw" as CalcProb
+  state "Losowanie Stanów" as Randomize
+  state "Zamiana Buforów (Swap)" as Swap
+  
+  [*] --> Reset
+  Reset --> CalcProb : Wywołanie iterate()
+  CalcProb --> Randomize : Zapisanie ProbabilityBoard
+  Randomize --> Swap : Nowe stany gotowe
+  Swap --> Reset : Koniec tury / Następna tura
+}
+
+Initialized --> [*] : Zamknięcie programu
+@enduml

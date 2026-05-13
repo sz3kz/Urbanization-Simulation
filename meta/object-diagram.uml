@@ -1,0 +1,69 @@
+@startuml
+title Snapshot Symulacji Urbanistycznej (Stan w iteracji 5)
+
+' Główny silnik symulacji
+object "engine : Simulation" as Sim {
+    width = 100
+    height = 100
+    current_iteration = 5
+}
+
+' Trzy główne plansze
+object "previousBoard : Board" as B1 {
+    width = 100
+    height = 100
+}
+
+object "nextBoard : Board" as B2 {
+    width = 100
+    height = 100
+}
+
+object "probabilityBoard : Board" as B3 {
+    width = 100
+    height = 100
+}
+
+' Relacje silnika z planszami
+Sim *-- B1 : <<current state>>
+Sim *-- B2 : <<buffer for next state>>
+Sim *-- B3 : <<prob calculation>>
+
+' Przykładowe komórki na planszy poprzedniej (CellOccupant)
+object "cell_0_0 : CellOccupant" as C1 {
+    occupant = unique_ptr<House>
+}
+
+object "cell_0_1 : CellOccupant" as C2 {
+    occupant = nullptr (Empty)
+}
+
+' Konkretny budynek i jego stan (std::variant)
+object "myHouse : House" as H1 {
+    neighbourhood_radius = 2
+    state = BurningState { ticks=10, maxTicks=100 }
+}
+
+' Przykładowa komórka na planszy prawdopodobieństw
+object "prob_0_1 : CellProbabilities" as P1 {
+    last_modified_iter = 5
+    flammability = 0.15
+    building_housability = 0.60
+    building_shopability = 0.05
+}
+
+' Powiązania obiektów
+B1 o-- C1
+B1 o-- C2
+C1 *-- H1 : points to >
+
+B3 o-- P1 : contains >
+
+' Reprezentacja koordynatów jako obiektów pomocniczych
+object "coords : Coordinates" as CRD {
+    x = 0
+    y = 1
+}
+
+note right of Sim : Symulacja używa lambd\ndo sprawdzania sąsiedztwa\npoprzez checkCellExists()
+@enduml

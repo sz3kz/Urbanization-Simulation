@@ -1,0 +1,111 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' --- ENUMS & STRUCTS ---
+enum BuildingType {
+    HOUSE
+    SHOP
+    FACTORY
+    FIRESTATION
+    NONE
+}
+
+struct Coordinates {
+    + int x
+    + int y
+    + getX(): int
+    + getY(): int
+}
+
+struct NormalState {
+    + int iterations_till_natural_ruin
+}
+struct BurningState {
+    + int ticks
+    + int maxTicks
+}
+struct RuinState {
+    + int ticks
+    + int maxTicks
+}
+
+' --- CORE SIMULATION ---
+
+class Simulation {
+    - int width
+    - int height
+    - int current_iteration
+    - Board previousBoard
+    - Board nextBoard
+    - Board probabilityBoard
+    
+    + iterate()
+    + updateMap()
+    - checkRandomEvents()
+    + checkCellExists(coords: Coordinates): bool
+    + checkCellEmpty(coords: Coordinates): bool
+    + getCellBuildingType(coords: Coordinates): BuildingType
+    + applyProbability(coords: Coordinates, value: float)
+}
+
+class Board {
+    - int width
+    - int height
+    - vector<CellObjectTemplate> cells
+    + getCell(coords: Coordinates): T&
+}
+
+' --- CELL TYPES ---
+
+class CellOccupant {
+    - unique_ptr<Building> occupant
+    + getOccupant(): Building*
+    + isEmpty(): bool
+}
+
+class CellProbabilities {
+    - int last_modified_iteration
+    + float flammability
+    + float building_housability
+    + float building_shopability
+}
+
+' --- BUILDINGS ---
+
+abstract class Building {
+    # int neighbourhood_radius
+    # variant<NormalState, BurningState, RuinState> state
+    
+    + {abstract} applyProbabilities(askExist, askEmpty, askType, applyProb)
+    + setOnFire()
+    + extinguishFire()
+    + decayToRuin()
+    + restoreRuin()
+}
+
+class House extends Building {
+    + applyProbabilities(...)
+}
+
+class Shop extends Building {
+    + applyProbabilities(...)
+}
+
+class Factory extends Building {
+    + applyProbabilities(...)
+}
+
+class Firestation extends Building {
+    + applyProbabilities(...)
+    + getFireEngineSpeed(): int
+}
+
+' --- RELATIONS ---
+
+Simulation *-- Board : "manages 3 boards"
+Board o-- CellOccupant : "contains (if type CellOccupant)"
+Board o-- CellProbabilities : "contains (if type CellProbabilities)"
+CellOccupant *-- Building : "owns 0..1"
+Building ..> Simulation : "calls via lambdas"
+
+@enduml

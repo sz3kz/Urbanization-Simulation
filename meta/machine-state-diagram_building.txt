@@ -1,0 +1,31 @@
+@startuml
+title Maszyna Stanów Obiektu Building
+
+[*] --> Empty : Brak obiektu (nullptr)
+
+state "NormalState" as Normal {
+  Normal : iterations_till_natural_ruin > 0
+  Normal : applyProbabilities() działa
+}
+
+state "BurningState" as Burning {
+  Burning : ticks < maxTicks
+  Burning : Może podpalać sąsiadów
+}
+
+state "RuinState" as Ruin {
+  Ruin : ticks < maxTicks
+  Ruin : Brak wpływu na prawdopodobieństwo
+}
+
+Empty --> Normal : Losowanie: spawn (np. 60%)
+Normal --> Burning : setOnFire() / Pech
+Normal --> Ruin : decayToRuin() / Licznik = 0
+
+Burning --> Normal : extinguishFire() / Remiza
+Burning --> Ruin : Spłonięcie całkowite (maxTicks)
+
+Ruin --> Normal : restoreRuin()
+Ruin --> Empty : Total decay / Licznik = 0
+
+@enduml

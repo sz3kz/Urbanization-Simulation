@@ -1,0 +1,55 @@
+@startuml
+skinparam style strictuml
+
+participant "Main" as M
+participant "sim : Simulation" as S
+participant "prevBoard : Board" as B1
+participant "probBoard : Board" as BP
+participant "cell : CellOccupant" as C
+participant "building : Building" as Building
+participant "nextBoard : Board" as B2
+
+M -> S : iterate()
+activate S
+
+    note over S : KROK 1: Obliczanie prawdopodobieństw
+    S -> BP : clear()
+    
+    loop dla każdej komórki (x, y) na B1
+        S -> B1 : getCell(x, y)
+        activate B1
+        B1 --> S : cell
+        deactivate B1
+        
+        S -> C : getOccupant()
+        activate C
+        C --> S : building_ptr
+        deactivate C
+        
+        alt building_ptr != nullptr
+            S -> Building : applyProbabilities(lambdas)
+            activate Building
+            note right: Budynek pyta o sąsiadów \nprzez dostarczone lambdy
+            Building -> S : askCellExists(relX, relY)
+            S --> Building : true/false
+            
+            Building -> S : applyProbability(coords)
+            S -> BP : updateProbability(coords, value)
+            deactivate Building
+        end
+    end
+
+    note over S : KROK 2: Losowanie i aktualizacja
+    S -> B2 : clear()
+    loop dla każdej komórki (x, y) na BP
+        S -> S : checkRandomEvents(x, y)
+        note right: Losowanie na podstawie \nprobBoard i stanu starej komórki
+        S -> B2 : updateCell(x, y, newOccupant)
+    end
+
+    note over S : KROK 3: Zamiana plansz (Swap)
+    S -> S : swap(prevBoard, nextBoard)
+    
+    S --> M : iteration finished
+deactivate S
+@enduml
