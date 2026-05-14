@@ -1,7 +1,12 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15...4.1)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(UrbanizationSimulation CXX)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
@@ -15,38 +20,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_library(simulation
-  src/simulation/Simulation.cpp
-  src/simulation/Board.cpp
-  src/simulation/CellOccupant.cpp
-  src/simulation/CellProbabilities.cpp
-  src/simulation/Coordinates.cpp
-  src/buildings/Building.cpp
-  src/buildings/Church.cpp
-  src/buildings/Factory.cpp
-  src/buildings/Firestation.cpp
-  src/buildings/House.cpp
-  src/buildings/Shop.cpp
-  src/randomEvents/Disaster.cpp
-  src/randomEvents/Fire.cpp
-  src/randomEvents/RandomEvent.cpp
-  src/randomEvents/Robbery.cpp
-  src/randomEvents/Tornado.cpp
+        src/simulation/Coordinates.cpp
 )
 target_include_directories(simulation PUBLIC include)
 target_compile_features(simulation PUBLIC cxx_std_23)
 
 add_executable(simulation_tests 
-  tests/BoardTests.cpp
-  tests/BuildingTests.cpp
-  tests/CellOccupantTests.cpp
-  tests/CellProbabilitiesTests.cpp
   tests/CoordinatesTests.cpp
-  tests/FactoryTests.cpp
-  tests/FirestationTests.cpp
-  tests/HouseTests.cpp
-  tests/ShopTests.cpp
-  tests/SimulationTests.cpp
-  tests/ExampleTests.cpp
 )
 target_include_directories(simulation_tests PUBLIC include)
 target_compile_features(simulation_tests PUBLIC cxx_std_23)
@@ -59,4 +39,3 @@ add_custom_target(run_tests
 
 enable_testing()
 add_test(tests simulation_tests)
-

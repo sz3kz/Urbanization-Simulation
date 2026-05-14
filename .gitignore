@@ -4,3 +4,4 @@ latex/
 .direnv/
 .cache/
 .idea/
+.vscode/
