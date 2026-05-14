@@ -14,8 +14,11 @@ class Board
       : width(width)
       , height(height)
       , contents(width * height) {};
+    [[nodiscard]]
     auto calculateIndexFromCoordinates(Coordinates const& coordinates) const -> unsigned int;
+    [[nodiscard]]
     auto getWidth() const -> unsigned int;
+    [[nodiscard]]
     auto getHeight() const -> unsigned int;
     /*BuildingType getCellBuildingType(Coordinates const& coordinates);*/
     /*auto getCellOccupant(Coordinates coords) -> CellOccupant *;*/

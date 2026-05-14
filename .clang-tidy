@@ -9,7 +9,9 @@ Checks: >
   readability-*,
   -readability-braces-around-statements,
   -cppcoreguidelines-avoid-magic-numbers,
-  -readability-magic-numbers
+  -readability-magic-numbers,
+  -bugprone-easily-swappable-parameters,
+  -readability-identifier-length
 
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
