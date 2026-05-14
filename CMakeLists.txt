@@ -46,6 +46,7 @@ add_executable(simulation_tests
   tests/HouseTests.cpp
   tests/ShopTests.cpp
   tests/SimulationTests.cpp
+  tests/ExampleTests.cpp
 )
 target_include_directories(simulation_tests PUBLIC include)
 target_compile_features(simulation_tests PUBLIC cxx_std_23)
