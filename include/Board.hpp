@@ -3,6 +3,12 @@
 #include "Coordinates.hpp"
 class Board
 {
-	Board();
-	 auto getCellOccupant(Coordinates coords) -> CellOccupant*;
+	public:
+	Board(Coordinates const&);
+	auto getCellOccupant(Coordinates coords) -> CellOccupant*;
+	protected:
+	void GenerateBoard();
+
+	Coordinates size;
+	CellOccupant*** board;
 };

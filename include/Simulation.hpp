@@ -3,10 +3,14 @@
 #include "Coordinates.hpp"
 class Simulation
 {
+	public:
 	Simulation(Coordinates size);
 	void iterate();
-	auto checkCellExists(Coordinates const& coords) -> bool;
+	auto checkCellExists(Coordinates /*const&*/ coords) -> bool;
 	auto checkCellEmpty(Coordinates coords) -> bool;
 	auto getCellBuildingTypes(Coordinates coords) -> BuildingTypes;
-	void appluProbability(Coordinates Coords);
+	void applyProbability(Coordinates Coords);
+
+	protected:
+	Coordinates size;	
 };
