@@ -1,4 +1,3 @@
-#pragma once
 #include "Coordinates.hpp"
 
 Coordinates::Coordinates(int x,int y)
