@@ -1,20 +1,47 @@
-.PHONY: clean init test tidiness-check 
+.PHONY: clean init test 
+.SILENT:
+
+PREREQS := make ninja cmake pre-commit git g++ clang-format clang-tidy cppcheck clion
 
 DIRECTORY_BUILD = build/
 BUILD_SYSTEM="Ninja"
 BUILD_SYSTEM_COMMAND=ninja
 
-clean:
-	rm -rf ${DIRECTORY_BUILD}
+check-prerequesites:
+	echo "[?] Prerequisite Check:"
+	for tool in $(PREREQS); do \
+		printf "\tChecking Prerequisite %-15s " "$$tool:"; \
+		if command -v $$tool >/dev/null 2>&1; then \
+			echo "Installed!"; \
+		else \
+			echo "MISSING!"; exit 1; \
+		fi; \
+	done
+	echo "[*] Prerequisite Check Ended Successfully!"
 
-init: clean
+clean:
+	echo "[?] Removing ${DIRECTORY_BUILD} ... "
+	rm -rf ${DIRECTORY_BUILD}
+	echo "[*] Done!"
+	echo "[?] Uninstalling pre-commit-hooks ... "
+	echo -e "\t"
+	pre-commit uninstall
+	echo -e "\t"
+	pre-commit uninstall --hook-type pre-push
+	echo "[*] Done!"
+
+init: check-prerequesites clean
+	echo "[?] Installing pre-commit hooks ... "
+	echo -e "\t"
+	pre-commit install
+	echo -e "\t"
+	pre-commit install --hook-type pre-push
+	echo "[*] Done"
+	echo "[?] Initializing CMake ... "
 	cmake -S . -B ${DIRECTORY_BUILD} -G ${BUILD_SYSTEM}
+	echo "[*] Done!"
 
 test:
+	echo "[?] Running tests ... "
 	cd ${DIRECTORY_BUILD} && ${BUILD_SYSTEM_COMMAND} run_tests
-
-tidiness-check: test
-	git push origin main --dry-run
-
-upload:
-	git push origin main
+	echo "[*] Done ... "
