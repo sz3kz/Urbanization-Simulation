@@ -1,12 +1,16 @@
 #pragma once
-#include "World.hpp"
+#include "Board.hpp"
 #include "Coordinates.hpp"
+#include "World.hpp"
 class Simulation
 {
-	Simulation(Coordinates size);
-	void iterate();
-	auto checkCellExists(Coordinates const& coords) -> bool;
-	auto checkCellEmpty(Coordinates coords) -> bool;
-	auto getCellBuildingTypes(Coordinates coords) -> BuildingTypes;
-	void appluProbability(Coordinates Coords);
+    unsigned int board_width;
+    unsigned int board_height;
+    unsigned int current_iteration;
+    Board previous_board;
+    Board probabilit_board;
+    Board next_board;
+
+    Simulation(Coordinates size);
+    void iterate();
 };
