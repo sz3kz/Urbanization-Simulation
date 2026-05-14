@@ -1,5 +1,5 @@
 #include "Coordinates.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include <random>
 
 TEST(SimulationTests,

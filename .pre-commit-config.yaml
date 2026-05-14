@@ -1,4 +1,4 @@
-exclude: ^workspace/src/sampleTests\.cpp$
+exclude: ^tests/
 
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
@@ -7,7 +7,9 @@ repos:
       - id: clang-format
         stages: [pre-commit]
         additional_dependencies: ["clang-format==18.1.8"]
-        args: ["-i"]
+        args: [
+          "-i"
+        ]
 
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
@@ -16,6 +18,9 @@ repos:
         stages: [pre-push]
         args: [
           "-p=./build/",
+          "--", # Everything after this is passed to the compiler frontend
+          "-fno-modules", # Tell Clang to ignore module logic
+          "-Wno-unknown-argument", # Ignore the GCC specific flags it doesn't know
         ]
       - id: cppcheck
         stages: [pre-commit]
@@ -25,5 +30,5 @@ repos:
           "--suppressions-list=cppcheck-suppresions.txt",
           "--inline-suppr",
           "--suppress=missingIncludeSystem",
-          "--suppress=unmatchedSuppression"
+          "--suppress=unmatchedSuppression",
         ]
