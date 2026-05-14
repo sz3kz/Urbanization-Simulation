@@ -24,17 +24,17 @@ clean:
 	rm -rf ${DIRECTORY_BUILD}
 	echo "[*] Done!"
 	echo "[?] Uninstalling pre-commit-hooks ... "
-	echo -e "\t"
+	echo -en "\t"
 	pre-commit uninstall
-	echo -e "\t"
+	echo -en "\t"
 	pre-commit uninstall --hook-type pre-push
 	echo "[*] Done!"
 
 init: check-prerequesites clean
 	echo "[?] Installing pre-commit hooks ... "
-	echo -e "\t"
+	echo -en "\t"
 	pre-commit install
-	echo -e "\t"
+	echo -en "\t"
 	pre-commit install --hook-type pre-push
 	echo "[*] Done"
 	echo "[?] Initializing CMake ... "
