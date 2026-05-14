@@ -1,6 +1,9 @@
 #pragma once
-class Coordinates {
-    Coordinates(int x,int y);
-    int getX();
-    int getY();
+struct Coordinates
+{
+    int x;
+    int y;
+    Coordinates(int x, int y)
+      : x(x)
+      , y(y) {};
 };

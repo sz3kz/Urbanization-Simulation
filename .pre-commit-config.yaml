@@ -15,13 +15,13 @@ repos:
       - id: clang-tidy
         stages: [pre-push]
         args: [
-          "-p=./workspace/build/",
+          "-p=./build/",
         ]
       - id: cppcheck
         stages: [pre-commit]
         args: [
           "--enable=all",
-          "-Iworkspace/include",
+          "-Iinclude",
           "--suppressions-list=cppcheck-suppresions.txt",
           "--inline-suppr",
           "--suppress=missingIncludeSystem",
