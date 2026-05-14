@@ -1,11 +1,9 @@
 #include "Simulation.hpp"
 #include "Coordinates.hpp"
+#include "Board.hpp"
 
-Simulation::Simulation(Coordinates coords)
-{
-	size = coords;	
-}
-
+/* This should create boards*/
+Simulation::Simulation(unsigned long width, unsigned long height, unsigned int random_seed) {}
 void Simulation::iterate()
 {
 
@@ -19,6 +17,3 @@ bool Simulation::checkCellExists(Coordinates /*const&*/ coords)
 	}
 	return false;
 }
-
-
-
