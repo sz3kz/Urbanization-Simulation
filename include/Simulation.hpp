@@ -1,16 +1,15 @@
 #pragma once
 #include "Board.hpp"
-#include "Coordinates.hpp"
-#include "World.hpp"
 class Simulation
 {
-    unsigned int board_width;
-    unsigned int board_height;
-    unsigned int current_iteration;
-    Board previous_board;
-    Board probabilit_board;
-    Board next_board;
+  private:
+    unsigned long current_iteration;
+    unsigned int random_seed;
+    Board<CellOccupant> previous_board;
+    Board<CellProbabilities> probabilit_board;
+    Board<CellOccupant> next_board;
 
-    Simulation(Coordinates size);
+  public:
+    Simulation(unsigned long width, unsigned long height, unsigned int random_seed);
     void iterate();
 };
