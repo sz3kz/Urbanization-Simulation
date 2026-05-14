@@ -1,12 +1,9 @@
 #pragma once
-class Coordinates {
-    Coordinates(int x,int y);
-    //Coordinates();
-    public:
-    int getX();
-    int getY();
-    virtual ~Coordinates() = default;
-    private:
+struct Coordinates
+{
     int x;
     int y;
+    Coordinates(int x, int y)
+      : x(x)
+      , y(y) {};
 };
