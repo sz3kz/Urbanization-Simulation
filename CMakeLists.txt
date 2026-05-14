@@ -21,12 +21,14 @@ FetchContent_MakeAvailable(googletest)
 
 add_library(simulation
         src/simulation/Coordinates.cpp
+        src/simulation/Board.cpp
 )
 target_include_directories(simulation PUBLIC include)
 target_compile_features(simulation PUBLIC cxx_std_23)
 
 add_executable(simulation_tests 
   tests/CoordinatesTests.cpp
+  tests/BoardTests.cpp
 )
 target_include_directories(simulation_tests PUBLIC include)
 target_compile_features(simulation_tests PUBLIC cxx_std_23)

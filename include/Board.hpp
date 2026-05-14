@@ -1,55 +1,41 @@
 #pragma once
-#include "CellOccupant.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
 #include <vector>
 
 template<typename T>
 class Board
 {
-  private:
     unsigned int width;
     unsigned int height;
     std::vector<T> contents;
 
   public:
-    Board(unsigned int width, unsigned int height);
-    auto calculateIndexFromCoordinates(Coordinates const& coordinates)-> unsigned int;
-    auto checkCellExistsAtCoordinates(Coordinates const& coordinates) -> bool;
-    auto checkCellEmptyAtCoordinates(Coordinates const& coordinates) -> bool;
+    Board(unsigned int width, unsigned int height)
+      : width(width)
+      , height(height)
+      , contents(width * height) {};
+    auto calculateIndexFromCoordinates(Coordinates const& coordinates) const -> unsigned int;
+    auto getWidth() const -> unsigned int;
+    auto getHeight() const -> unsigned int;
     /*BuildingType getCellBuildingType(Coordinates const& coordinates);*/
     /*auto getCellOccupant(Coordinates coords) -> CellOccupant *;*/
     /*void applyProbability(Coordinates const& coordinates); */
 };
 
 template<typename T>
-Board<T>::Board(unsigned int width, unsigned int height)
+auto Board<T>::calculateIndexFromCoordinates(Coordinates const& coordinates) const -> unsigned int
 {
-    this->width = width;
-    this->height = height;
-    contents.resize(width * height);
+    return coordinates.y * width + coordinates.x;
 }
 
 template<typename T>
-auto Board<T>::calculateIndexFromCoordinates(Coordinates const& coordinates) -> unsigned int
+auto Board<T>::getWidth() const -> unsigned int
 {
+    return width;
 }
 
 template<typename T>
-auto Board<T>::checkCellExistsAtCoordinates(Coordinates const& coordinates)-> bool
+auto Board<T>::getHeight() const -> unsigned int
 {
+    return height;
 }
-
-template<typename T>
-auto Board<T>::checkCellEmptyAtCoordinates(Coordinates const& coordinates) -> bool
-{
-}
-
-Board(Coordinates const&);
-	auto getCellOccupant(Coordinates coords) -> CellOccupant*;
-	protected:
-	void GenerateBoard();
-
-	Coordinates size;
-	CellOccupant*** board;
-};
