@@ -1,4 +1,6 @@
 build/
+html/
+latex/
 .direnv/
 .cache/
 .idea/
