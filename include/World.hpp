@@ -2,9 +2,20 @@
 
 enum class BuildingType
 {
-    HOUSE,
+    NONE=-1,
     SHOP,
+    HOUSE,
     FIRESTATION,
-    CHURCH,
     FACTORY,
+    CHURCH,
+    NUM_BUILDINGTYPES,
+};
+
+enum class DisasterType
+{
+    NONE=-1,
+    FIRE,
+    TORNADO,
+    ROBBERY,
+    NUM_DISASTERTYPES,
 };
