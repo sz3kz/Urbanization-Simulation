@@ -1,7 +1,15 @@
 #pragma once
+#include "World.hpp"
+#include <map>
 
-class CellProbabilities {
+struct Probability
+{
+    unsigned long last_updated_at_iteration;
+    double value;
+};
+
+struct CellProbabilities
+{
+    std::map<ProbabilityType, Probability> probabilities;
     CellProbabilities();
-    void recalculateProbabilities();
-    void doTurn();
 };
