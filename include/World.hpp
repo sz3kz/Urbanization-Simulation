@@ -3,10 +3,9 @@
 
 enum class BuildingType : std::uint8_t
 {
-    HOUSE,
     SHOP,
+    HOUSE,
     FIRESTATION,
-    CHURCH,
     FACTORY,
     NONE,
 };
