@@ -30,7 +30,6 @@
               llvm.clang-tools    # Needed to expose system headers to clang-tidy
             ];
             buildInputs = [
-              pkgs.jetbrains.clion
               pkgs.doxygen
               pkgs.gcc
               pkgs.cmake
