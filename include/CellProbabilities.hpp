@@ -1,19 +1,15 @@
 #pragma once
+#include "World.hpp"
+#include <map>
 
-class CellProbabilities {
-    public:
-        CellProbabilities();
-        void recalculateProbabilities();
-        void doTurn();
-    private:
-        int lastModifiedIter;
-        float* disasterProbabilities;
-        float* buildingProbabilities;
-        /*float flammability;
-        float robbability;
-        float buildingShoppability;
-        float buildingHousability;
-        float buildingFirestationability;
-        float buildingFactorability;
-        float buildingChurchability;*/
+struct Probability
+{
+    unsigned long last_updated_at_iteration;
+    double value;
+};
+
+struct CellProbabilities
+{
+    std::map<ProbabilityType, Probability> probabilities;
+    CellProbabilities();
 };

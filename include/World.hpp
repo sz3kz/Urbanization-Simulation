@@ -1,21 +1,24 @@
 #pragma once
+#include <cstdint>
 
-enum class BuildingType
+enum class BuildingType : std::uint8_t
 {
-    NONE=-1,
     SHOP,
     HOUSE,
     FIRESTATION,
     FACTORY,
-    CHURCH,
-    NUM_BUILDINGTYPES,
+    NONE,
 };
 
-enum class DisasterType
+enum class ProbabilityType : std::uint8_t
 {
-    NONE=-1,
-    FIRE,
-    TORNADO,
-    ROBBERY,
-    NUM_DISASTERTYPES,
+    CREATE_NEW_BUILDING,
+    SET_CURRENT_BUILDING_ON_FIRE,
 };
+
+struct ProbabilityDefaultPercentages
+{
+    double create_new_building{ 0.01 };
+};
+
+constexpr unsigned int default_properties_house_radius = 1;

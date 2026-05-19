@@ -1,25 +1,29 @@
 #pragma once
-#include "Board.hpp"
-#include "CellOccupant.hpp"
-#include "CellProbabilities.hpp"
-#include "World.hpp"
+#include "BoardOccupants.hpp"
+#include "BoardProbabilities.hpp"
+#include <random>
 class Simulation
 {
-  private:
     unsigned long current_iteration;
     unsigned int random_seed;
-    Board<CellOccupant> previous_board;
-    Board<CellProbabilities> probabilit_board;
-    Board<CellOccupant> next_board;
-    Coordinates size;
+    BoardOccupants previous_board;
+    BoardProbabilities probability_board;
+    BoardOccupants next_board;
+    std::mt19937 generator;
+
+    void iterate();
+    void print();
+    auto rollProbabilityDice(double percentage) -> bool;
 
   public:
-    Simulation(unsigned long width, unsigned long height, unsigned int random_seed);
-    void iterate();
-	auto checkCellExists(Coordinates /*const&*/ coords) -> bool;
-	auto checkCellEmpty(Coordinates coords) -> bool;
-	auto getCellBuildingTypes(Coordinates coords) -> BuildingType;
-	void applyProbability(Coordinates Coords);
+    Simulation(unsigned int width, unsigned int height, unsigned int random_seed)
+      : current_iteration(0)
+      , random_seed{ random_seed }
+      , previous_board(width, height)
+      , probability_board(width, height)
+      , next_board(width, height)
+      , generator(this->random_seed) {};
 
-
+    [[noreturn]]
+    void run();
 };

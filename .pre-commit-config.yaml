@@ -26,6 +26,7 @@ repos:
         stages: [pre-commit]
         args: [
           "--enable=all",
+          "--check-level=exhaustive",
           "-Iinclude",
           "--suppressions-list=cppcheck-suppresions.txt",
           "--inline-suppr",

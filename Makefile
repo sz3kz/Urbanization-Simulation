@@ -1,4 +1,4 @@
-.PHONY: clean init test 
+.PHONY: clean init test run
 .SILENT:
 
 PREREQS := make ninja cmake pre-commit git g++ clang-format clang-tidy cppcheck 
@@ -45,3 +45,7 @@ test:
 	echo "[?] Running tests ... "
 	cd ${DIRECTORY_BUILD} && ${BUILD_SYSTEM_COMMAND} run_tests
 	echo "[*] Done ... "
+
+run:
+	echo "[*] Starting simulation: "
+	cd ${DIRECTORY_BUILD} && ${BUILD_SYSTEM_COMMAND} run_simulation
