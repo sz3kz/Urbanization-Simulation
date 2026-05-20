@@ -25,6 +25,7 @@ class Building
 
     [[nodiscard]]
     virtual auto getBuildingType() const -> BuildingType = 0;
+    virtual auto getBuildingImage() const -> std::String = "🟦";
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(
       std::function<bool(Coordinates)> askCellExistsAtCoordinates,

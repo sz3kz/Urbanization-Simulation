@@ -1,4 +1,4 @@
-#include "../../include/CellOccupant.hpp"
+#include "CellOccupant.hpp"
 
 auto CellOccupant::release() -> std::unique_ptr<Building>
 {
@@ -9,6 +9,8 @@ auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ost
 {
     if (cell_occupant.occupant)
     {
+        os << cell_occupant.occupant->getBuildingImage();
+        /*
         if (cell_occupant.occupant->getBuildingType() == BuildingType::HOUSE)
         {
             os << "🏠";
@@ -28,7 +30,7 @@ auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ost
         else if (cell_occupant.occupant->getBuildingType() == BuildingType::FIRESTATION)
         {
             os << "🚒️";
-        }
+        }*/
     }
     else
     {

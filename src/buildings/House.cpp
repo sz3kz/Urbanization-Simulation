@@ -11,6 +11,11 @@ auto House::getBuildingType() const -> BuildingType
     return BuildingType::HOUSE;
 }
 
+auto House::getBuildingImage() -> std : String
+{
+    return "🏠";
+}
+
 void House::applyProbabilities(
   std::function<bool(Coordinates)> askCellExistsAtCoordinates,
   std::function<bool(Coordinates)> askCellEmptyAtCoordinates,
