@@ -39,13 +39,13 @@ dla każdej komórki w radius oprócz (0,0), sprawdź, czy jest to kościół lu
         CALLBACK(2)
           jeśli tak -> weź kolejne koordynaty
         CALLBACK(3)
-        tu nie wiem co się dzieje, czemu jeśli powstał dom, to jeśli ostatnim sprawdzanym polem jest to z nowo zbudowanym budynkiem, to prawdopodobieństwo zbudowania domu się defaultuje?
           jeśli tak:
-            CALLBACK(5) (wartość house_in_the_neightbourhood_new_building_probability_initial_percentage)
+            nie rób nic, to jeszcze nie ma na nas wpływu
           jeśli nie:
-            CALLBACK(4) -> zapisz wartość
-            wartość -= another_house_in_the_neighbourhood_new_building_probability_decline
-            CALLBACK(5) -> zapisz nową wartość
+            jeśli to dom:
+                +1p.p.(HITNNBPI)
+            jeśli kościół:
+                -30p.p.(ACITNNBPD)
 
 dalsze algorytmy mają za zadanie uwzględniać mnożnik
 ten algorytm MUSI zawsze być uruchomiony, gdy kościół zaczyna działać

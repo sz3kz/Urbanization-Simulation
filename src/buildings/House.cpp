@@ -34,7 +34,7 @@ void House::applyProbabilities(
                 continue;
             }
             bool empty = askCellEmptyAtCoordinates(Coordinates(i, j));
-            if (!empty)
+            if (empty)
             {
                 continue;
             }

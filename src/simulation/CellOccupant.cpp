@@ -9,7 +9,26 @@ auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ost
 {
     if (cell_occupant.occupant)
     {
-        os << "🏠";
+        if (cell_occupant.occupant->getBuildingType() == BuildingType::HOUSE)
+        {
+            os << "🏠";
+        }
+        else if (cell_occupant.occupant->getBuildingType() == BuildingType::CHURCH)
+        {
+            os << "⛪️";
+        }
+        else if (cell_occupant.occupant->getBuildingType() == BuildingType::SHOP)
+        {
+            os << "🏣️";
+        }
+        else if (cell_occupant.occupant->getBuildingType() == BuildingType::FACTORY)
+        {
+            os << "🏭️";
+        }
+        else if (cell_occupant.occupant->getBuildingType() == BuildingType::FIRESTATION)
+        {
+            os << "🚒️";
+        }
     }
     else
     {

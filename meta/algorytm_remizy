@@ -32,8 +32,26 @@ Algorytm propagacji prawdopodobieństwa remizy:
     (6): zwróć czas przejazdu
 
 ALGORYTM:
-nie do końca rozumiem co tak właściwie ten algorytm robi,opiszę to słownie:
-dla każdej komórki w radius oprócz (0,0), sprawdź, czy jest to dowolny budynek inny niż remiza lub fabryka. Jeśli fabryka, to prawdopodobieństwo zbudowania remizy na (0,0) rośnie o 1 p.p., a jeśli cokolwiek innego niż remiza i fabryka to prawdopodobieństwo zbudowania remizy na (0,0) rośnie o 1 p.b., natomiast jeśli remiza, to prawdopodobieństwo zbudowania remizy na (0,0) maleje o 10 p.p.(odpowiednio BITNNBPI, FITNNBPI i AFITNNBPD).
+
+  Uwaga!!!: koordynaty są podawane względnie do komórki pytającej.
+  ALGORYTM:
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        jeśli koordynaty to (0,0) -> weź kolejne koordynaty       // Własna komórka
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(2)
+          jeśli tak -> weź kolejne koordynaty
+        CALLBACK(3)
+          jeśli tak:
+            nie rób nic, to jeszcze nie ma na nas wpływu
+          jeśli nie:
+            jeśli to fabryka:
+                +1p.p.(FITNNBPI)
+            jeśli to remiza:
+                -10p.p.(AFITNNBPD)
+            jeśli to dowlny inny budynek
+                +1p.b.BITNNBPI
 
 FUNKCJA podaj czas dojazdu(argument distance)
     6:distance/fire_engine_speed

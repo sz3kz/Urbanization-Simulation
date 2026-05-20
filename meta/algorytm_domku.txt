@@ -2,14 +2,16 @@ Algorytm propagacji prawdopodobieństwa domku:
   STAŁE:
     radius - Promień kwadratowego sąsiedztwa wokół komórki domku
       radius == 2 -> sąsiedztwo jest 5 x 5 (2+1+2x2+1+2)
-    another_house_in_the_neighbourhood_new_building_probability_decline (AHITNNBPD)
-      - spadek punktów procentowych prawdopodobieńtswa powstania nowego budynku
-      AHITNNBPD == 30% && 3 domki w sąsiedztwie komórki -> x% powstania nowego domku -= 3 * 30%
-    house_in_the_neightbourhood_new_building_probability_initial_percentage (HITNNBPIP)
-      - prawdopodobieństwo, że na odludziu z jednym domkiem powstaną kolejne domki w sąsiedztwie
-      HITNNBPIP == 60% && 1 domek w sąsiedztwie komórki -> x% powstania nowego domku = 60%
-      HITNNBPIP == 60% && AHITNNBPD == 30% && 2 domki w sąsiedztwie komórki 
-       -> x% powstania nowego domku = 60% - 30% = 30%
+        house_in_the_neighbourhood_new_building_probability_increase (HITNNBPI)
+      - wzrost punktów bazowych prawdopodobieńtswa powstania nowego domku
+    10 p.b.?
+    house_on_the_neighbouring_tile_new_building_probability_decrease (HONTNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowego domku
+    1 p.p.?
+    factory_in_the_neighbourhood_new_building_probability_decrease (FITNNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowego domku
+    1 p.p.? 
+    
   CALLBACKI:
     (1):"Czy podane koordynaty wskazują na jakąś komórke?")
       "Tak"
@@ -25,6 +27,7 @@ Algorytm propagacji prawdopodobieństwa domku:
     "0.5"
     "0.1"
     (5):"Nadpisz wartość prawdopodobieństwa dla danego wydarzenia tą wartością")
+
   Uwaga!!!: koordynaty są podawane względnie do komórki pytającej.
   ALGORYTM:
     Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
@@ -36,8 +39,12 @@ Algorytm propagacji prawdopodobieństwa domku:
           jeśli tak -> weź kolejne koordynaty
         CALLBACK(3)
           jeśli tak:
-            CALLBACK(5) (wartość house_in_the_neightbourhood_new_building_probability_initial_percentage)
+            nie rób nic, to jeszcze nie ma na nas wpływu
           jeśli nie:
-            CALLBACK(4) -> zapisz wartość
-            wartość -= another_house_in_the_neighbourhood_new_building_probability_decline
-            CALLBACK(5) -> zapisz nową wartość
+            jeśli to dom:
+              jeśli sąsiadujemy:
+                -1p.p.(HONTNBPD)
+              jeśli nie:
+                +10p.b.(HITNNBPI)
+            jeśli to faryka:
+                -1p.p.(FITNNBPD)
