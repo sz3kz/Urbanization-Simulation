@@ -2,6 +2,7 @@
 #include "Coordinates.hpp"
 #include "World.hpp"
 #include <iostream>
+#include <string>
 
 constexpr double another_house_in_the_neighbourhood_new_building_probability_decline = 0.3;
 constexpr double house_in_the_neighbourhood_new_building_probability_initial_percentage = 0.5;
@@ -11,7 +12,7 @@ auto House::getBuildingType() const -> BuildingType
     return BuildingType::HOUSE;
 }
 
-auto House::getBuildingImage() -> std : String
+auto House::getBuildingImage() const -> std ::string
 {
     return "🏠";
 }

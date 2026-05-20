@@ -12,6 +12,7 @@ class House : public Building
       : radius(supplied_radius) {};
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
+    auto getBuildingImage() const -> std::string override;
 
     void applyProbabilities(
       std::function<bool(Coordinates)> askCellExistsAtCoordinates,

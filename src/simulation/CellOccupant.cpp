@@ -11,11 +11,8 @@ auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ost
     {
         os << cell_occupant.occupant->getBuildingImage();
         /*
-        if (cell_occupant.occupant->getBuildingType() == BuildingType::HOUSE)
-        {
-            os << "🏠";
-        }
-        else if (cell_occupant.occupant->getBuildingType() == BuildingType::CHURCH)
+         TODO When implementing other buildings remove these
+         if (cell_occupant.occupant->getBuildingType() == BuildingType::CHURCH)
         {
             os << "⛪️";
         }
