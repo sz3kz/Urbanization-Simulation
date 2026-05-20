@@ -26,6 +26,7 @@ class Building
 
     [[nodiscard]]
     virtual auto getBuildingType() const -> BuildingType = 0;
+    [[nodiscard]]
     virtual auto getBuildingImage() const -> std::string = 0;
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(

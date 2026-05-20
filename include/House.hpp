@@ -12,6 +12,7 @@ class House : public Building
       : radius(supplied_radius) {};
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
+    [[nodiscard]]
     auto getBuildingImage() const -> std::string override;
 
     void applyProbabilities(
