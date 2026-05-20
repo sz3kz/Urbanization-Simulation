@@ -1,0 +1,43 @@
+Algorytm propagacji prawdopodobieństwa domku:
+  STAŁE:
+    radius - Promień kwadratowego sąsiedztwa wokół komórki domku
+      radius == 2 -> sąsiedztwo jest 5 x 5 (2+1+2x2+1+2)
+    another_house_in_the_neighbourhood_new_building_probability_decline (AHITNNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowego budynku
+      AHITNNBPD == 30% && 3 domki w sąsiedztwie komórki -> x% powstania nowego domku -= 3 * 30%
+    house_in_the_neightbourhood_new_building_probability_initial_percentage (HITNNBPIP)
+      - prawdopodobieństwo, że na odludziu z jednym domkiem powstaną kolejne domki w sąsiedztwie
+      HITNNBPIP == 60% && 1 domek w sąsiedztwie komórki -> x% powstania nowego domku = 60%
+      HITNNBPIP == 60% && AHITNNBPD == 30% && 2 domki w sąsiedztwie komórki 
+       -> x% powstania nowego domku = 60% - 30% = 30%
+  CALLBACKI:
+    (1):"Czy podane koordynaty wskazują na jakąś komórke?")
+      "Tak"
+      "Nie"
+    (2):"Czy podane koordynaty wskazują na komórkę z budynkiem?")
+      "Tak"
+      "Nie"
+    (3):"Czy komórka pod tymi koordynatami nie została jeszcze zmodyfikowana w bieżącej iteracji?")
+      "Tak"
+      "Nie"
+    (4):"Podaj wartość prawdodobieńtswa komórki dla danego typu wydarzenia!")
+    "1.0"
+    "0.5"
+    "0.1"
+    (5):"Nadpisz wartość prawdopodobieństwa dla danego wydarzenia tą wartością")
+  Uwaga!!!: koordynaty są podawane względnie do komórki pytającej.
+  ALGORYTM:
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        jeśli koordynaty to (0,0) -> weź kolejne koordynaty       // Własna komórka
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(2)
+          jeśli tak -> weź kolejne koordynaty
+        CALLBACK(3)
+          jeśli tak:
+            CALLBACK(5) (wartość house_in_the_neightbourhood_new_building_probability_initial_percentage)
+          jeśli nie:
+            CALLBACK(4) -> zapisz wartość
+            wartość -= another_house_in_the_neighbourhood_new_building_probability_decline
+            CALLBACK(5) -> zapisz nową wartość

@@ -1,0 +1,69 @@
+Algorytm propagacji prawdopodobieństwa kościoła:
+  STAŁE:
+    radius - Promień kwadratowego sąsiedztwa wokół komórki domku
+      radius == 4? -> sąsiedztwo jest 9 x 9 (więcej niż domek bo ludzie mogą się trochę do kościoła przejść;może się okazać, że to za mało)
+    house_in_the_neighbourhood_new_building_probability_increase (HITNNBPI)
+      - wzrost punktów procentowych prawdopodobieńtswa powstania nowego kościoła
+    1 p.p.?
+    another_church_in_the_neighbourhood_new_building_probability_decrease (ACITNNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowego kościoła
+      HITNNBPI == 30p.p. dużo kościołów może powstać tylko, gdy jest dużo domków,a wtedy i tak niewiele
+    probability_multiplier (PM)
+        1,5x - dotyczy każdego zdarzenia w radius
+  CALLBACKI:
+    (1):"Czy podane koordynaty wskazują na jakąś komórke?")
+      "Tak"
+      "Nie"
+    (2):"Czy podane koordynaty wskazują na komórkę z budynkiem?")
+      "Tak"
+      "Nie"
+    (3):"Czy komórka pod tymi koordynatami nie została jeszcze zmodyfikowana w bieżącej iteracji?")
+      "Tak"
+      "Nie"
+    (4):"Podaj wartość prawdodobieńtswa komórki dla danego typu wydarzenia!")
+    "1.0"? w sensie zdarzenie pewne? 
+    "0.5"?
+    "0.1"?
+    (5):"Nadpisz wartość prawdopodobieństwa dla danego wydarzenia tą wartością")
+    (6)Uwzględnij mnożnik prawdopodobieństwa w danej komórce
+  Uwaga!!!: koordynaty są podawane względnie do komórki pytającej.
+  ALGORYTM:
+nie do końca rozumiem co tak właściwie ten algorytm robi,opiszę to słownie:
+dla każdej komórki w radius oprócz (0,0), sprawdź, czy jest to kościół lub dom. Jeśli kościół, to prawdopodobieństwo zbudowania kościoła na (0,0) maleje o 30 p.p., a jeśli dom to prawdopodobieństwo zbudowania kościoła na (0,0) rośnie o 1 p.p., (odpowiednio ACITNNBPD i HITNNBPI).
+    (szukaj po radius)
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        jeśli koordynaty to (0,0) -> weź kolejne koordynaty       // Własna komórka
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(2)
+          jeśli tak -> weź kolejne koordynaty
+        CALLBACK(3)
+        tu nie wiem co się dzieje, czemu jeśli powstał dom, to jeśli ostatnim sprawdzanym polem jest to z nowo zbudowanym budynkiem, to prawdopodobieństwo zbudowania domu się defaultuje?
+          jeśli tak:
+            CALLBACK(5) (wartość house_in_the_neightbourhood_new_building_probability_initial_percentage)
+          jeśli nie:
+            CALLBACK(4) -> zapisz wartość
+            wartość -= another_house_in_the_neighbourhood_new_building_probability_decline
+            CALLBACK(5) -> zapisz nową wartość
+
+dalsze algorytmy mają za zadanie uwzględniać mnożnik
+ten algorytm MUSI zawsze być uruchomiony, gdy kościół zaczyna działać
+  ALGORYTM DLA WŁĄCZENIA:
+    (szukaj po radius)
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(6) - podaj x i y zmienianej komórki, pomnóż przez mnożnik
+
+ten algorytm MUSI zawsze być uruchomiony, gdy kościół przestaje działać
+ ALGORYTM DLA WYŁĄCZENIA:
+    (szukaj po radius)
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(6) - podaj x i y zmienianej komórki, podziel przez mnożnik
+        
+        

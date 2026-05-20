@@ -7,6 +7,7 @@ enum class BuildingType : std::uint8_t
     HOUSE,
     FIRESTATION,
     FACTORY,
+	CHURCH,
     NONE,
 };
 
