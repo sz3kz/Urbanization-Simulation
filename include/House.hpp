@@ -5,11 +5,9 @@
 
 class House : public Building
 {
-    unsigned int radius;
-
   public:
     explicit House(unsigned int supplied_radius)
-      : radius(supplied_radius) {};
+      : Building(supplied_radius) {};
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 
