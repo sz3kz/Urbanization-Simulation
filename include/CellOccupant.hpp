@@ -18,5 +18,6 @@ struct CellOccupant
     {
     }
     auto release() -> std::unique_ptr<Building>;
+    [[nodiscard]] auto getBuilding() const -> Building* { return occupant.get(); };
     friend auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ostream&;
 };
