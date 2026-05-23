@@ -106,7 +106,32 @@ void Simulation::iterate()
             }
         }
     }
+
+    /* 3. Implement time to live */
+    for (unsigned int row_position = 0; row_position < next_board.getWidth(); ++row_position)
+        for (unsigned int column_position = 0; column_position < next_board.getHeight();
+             ++column_position)
+        {
+            auto current_coordinates = Coordinates(row_position, column_position);
+            bool is_empty = next_board.checkCellEmptyAtCoordinates(current_coordinates);
+            if (is_empty)
+            {
+                continue;
+            }
+            CellOccupant& cell = next_board.getCellACoordinates(current_coordinates);
+            Building* building = cell.getBuilding();
+            if (building->getTimeToLive() < decay)
+            {
+                cell.release();
+            }
+            else
+            {
+                building->setTimeToLive(building->getTimeToLive() - decay);
+            }
+        }
+    /* 3. Swap boards */
     next_board.contents.swap(previous_board.contents);
+    /* 4. Zero out probabilities*/
     probability_board.resetProbabilities();
     this->current_iteration++;
 }
