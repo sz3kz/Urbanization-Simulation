@@ -3,7 +3,8 @@
 
 CellProbabilities::CellProbabilities()
 {
-    ProbabilityDefaultPercentages defaults;
-    probabilities[ProbabilityType::CREATE_NEW_BUILDING] =
-      Probability{ 0, defaults.create_new_building };
+    for (auto const& [probability_type, default_value] : probability_default_percentages)
+    {
+        probabilities[probability_type] = Probability(0, default_value);
+    }
 }
