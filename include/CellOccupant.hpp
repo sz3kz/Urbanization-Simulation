@@ -19,5 +19,16 @@ struct CellOccupant
     }
     auto release() -> std::unique_ptr<Building>;
     [[nodiscard]] auto getBuilding() const -> Building* { return occupant.get(); };
+    void transformState()
+    {
+        if (occupant->getStateName() == "Normal" || occupant->getStateName() == "Burning")
+        {
+            occupant->setRuin();
+        }
+        else if (occupant->getStateName() == "Ruin")
+        {
+            release();
+        }
+    }
     friend auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ostream&;
 };
