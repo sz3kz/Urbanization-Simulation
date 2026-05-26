@@ -27,6 +27,10 @@ add_library(simulation_library
         src/simulation/CellOccupant.cpp
         src/simulation/CellProbabilities.cpp
         src/buildings/House.cpp
+        src/buildings/Firestation.cpp
+        src/buildings/Shop.cpp
+        src/buildings/Factory.cpp
+        src/buildings/Church.cpp
 )
 
 target_compile_features(simulation_library PUBLIC cxx_std_23)
