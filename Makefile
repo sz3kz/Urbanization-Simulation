@@ -1,7 +1,7 @@
 .PHONY: clean init test run
 .SILENT:
 
-PREREQS := make ninja cmake pre-commit git g++ clang-format clang-tidy cppcheck clion
+PREREQS := make ninja cmake pre-commit git g++ clang-format clang-tidy cppcheck 
 
 DIRECTORY_BUILD = build/
 BUILD_SYSTEM="Ninja"

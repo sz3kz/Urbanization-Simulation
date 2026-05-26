@@ -1,4 +1,4 @@
-#include "../../include/CellOccupant.hpp"
+#include "CellOccupant.hpp"
 
 auto CellOccupant::release() -> std::unique_ptr<Building>
 {

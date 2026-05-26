@@ -1,0 +1,90 @@
+Algorytm propagacji prawdopodobieństwa kościoła:
+  STAŁE:
+    radius - Promień kwadratowego sąsiedztwa wokół komórki domku
+      radius == 4? -> sąsiedztwo jest 9 x 9 (więcej niż domek bo ludzie mogą się trochę do sklepu przejść;może się okazać, że to za mało)
+    house_in_the_neighbourhood_new_building_probability_increase (HITNNBPI)
+      - wzrost punktów procentowych prawdopodobieńtswa powstania nowego sklepu
+    1 p.p.?
+    factory_in_the_neighbourhood_new_building_probability_increase (FITNNBPI)
+      - wzrost punktów procentowych prawdopodobieńtswa powstania nowego sklepu
+    5*x - x^2 p.b.? 
+    shop_in_the_neighbourhood_new_building_probability_decrease (SITNNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowego sklepu (konkurencja)
+    1 p.p.?
+    shop_on_the_neighbouring_tile_new_building_probability_increase (SONTNBPI)
+      - wzrost punktów procentowych prawdopodobieńtswa powstania nowego sklepu (np. galeria handlowa)
+    1 p.p.?
+    building_in_the_neighbourhood_new_building_probability_increase (BITNNBPI)
+      - wzrost punktów procentowych prawdopodobieńtswa powstania nowego sklepu
+    1 p.b.?
+    
+
+    
+    decay_decrease- spowolnienie opuszczania budynków w radius
+    losowane lub stałe
+
+  CALLBACKI:
+    (1):"Czy podane koordynaty wskazują na jakąś komórke?")
+      "Tak"
+      "Nie"
+    (2):"Czy podane koordynaty wskazują na komórkę z budynkiem?")
+      "Tak"
+      "Nie"
+    (3):"Czy komórka pod tymi koordynatami nie została jeszcze zmodyfikowana w bieżącej iteracji?")
+      "Tak"
+      "Nie"
+    (4):"Podaj wartość prawdodobieńtswa komórki dla danego typu wydarzenia!")
+    "1.0"? w sensie zdarzenie pewne? 
+    "0.5"?
+    "0.1"?
+    (5):"Nadpisz wartość prawdopodobieństwa dla danego wydarzenia tą wartością")
+    (6): zwróć zmianę szybkości rozpadu -> sklep ją zmniejsza (w przeciwieństwie do fabryki)
+
+  Uwaga!!!: koordynaty są podawane względnie do komórki pytającej.
+  ALGORYTM:
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        jeśli koordynaty to (0,0) -> weź kolejne koordynaty       // Własna komórka
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(2)
+          jeśli tak -> weź kolejne koordynaty
+        CALLBACK(3)
+          jeśli tak:
+            nie rób nic, to jeszcze nie ma na nas wpływu
+          jeśli nie:
+            jeśli to sklep:
+              jeśli sąsiadujemy:
+                +1p.p.(SONTNBPI)
+              jeśli nie:
+                -1p.p.(SITNNBPD)
+            jeśli to dom:
+                +1p.p.(HITNNBPI)
+            jeśli to faryka:
+                x<-x+1(FITNNBPI)
+            jeśli to dowolny inny budynek:
+                +1p.b.(BITNNBPI)
+    +5*x - x^2p.b.
+
+    
+    
+dalsze algorytmy mają za zadanie uwzględniać modyfikator
+ten algorytm MUSI zawsze być uruchomiony, gdy sklep zaczyna działać
+  ALGORYTM DLA WŁĄCZENIA:
+    (szukaj po radius)
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(6) - podaj x i y zmienianej komórki, rozpocznij efekt
+
+ten algorytm MUSI zawsze być uruchomiony, gdy sklep przestaje działać
+ ALGORYTM DLA WYŁĄCZENIA:
+    (szukaj po radius)
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(6) - podaj x i y zmienianej komórki, zakończ efekt
+        
+

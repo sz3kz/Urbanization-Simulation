@@ -1,0 +1,57 @@
+Algorytm propagacji prawdopodobieństwa remizy:
+  STAŁE:
+    radius - Promień kwadratowego sąsiedztwa wokół komórki remizy
+      radius == 6? -> sąsiedztwo jest 13x13 (remizy nie będą zbyt częste)
+    building_in_the_neighbourhood_new_building_probability_increase (BITNNBPI)
+      - wzrost punktów procentowych prawdopodobieńtswa powstania nowej remizy
+    1 p.b.?
+    factory_in_the_neighbourhood_new_building_probability_increase (FITNNBPI)
+      - wzrost punktów procentowych prawdopodobieńtswa powstania nowej remizy (straż zakładowa albo coś w tym stylu)
+    1 p.p.?
+    another_firestation_in_the_neighbourhood_new_building_probability_decrease (AFITNNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowej remizy
+      HITNNBPI == 10p.p. dużo remiz może powstać tylko, gdy jest dużo budynków
+    fire_engine_speed- ile kratek przejeżdża wóz na turę
+    może być losowane z jakiegoś przedziału? chodzi o to, żeby nie zawsze być w stanie ugasić pożar
+
+  CALLBACKI:
+    (1):"Czy podane koordynaty wskazują na jakąś komórke?")
+      "Tak"
+      "Nie"
+    (2):"Czy podane koordynaty wskazują na komórkę z budynkiem?")
+      "Tak"
+      "Nie"
+    (3):"Czy komórka pod tymi koordynatami nie została jeszcze zmodyfikowana w bieżącej iteracji?")
+      "Tak"
+      "Nie"
+    (4):"Podaj wartość prawdodobieńtswa komórki dla danego typu wydarzenia!")
+    "1.0"? w sensie zdarzenie pewne? 
+    "0.5"?
+    "0.1"?
+    (5):"Nadpisz wartość prawdopodobieństwa dla danego wydarzenia tą wartością")
+    (6): zwróć czas przejazdu
+
+ALGORYTM:
+
+  Uwaga!!!: koordynaty są podawane względnie do komórki pytającej.
+  ALGORYTM:
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        jeśli koordynaty to (0,0) -> weź kolejne koordynaty       // Własna komórka
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(2)
+          jeśli tak -> weź kolejne koordynaty
+        CALLBACK(3)
+          jeśli tak:
+            nie rób nic, to jeszcze nie ma na nas wpływu
+          jeśli nie:
+            jeśli to fabryka:
+                +1p.p.(FITNNBPI)
+            jeśli to remiza:
+                -10p.p.(AFITNNBPD)
+            jeśli to dowlny inny budynek
+                +1p.b.BITNNBPI
+
+FUNKCJA podaj czas dojazdu(argument distance)
+    6:distance/fire_engine_speed

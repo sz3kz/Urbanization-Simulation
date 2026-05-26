@@ -1,0 +1,50 @@
+Algorytm propagacji prawdopodobieństwa domku:
+  STAŁE:
+    radius - Promień kwadratowego sąsiedztwa wokół komórki domku
+      radius == 2 -> sąsiedztwo jest 5 x 5 (2+1+2x2+1+2)
+        house_in_the_neighbourhood_new_building_probability_increase (HITNNBPI)
+      - wzrost punktów bazowych prawdopodobieńtswa powstania nowego domku
+    10 p.b.?
+    house_on_the_neighbouring_tile_new_building_probability_decrease (HONTNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowego domku
+    1 p.p.?
+    factory_in_the_neighbourhood_new_building_probability_decrease (FITNNBPD)
+      - spadek punktów procentowych prawdopodobieńtswa powstania nowego domku
+    1 p.p.? 
+    
+  CALLBACKI:
+    (1):"Czy podane koordynaty wskazują na jakąś komórke?")
+      "Tak"
+      "Nie"
+    (2):"Czy podane koordynaty wskazują na komórkę z budynkiem?")
+      "Tak"
+      "Nie"
+    (3):"Czy komórka pod tymi koordynatami nie została jeszcze zmodyfikowana w bieżącej iteracji?")
+      "Tak"
+      "Nie"
+    (4):"Podaj wartość prawdodobieńtswa komórki dla danego typu wydarzenia!")
+    "1.0"
+    "0.5"
+    "0.1"
+    (5):"Nadpisz wartość prawdopodobieństwa dla danego wydarzenia tą wartością")
+
+  Uwaga!!!: koordynaty są podawane względnie do komórki pytającej.
+  ALGORYTM:
+    Dla pozycji w wierszu:                                        // dostajesz koordynat "x"
+      Dla pozycji w kolumnie:                                     // dostajesz koordynat "y"
+        jeśli koordynaty to (0,0) -> weź kolejne koordynaty       // Własna komórka
+        CALLBACK(1)
+          jeśli nie -> weź kolejne koordynaty
+        CALLBACK(2)
+          jeśli tak -> weź kolejne koordynaty
+        CALLBACK(3)
+          jeśli tak:
+            nie rób nic, to jeszcze nie ma na nas wpływu
+          jeśli nie:
+            jeśli to dom:
+              jeśli sąsiadujemy:
+                -1p.p.(HONTNBPD)
+              jeśli nie:
+                +10p.b.(HITNNBPI)
+            jeśli to faryka:
+                -1p.p.(FITNNBPD)
