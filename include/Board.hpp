@@ -22,7 +22,7 @@ class Board
     auto getWidth() const -> unsigned int;
     [[nodiscard]]
     auto getHeight() const -> unsigned int;
-    T& getCellACoordinates(Coordinates const& coordinates)
+    T& getCellAtCoordinates(Coordinates const& coordinates)
     {
         return contents.at(calculateIndexFromCoordinates(coordinates));
     }
