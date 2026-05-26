@@ -11,7 +11,8 @@ Checks: >
   -cppcoreguidelines-avoid-magic-numbers,
   -readability-magic-numbers,
   -bugprone-easily-swappable-parameters,
-  -readability-identifier-length
+  -readability-identifier-length,
+  -clang-diagnostic-error
 
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'

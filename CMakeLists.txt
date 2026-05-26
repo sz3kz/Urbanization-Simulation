@@ -46,8 +46,8 @@ add_executable(simulation
 )
 
 target_include_directories(simulation_library PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-target_include_directories(simulation_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-target_include_directories(simulation PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(simulation_tests PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(simulation PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 target_compile_features(simulation PUBLIC cxx_std_23)
 target_compile_features(simulation_tests PUBLIC cxx_std_23)
