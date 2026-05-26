@@ -67,11 +67,14 @@ class Building
     };
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(
-      std::function<bool(Coordinates)> askCellExistsAtCoordinates,
-      std::function<bool(Coordinates)> askCellEmptyAtCoordinates,
-      std::function<bool(Coordinates, ProbabilityType)>
+      [[maybe_unused]] std::function<bool(Coordinates)> askCellExistsAtCoordinates,
+      [[maybe_unused]] std::function<bool(Coordinates)> askCellEmptyAtCoordinates,
+      [[maybe_unused]] std::function<bool(Coordinates, ProbabilityType)>
         askProbabilityTypePercentageIsSetAtCoordinates,
-      std::function<double(Coordinates, ProbabilityType)> getProbabilityTypePercentageAtCoordinates,
-      std::function<void(Coordinates, ProbabilityType, double)>
-        setProbabilityTypePercentageAtCoordinates) = 0;
+      [[maybe_unused]] std::function<double(Coordinates, ProbabilityType)>
+        askProbabilityTypePercentageAtCoordinates,
+      [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
+        setCellPercentageOfProbabilityAtCoordinates,
+      [[maybe_unused]] std::function<bool(Coordinates, std::string)>
+        askBuildingAtCoordinatesIsInState) = 0;
 };
