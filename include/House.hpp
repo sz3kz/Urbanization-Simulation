@@ -12,11 +12,14 @@ class House : public Building
     auto getBuildingType() const -> BuildingType override;
 
     void applyProbabilities(
-      std::function<bool(Coordinates)> askCellExistsAtCoordinates,
-      std::function<bool(Coordinates)> askCellEmptyAtCoordinates,
-      std::function<bool(Coordinates, ProbabilityType)>
+      [[maybe_unused]] std::function<bool(Coordinates)> askCellExistsAtCoordinates,
+      [[maybe_unused]] std::function<bool(Coordinates)> askCellEmptyAtCoordinates,
+      [[maybe_unused]] std::function<bool(Coordinates, ProbabilityType)>
         askProbabilityTypePercentageIsSetAtCoordinates,
-      std::function<double(Coordinates, ProbabilityType)> askProbabilityTypePercentageAtCoordinates,
-      std::function<void(Coordinates, ProbabilityType, double)>
-        setCellPercentageOfProbabilityAtCoordinates) override;
+      [[maybe_unused]] std::function<double(Coordinates, ProbabilityType)>
+        askProbabilityTypePercentageAtCoordinates,
+      [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
+        setCellPercentageOfProbabilityAtCoordinates,
+      [[maybe_unused]] std::function<bool(Coordinates, std::string)>
+        askBuildingAtCoordinatesIsInState) override;
 };
