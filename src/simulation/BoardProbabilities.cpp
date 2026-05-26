@@ -31,13 +31,13 @@ void BoardProbabilities::setProbabilityTypePercentageAtCoordinates(Coordinates c
 }
 void BoardProbabilities::resetProbabilities()
 {
-    ProbabilityDefaultPercentages defaults;
     for (unsigned int i = 0; i < this->contents.size(); i++)
     {
-        double preserved_iteration =
-          (this->contents.at(i).probabilities.at(ProbabilityType::CREATE_NEW_BUILDING))
-            .last_updated_at_iteration;
-        this->contents.at(i).probabilities[ProbabilityType::CREATE_NEW_BUILDING] =
-          Probability(preserved_iteration, defaults.create_new_building);
+        for (auto const& [probability_type, probability] : this->contents.at(i).probabilities)
+        {
+            double preserved_iteration = probability.last_updated_at_iteration;
+            this->contents.at(i).probabilities[probability_type] =
+              Probability(preserved_iteration, probability_default_percentages[probability_type]);
+        }
     }
 }
