@@ -1,6 +1,7 @@
 #pragma once
 #include "BoardOccupants.hpp"
 #include "BoardProbabilities.hpp"
+#include <fstream>
 #include <random>
 class Simulation
 {
@@ -12,7 +13,7 @@ class Simulation
     std::mt19937 generator;
 
     void iterate();
-    void print();
+    void print(std::ofstream& file);
     auto rollProbabilityDice(double percentage) -> bool;
 
   public:

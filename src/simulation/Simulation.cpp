@@ -9,6 +9,7 @@
 #include "Church.hpp"
 #include "Factory.hpp"
 #include <chrono>
+#include <fstream>
 #include <iostream>
 #include <random>
 #include <thread>
@@ -405,21 +406,24 @@ auto Simulation::rollProbabilityDice(double percentage) -> bool
 [[noreturn]]
 void Simulation::run()
 {
+    std::ofstream myfile("output.txt");
     while (true)
     {
         iterate();
-        print();
+        print(myfile);
         std::chrono::milliseconds timespan(100); // or whatever
 
         std::this_thread::sleep_for(timespan);
     }
 }
 
-void Simulation::print()
+void Simulation::print(std::ofstream& file)
 {
     for (unsigned int _ = 0; _ < 3; ++_)
     {
         std::cout << '\n';
+        file << '\n';
     }
     std::cout << previous_board << '\n';
+    file << previous_board << '\n';
 }
