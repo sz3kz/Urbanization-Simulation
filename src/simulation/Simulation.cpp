@@ -409,7 +409,7 @@ void Simulation::run()
     {
         iterate();
         print();
-        std::chrono::milliseconds timespan(50); // or whatever
+        std::chrono::milliseconds timespan(100); // or whatever
 
         std::this_thread::sleep_for(timespan);
     }
