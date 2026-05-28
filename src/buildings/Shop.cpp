@@ -3,7 +3,7 @@
 #include "World.hpp"
 #include <iostream>
 
-constexpr double shop_restore_time_to_live_boost = 0.001;
+constexpr double shop_restore_time_to_live_boost = 1.0;
 
 auto Shop::getBuildingType() const -> BuildingType
 {
