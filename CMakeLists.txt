@@ -60,7 +60,7 @@ add_custom_target(run_tests
                   USES_TERMINAL)
 
 add_custom_target(run_simulation
-        COMMAND simulation
+        COMMAND simulation 50 50 2
         DEPENDS simulation
         USES_TERMINAL)
 
