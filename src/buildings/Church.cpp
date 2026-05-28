@@ -39,9 +39,6 @@ void Church::applyProbabilities(
                   Coordinates(i, j), ProbabilityType::CREATE_NEW_FACTORY, 0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
                   Coordinates(i, j), ProbabilityType::CREATE_NEW_CHURCH, 0.0);
-                /* TESTING PUROSOSES ONLY - DELETE AFTER TESTING DONE!!!*/
-                setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0);
                 continue;
             }
 
