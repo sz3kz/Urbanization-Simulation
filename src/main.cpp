@@ -22,17 +22,29 @@ auto main(int argc, char* argv[]) -> int
     int width, height, random_seed;
     try
     {
-
         width = std::stoi(argv[static_cast<int>(ArgumentType::WIDTH)]);
-
+    }
+    catch (std::invalid_argument& e)
+    {
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+    }
+    try
+    {
         height = std::stoi(argv[static_cast<int>(ArgumentType::HEIGHT)]);
-
+    }
+    catch (std::invalid_argument& e)
+    {
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+    }
+    try
+    {
         random_seed = std::stoi(argv[static_cast<int>(ArgumentType::SEED)]);
     }
     catch (std::invalid_argument& e)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
     }
+
     if (width < 1 || height < 1 || random_seed < 1)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
