@@ -21,9 +21,10 @@ void Shop::applyProbabilities(
     setCellPercentageOfProbabilityAtCoordinates,
   [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
 {
-    for (int i = (-1) * static_cast<int>(radius); i <= static_cast<int>(radius); ++i)
+    int signed_radius = static_cast<int>(radius);
+    for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
     {
-        for (int j = (-1) * static_cast<int>(radius); j <= static_cast<int>(radius); ++j)
+        for (int j = (-1) * signed_radius; j <= signed_radius; ++j)
         {
             bool is_self = (i == 0 && j == 0);
             if (is_self)
