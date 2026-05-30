@@ -75,11 +75,8 @@ void Simulation::decayBuildings()
         }
 }
 
-void Simulation::iterate()
+void Simulation::executeProbability()
 {
-    /* 1. iteration: Iterate through previous_board to populate probability_board */
-
-    /* 2. iteration: Iterate through probability_board to populate next_board */
     for (unsigned int row_position = 0; row_position < probability_board.getWidth(); ++row_position)
     {
         for (unsigned int column_position = 0; column_position < probability_board.getHeight();
@@ -430,7 +427,7 @@ void Simulation::run()
     {
         setEmptyCellBurningProbabilityToZero();
         propagateBuildingProbabilities();
-        iterate();
+        executeProbability();
         decayBuildings();
         next_board.contents.swap(previous_board.contents);
         probability_board.resetProbabilities();
