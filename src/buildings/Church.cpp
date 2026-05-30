@@ -2,6 +2,7 @@
 #include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
 #include "World.hpp"
+#include <algorithm>
 #include <iostream>
 
 constexpr unsigned long church_probability_multiplier = 100;
@@ -80,12 +81,8 @@ void Church::applyProbabilities(
                 {
                     double current_probability = askProbabilityTypePercentageAtCoordinates(
                       Coordinates(i, j), probability_type);
-                    double new_probability = current_probability * church_probability_multiplier;
-                    if (new_probability > 1.0)
-                    {
-                        new_probability = 1.0;
-                    }
-
+                    double new_probability =
+                      std::min(current_probability * church_probability_multiplier, 1.0);
                     setCellPercentageOfProbabilityAtCoordinates(
                       Coordinates(i, j), probability_type, new_probability);
                 }
