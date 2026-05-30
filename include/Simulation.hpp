@@ -12,6 +12,8 @@ class Simulation
     BoardOccupants next_board;
     std::mt19937 generator;
 
+    void incrementIteration();
+    void recycleBoards();
     void executeProbability();
     void propagateBuildingProbabilities();
     void setEmptyCellBurningProbabilityToZero();
