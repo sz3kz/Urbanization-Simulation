@@ -123,9 +123,8 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "SET_BUILDING_ON_FIRE Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* burn it */
                             next_board.getCellAtCoordinates(current_coordinates)
@@ -141,12 +140,11 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "RESTORE_FROM_RUIN Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new ttl restoration..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             next_board.getCellAtCoordinates(current_coordinates)
                               .getBuilding()
@@ -160,12 +158,11 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "RESTORE_TIME_TO_LIVE Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new ttl restoration..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* Restore TTL*/
                             /* Need to handle all ttl, although 90% of cases it will be normal */
@@ -217,8 +214,7 @@ void Simulation::iterate()
 
                         std::cout << "Rolling for new house..." << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new House */
                             /*
@@ -242,12 +238,11 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_FIRESTATION Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new firestation..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new Firestation */
                             /*
@@ -272,12 +267,11 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_SHOP Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new SHop..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new SHop */
                             /*
@@ -301,12 +295,10 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_FACTORY Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
-
                         /*
                         std::cout << "Rolling for new Factory..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new Factory */
                             /*
@@ -330,12 +322,10 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_CHURCH Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
-
                         /*
                         std::cout << "Rolling for new CHURCH..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new church */
                             /*
