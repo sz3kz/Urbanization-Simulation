@@ -22,39 +22,39 @@ void Simulation::iterate()
         for (unsigned int column_position = 0; column_position < previous_board.getHeight();
              ++column_position)
         {
-            bool empty = previous_board.checkCellEmptyAtCoordinates(
-              Coordinates(row_position, column_position));
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
+            bool empty = previous_board.checkCellEmptyAtCoordinates(current_coordinates);
             if (empty)
             {
                 probability_board.setProbabilityTypePercentageAtCoordinates(
-                  Coordinates(row_position, column_position),
+                  current_coordinates,
                   ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
                   current_iteration,
                   0.0);
                 continue;
             }
             this->previous_board.contents
-              .at(previous_board.calculateIndexFromCoordinates(
-                Coordinates(row_position, column_position)))
+              .at(previous_board.calculateIndexFromCoordinates(current_coordinates))
               .occupant->applyProbabilities(
                 [this, row_position, column_position](Coordinates relative_coordinates) -> bool
                 {
                     return this->previous_board.checkCellExistsAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position));
+                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                  static_cast<int>(column_position) + relative_coordinates.y));
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates) -> bool
                 {
                     return this->previous_board.checkCellEmptyAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position));
+                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                  static_cast<int>(column_position) + relative_coordinates.y));
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
                                                       ProbabilityType probability_type) -> bool
                 {
                     return this->probability_board.checkProbabilityTypePercentageIsSetAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position),
+                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                  static_cast<int>(column_position) + relative_coordinates.y),
                       probability_type,
                       this->current_iteration);
                 },
@@ -62,8 +62,8 @@ void Simulation::iterate()
                                                       ProbabilityType probability_type) -> double
                 {
                     return this->probability_board.getProbabilityTypePercentageAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position),
+                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                  static_cast<int>(column_position) + relative_coordinates.y),
                       probability_type);
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
@@ -71,8 +71,8 @@ void Simulation::iterate()
                                                       double percentage) -> void
                 {
                     return this->probability_board.setProbabilityTypePercentageAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position),
+                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                  static_cast<int>(column_position) + relative_coordinates.y),
                       probability_type,
                       this->current_iteration,
                       percentage);
@@ -80,8 +80,9 @@ void Simulation::iterate()
                 [this, row_position, column_position](Coordinates relative_coordinates,
                                                       std::string const& state_name) -> bool
                 {
-                    auto coordinates = Coordinates(relative_coordinates.x + row_position,
-                                                   relative_coordinates.y + column_position);
+                    auto coordinates =
+                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                  static_cast<int>(column_position) + relative_coordinates.y);
                     Building const* building =
                       this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
                     return building->getStateName() == state_name;
@@ -95,7 +96,8 @@ void Simulation::iterate()
         for (unsigned int column_position = 0; column_position < probability_board.getHeight();
              ++column_position)
         {
-            auto current_coordinates = Coordinates(row_position, column_position);
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
             /* preserve previous value */
             auto previous_occupant =
               previous_board.releaseOccupantAtCoordinates(current_coordinates);
@@ -359,7 +361,8 @@ void Simulation::iterate()
         for (unsigned int column_position = 0; column_position < next_board.getHeight();
              ++column_position)
         {
-            auto current_coordinates = Coordinates(row_position, column_position);
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
             /*
             std::cout << "(" << current_coordinates.x << "," << current_coordinates.y << ")
             TIME2LIVE" << '\n';
