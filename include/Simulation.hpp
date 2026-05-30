@@ -13,6 +13,7 @@ class Simulation
     std::mt19937 generator;
 
     void iterate();
+    void propagateBuildingProbabilities();
     void setEmptyCellBurningProbabilityToZero();
     void decayBuildings();
     void print(std::ofstream& file) const;
