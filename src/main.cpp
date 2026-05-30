@@ -1,51 +1,59 @@
 #include "Simulation.hpp"
 #include "World.hpp"
+
 #include <iostream>
 #include <locale>
 
-void usage()
+void usage(const char* name)
 {
-    std::cout <<"Usage: ./simulation <width> <height> <random-seed>\n";
-    return;
+    std::cout << "Usage: ./" << name << " <width> <height> <random-seed>\n";
 }
 
-auto read(const char* table) -> int
+auto main(int argc, char* argv[]) -> int
 {
-    int length = 0;
-    while (table[length] != 0)
+    if (argc != static_cast<int>(ArgumentType::ARGS))
     {
-            length++;
-    }
-    int m=1, value = 0;
-    for (int i = length-1; i >= 0; i--)
-    {
-        if (table[i] - '0'<0 || table[i] - '0' > 9)
-        {
-            usage();
-            return -1;
-        }
-        value = value + (table[i]-'0')*m;
-        m = m *10;
-    }
-    return value;
-}
-auto main(int argc, char *argv[]) -> int
-{
-    if (argc != 4)
-    {
-        usage();
-        return 1;
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
     }
 
-    int width, height, random_seed;
+    // here loading 3 first arguments - numbers
+    int width;
+    int height;
+    int random_seed;
 
-    width = read(argv[1]);
-    height = read(argv[2]);
-    random_seed = read(argv[3]);
+    try
+    {
+        width = std::stoi(argv[static_cast<int>(ArgumentType::WIDTH)]);
+    }
+    catch (std::invalid_argument&)
+    {
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
+    }
+    try
+    {
+        height = std::stoi(argv[static_cast<int>(ArgumentType::HEIGHT)]);
+    }
+    catch (std::invalid_argument&)
+    {
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
+    }
+    try
+    {
+        random_seed = std::stoi(argv[static_cast<int>(ArgumentType::SEED)]);
+    }
+    catch (std::invalid_argument&)
+    {
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
+    }
 
     if (width < 1 || height < 1 || random_seed < 1)
     {
-        return 1;
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
     }
 
     std::locale::global(std::locale(""));
@@ -53,5 +61,4 @@ auto main(int argc, char *argv[]) -> int
     Simulation simulation(width, height, random_seed);
     std::cout << "Started simulation:" << '\n';
     simulation.run();
-    return 0;
 }

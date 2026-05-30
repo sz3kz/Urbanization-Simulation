@@ -2,6 +2,15 @@
 #include <cstdint>
 #include <map>
 
+enum class ArgumentType : std::uint8_t
+{
+    EXEC_NAME,
+    WIDTH,
+    HEIGHT,
+    SEED,
+    ARGS,
+};
+
 enum class BuildingType : std::uint8_t
 {
     SHOP,
@@ -23,7 +32,7 @@ enum class ProbabilityType : std::uint8_t
     RESTORE_FROM_RUIN,
 };
 
-inline std::map<ProbabilityType, double> const probability_default_percentages = {
+inline std::map<ProbabilityType, double> probability_default_percentages = {
     { ProbabilityType::CREATE_NEW_HOUSE, 0.001 },
     { ProbabilityType::CREATE_NEW_FIRESTATION, 0.00001 },
     { ProbabilityType::CREATE_NEW_SHOP, 0.00001 },

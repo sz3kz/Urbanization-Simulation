@@ -5,10 +5,14 @@
 #include "../../include/House.hpp"
 #include "../../include/World.hpp"
 
-auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
+auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) -> bool
 {
     unsigned int index = calculateIndexFromCoordinates(coordinates);
-    return this->contents.at(index).occupant == nullptr;
+    if (this->contents.at(index).occupant == nullptr)
+    {
+        return true;
+    }
+    return false;
 }
 
 auto BoardOccupants::releaseOccupantAtCoordinates(Coordinates const& coordinates)
@@ -23,8 +27,18 @@ void BoardOccupants::acquireOccupantToCoordinates(Coordinates const& coordinates
     contents.at(calculateIndexFromCoordinates(coordinates)).occupant = std::move(building);
 }
 
-auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) const -> BuildingType
+auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) -> BuildingType
 {
+    /*
+    unsigned int index = calculateIndexFromCoordinates(coordinates);
+    House * is_house = dynamic_cast<House*>(contents.at(index).occupant.get());
+    if (is_house)
+    {
+        std::cout << "House Building Type found!" << std::endl;
+        return BuildingType::HOUSE;
+    }
+    return BuildingType::NONE;
+    */
     unsigned int index = calculateIndexFromCoordinates(coordinates);
     return contents.at(index).occupant->getBuildingType();
 }
@@ -35,8 +49,7 @@ auto operator<<(std::ostream& os, BoardOccupants const& board) -> std::ostream&
     {
         for (unsigned int j = 0; j < board.getHeight(); ++j)
         {
-            auto current_coordinates = Coordinates(static_cast<int>(i), static_cast<int>(j));
-            os << board.contents.at(board.calculateIndexFromCoordinates(current_coordinates));
+            os << board.contents.at(board.calculateIndexFromCoordinates(Coordinates(i, j)));
         }
         os << '\n';
     }
