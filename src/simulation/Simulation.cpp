@@ -11,6 +11,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <random>
 #include <thread>
 
@@ -222,7 +223,7 @@ void Simulation::iterate()
                             */
                             next_board.acquireOccupantToCoordinates(
                               current_coordinates,
-                              std::unique_ptr<House>(new House(default_properties_house_radius)));
+                              std::make_unique<House>(default_properties_house_radius));
                             something_already_built = true;
                         }
                         break;
@@ -250,8 +251,7 @@ void Simulation::iterate()
                             */
                             next_board.acquireOccupantToCoordinates(
                               current_coordinates,
-                              std::unique_ptr<Firestation>(
-                                new Firestation(default_properties_firestation_radius)));
+                              std::make_unique<Firestation>(default_properties_firestation_radius));
                             something_already_built = true;
                         }
                         break;
@@ -279,7 +279,7 @@ void Simulation::iterate()
                             */
                             next_board.acquireOccupantToCoordinates(
                               current_coordinates,
-                              std::unique_ptr<Shop>(new Shop(default_properties_shop_radius)));
+                              std::make_unique<Shop>(default_properties_shop_radius));
                             something_already_built = true;
                         }
                         break;
@@ -306,8 +306,7 @@ void Simulation::iterate()
                             */
                             next_board.acquireOccupantToCoordinates(
                               current_coordinates,
-                              std::unique_ptr<Factory>(
-                                new Factory(default_properties_factory_radius)));
+                              std::make_unique<Factory>(default_properties_factory_radius));
                             something_already_built = true;
                         }
                         break;
@@ -333,8 +332,7 @@ void Simulation::iterate()
                             */
                             next_board.acquireOccupantToCoordinates(
                               current_coordinates,
-                              std::unique_ptr<Church>(
-                                new Church(default_properties_church_radius)));
+                              std::make_unique<Church>(default_properties_church_radius));
                             something_already_built = true;
                         }
                         break;
