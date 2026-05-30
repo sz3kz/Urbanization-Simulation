@@ -37,20 +37,20 @@ void Simulation::iterate()
               .at(previous_board.calculateIndexFromCoordinates(
                 Coordinates(row_position, column_position)))
               .occupant->applyProbabilities(
-                [this, row_position, column_position](Coordinates relative_coordinates)
+                [this, row_position, column_position](Coordinates relative_coordinates) -> bool
                 {
                     return this->previous_board.checkCellExistsAtCoordinates(
                       Coordinates(relative_coordinates.x + row_position,
                                   relative_coordinates.y + column_position));
                 },
-                [this, row_position, column_position](Coordinates relative_coordinates)
+                [this, row_position, column_position](Coordinates relative_coordinates) -> bool
                 {
                     return this->previous_board.checkCellEmptyAtCoordinates(
                       Coordinates(relative_coordinates.x + row_position,
                                   relative_coordinates.y + column_position));
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type)
+                                                      ProbabilityType probability_type) -> bool
                 {
                     return this->probability_board.checkProbabilityTypePercentageIsSetAtCoordinates(
                       Coordinates(relative_coordinates.x + row_position,
@@ -59,7 +59,7 @@ void Simulation::iterate()
                       this->current_iteration);
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type)
+                                                      ProbabilityType probability_type) -> double
                 {
                     return this->probability_board.getProbabilityTypePercentageAtCoordinates(
                       Coordinates(relative_coordinates.x + row_position,
@@ -68,7 +68,7 @@ void Simulation::iterate()
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
                                                       ProbabilityType probability_type,
-                                                      double percentage)
+                                                      double percentage) -> void
                 {
                     return this->probability_board.setProbabilityTypePercentageAtCoordinates(
                       Coordinates(relative_coordinates.x + row_position,
@@ -78,7 +78,7 @@ void Simulation::iterate()
                       percentage);
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      std::string const& state_name)
+                                                      std::string const& state_name) -> bool
                 {
                     auto coordinates = Coordinates(relative_coordinates.x + row_position,
                                                    relative_coordinates.y + column_position);
