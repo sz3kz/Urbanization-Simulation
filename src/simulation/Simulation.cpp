@@ -405,8 +405,6 @@ void Simulation::iterate()
                 building->setTimeToLive(building->getTimeToLive() - decay);
             }
         }
-    /* 3. Swap boards */
-    next_board.contents.swap(previous_board.contents);
 }
 
 auto Simulation::rollProbabilityDice(double percentage) -> bool
@@ -424,6 +422,7 @@ void Simulation::run()
     {
         setEmptyCellBurningProbabilityToZero();
         iterate();
+        next_board.contents.swap(previous_board.contents);
         probability_board.resetProbabilities();
         print(myfile);
         std::chrono::milliseconds timespan(100); // or whatever
