@@ -2,6 +2,15 @@
 #include <cstdint>
 #include <map>
 
+enum class ArgumentType : std::uint8_t
+{
+    EXEC_NAME,
+    WIDTH,
+    HEIGHT,
+    SEED,
+    ARGS,
+};
+
 enum class BuildingType : std::uint8_t
 {
     SHOP,
