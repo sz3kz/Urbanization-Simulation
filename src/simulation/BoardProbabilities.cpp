@@ -35,7 +35,7 @@ void BoardProbabilities::resetProbabilities()
     {
         for (auto const& [probability_type, probability] : content.probabilities)
         {
-            double preserved_iteration = probability.last_updated_at_iteration;
+            auto preserved_iteration = probability.last_updated_at_iteration;
             content.probabilities[probability_type] = Probability(
               preserved_iteration, probability_default_percentages.at(probability_type));
         }
