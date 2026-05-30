@@ -407,8 +407,6 @@ void Simulation::iterate()
         }
     /* 3. Swap boards */
     next_board.contents.swap(previous_board.contents);
-    /* 4. Zero out probabilities*/
-    probability_board.resetProbabilities();
 }
 
 auto Simulation::rollProbabilityDice(double percentage) -> bool
@@ -426,6 +424,7 @@ void Simulation::run()
     {
         setEmptyCellBurningProbabilityToZero();
         iterate();
+        probability_board.resetProbabilities();
         print(myfile);
         std::chrono::milliseconds timespan(100); // or whatever
         std::this_thread::sleep_for(timespan);
