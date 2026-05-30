@@ -81,6 +81,11 @@ void Simulation::incrementIteration()
     this->current_iteration++;
 }
 
+void Simulation::sleep(std::chrono::milliseconds timespan)
+{
+    std::this_thread::sleep_for(timespan);
+}
+
 void Simulation::recycleBoards()
 {
     this->next_board.contents.swap(this->previous_board.contents);
@@ -431,8 +436,7 @@ void Simulation::run()
         recycleBoards();
         probability_board.resetProbabilities();
         print(myfile);
-        std::chrono::milliseconds timespan(100); // or whatever
-        std::this_thread::sleep_for(timespan);
+        sleep(std::chrono::milliseconds(100));
         incrementIteration();
     }
 }
