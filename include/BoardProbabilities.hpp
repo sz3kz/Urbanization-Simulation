@@ -10,9 +10,11 @@ class BoardProbabilities : public Board<CellProbabilities>
   public:
     auto checkProbabilityTypePercentageIsSetAtCoordinates(Coordinates const& coordinates,
                                                           ProbabilityType probability_type,
-                                                          unsigned long current_iteration) -> bool;
+                                                          unsigned long current_iteration) const
+      -> bool;
     auto getProbabilityTypePercentageAtCoordinates(Coordinates const& coordinates,
-                                                   ProbabilityType probability_type) -> double;
+                                                   ProbabilityType probability_type) const
+      -> double;
     void setProbabilityTypePercentageAtCoordinates(Coordinates const& coordinates,
                                                    ProbabilityType probability_type,
                                                    unsigned long current_iteration,

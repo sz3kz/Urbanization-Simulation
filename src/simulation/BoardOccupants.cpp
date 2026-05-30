@@ -5,7 +5,7 @@
 #include "../../include/House.hpp"
 #include "../../include/World.hpp"
 
-auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) -> bool
+auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
 {
     unsigned int index = calculateIndexFromCoordinates(coordinates);
     return this->contents.at(index).occupant == nullptr;
@@ -23,18 +23,8 @@ void BoardOccupants::acquireOccupantToCoordinates(Coordinates const& coordinates
     contents.at(calculateIndexFromCoordinates(coordinates)).occupant = std::move(building);
 }
 
-auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) -> BuildingType
+auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) const -> BuildingType
 {
-    /*
-    unsigned int index = calculateIndexFromCoordinates(coordinates);
-    House * is_house = dynamic_cast<House*>(contents.at(index).occupant.get());
-    if (is_house)
-    {
-        std::cout << "House Building Type found!" << std::endl;
-        return BuildingType::HOUSE;
-    }
-    return BuildingType::NONE;
-    */
     unsigned int index = calculateIndexFromCoordinates(coordinates);
     return contents.at(index).occupant->getBuildingType();
 }
