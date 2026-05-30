@@ -31,12 +31,12 @@ void BoardProbabilities::setProbabilityTypePercentageAtCoordinates(Coordinates c
 }
 void BoardProbabilities::resetProbabilities()
 {
-    for (unsigned int i = 0; i < this->contents.size(); i++)
+    for (auto& content : this->contents)
     {
-        for (auto const& [probability_type, probability] : this->contents.at(i).probabilities)
+        for (auto const& [probability_type, probability] : content.probabilities)
         {
             double preserved_iteration = probability.last_updated_at_iteration;
-            this->contents.at(i).probabilities[probability_type] = Probability(
+            content.probabilities[probability_type] = Probability(
               preserved_iteration, probability_default_percentages.at(probability_type));
         }
     }
