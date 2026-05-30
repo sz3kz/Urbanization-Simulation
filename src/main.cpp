@@ -16,8 +16,12 @@ auto main(int argc, char* argv[]) -> int
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
         return -1;
     }
+
     // here loading 3 first arguments - numbers
-    int width, height, random_seed;
+    int width;
+    int height;
+    int random_seed;
+
     try
     {
         width = std::stoi(argv[static_cast<int>(ArgumentType::WIDTH)]);
