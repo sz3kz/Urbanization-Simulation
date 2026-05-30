@@ -18,9 +18,6 @@ repos:
         stages: [pre-push]
         args: [
           "-p=./build/",
-          "--", # Everything after this is passed to the compiler frontend
-          "-fno-modules", # Tell Clang to ignore module logic
-          "-Wno-unknown-argument", # Ignore the GCC specific flags it doesn't know
         ]
       - id: cppcheck
         stages: [pre-commit]
