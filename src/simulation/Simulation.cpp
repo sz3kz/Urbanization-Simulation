@@ -76,6 +76,16 @@ void Simulation::decayBuildings()
         }
 }
 
+void Simulation::incrementIteration()
+{
+    this->current_iteration++;
+}
+
+void Simulation::recycleBoards()
+{
+    this->next_board.contents.swap(this->previous_board.contents);
+}
+
 void Simulation::executeProbability()
 {
     for (unsigned int row_position = 0; row_position < probability_board.getWidth(); ++row_position)
@@ -418,12 +428,12 @@ void Simulation::run()
         propagateBuildingProbabilities();
         executeProbability();
         decayBuildings();
-        next_board.contents.swap(previous_board.contents);
+        recycleBoards();
         probability_board.resetProbabilities();
         print(myfile);
         std::chrono::milliseconds timespan(100); // or whatever
         std::this_thread::sleep_for(timespan);
-        this->current_iteration++;
+        incrementIteration();
     }
 }
 
