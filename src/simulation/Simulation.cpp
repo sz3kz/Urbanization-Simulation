@@ -70,7 +70,7 @@ void Simulation::iterate()
                                                       ProbabilityType probability_type,
                                                       double percentage) -> void
                 {
-                    return this->probability_board.setProbabilityTypePercentageAtCoordinates(
+                    this->probability_board.setProbabilityTypePercentageAtCoordinates(
                       Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
                                   static_cast<int>(column_position) + relative_coordinates.y),
                       probability_type,
