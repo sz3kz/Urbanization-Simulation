@@ -23,7 +23,7 @@ auto main(int argc, char* argv[]) -> int
     {
         width = std::stoi(argv[static_cast<int>(ArgumentType::WIDTH)]);
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
         return -1;
@@ -32,7 +32,7 @@ auto main(int argc, char* argv[]) -> int
     {
         height = std::stoi(argv[static_cast<int>(ArgumentType::HEIGHT)]);
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
         return -1;
@@ -41,7 +41,7 @@ auto main(int argc, char* argv[]) -> int
     {
         random_seed = std::stoi(argv[static_cast<int>(ArgumentType::SEED)]);
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
         return -1;
