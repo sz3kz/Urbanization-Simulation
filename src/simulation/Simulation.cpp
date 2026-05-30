@@ -399,7 +399,6 @@ void Simulation::iterate()
     next_board.contents.swap(previous_board.contents);
     /* 4. Zero out probabilities*/
     probability_board.resetProbabilities();
-    this->current_iteration++;
 }
 
 auto Simulation::rollProbabilityDice(double percentage) -> bool
@@ -419,8 +418,8 @@ void Simulation::run()
         iterate();
         print(myfile);
         std::chrono::milliseconds timespan(100); // or whatever
-
         std::this_thread::sleep_for(timespan);
+        this->current_iteration++;
     }
 }
 
