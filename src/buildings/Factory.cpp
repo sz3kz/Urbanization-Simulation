@@ -28,9 +28,7 @@ void Factory::applyProbabilities(
 
             Coordinates neighbour_position(i, j);
             Coordinates source_position(0, 0);
-            bool neighbour_is_source = (neighbour_position.x == source_position.x &&
-                                        neighbour_position.y == source_position.y);
-            if (neighbour_is_source)
+            if (neighbour_position == source_position)
             {
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position, ProbabilityType::CREATE_NEW_HOUSE, 0.0);
