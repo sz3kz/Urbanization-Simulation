@@ -70,7 +70,7 @@ void Shop::applyProbabilities(
             }
 
             bool self_is_on_fire = (getStateName() == "Burning");
-            bool in_closes_neighbourhood = (i * i + j * j <= 2);
+            bool in_closes_neighbourhood = ((i * i) + (j * j) <= 2);
             bool is_ruin = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Ruin");
             bool is_on_fire = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Burning");
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
