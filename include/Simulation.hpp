@@ -1,6 +1,8 @@
 #pragma once
 #include "BoardOccupants.hpp"
 #include "BoardProbabilities.hpp"
+
+#include <chrono>
 #include <fstream>
 #include <random>
 class Simulation
@@ -13,6 +15,7 @@ class Simulation
     std::mt19937 generator;
 
     void incrementIteration();
+    static void sleep(std::chrono::milliseconds timespan);
     void recycleBoards();
     void executeProbability();
     void propagateBuildingProbabilities();
