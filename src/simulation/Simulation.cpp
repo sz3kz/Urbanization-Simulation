@@ -115,7 +115,7 @@ void Simulation::iterate()
                 const auto& [last_modified_iteration, value] = probability;
                 switch (probability_type)
                 {
-                    case (ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE):
+                    case ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE:
                     {
                         /*
                         std::cout << "(" << row_position << "," << column_position
@@ -133,7 +133,7 @@ void Simulation::iterate()
                         break;
                     }
 
-                    case (ProbabilityType::RESTORE_FROM_RUIN):
+                    case ProbabilityType::RESTORE_FROM_RUIN:
                     {
                         /*
                         std::cout << "(" << row_position << "," << column_position
@@ -152,7 +152,7 @@ void Simulation::iterate()
                         }
                         break;
                     }
-                    case (ProbabilityType::RESTORE_TIME_TO_LIVE):
+                    case ProbabilityType::RESTORE_TIME_TO_LIVE:
                     {
                         /*
                         std::cout << "(" << row_position << "," << column_position
@@ -203,7 +203,7 @@ void Simulation::iterate()
                         }
                         break;
                     }
-                    case (ProbabilityType::CREATE_NEW_HOUSE):
+                    case ProbabilityType::CREATE_NEW_HOUSE:
                     {
                         if (something_already_built)
                         {
@@ -230,7 +230,7 @@ void Simulation::iterate()
                         break;
                     }
 
-                    case (ProbabilityType::CREATE_NEW_FIRESTATION):
+                    case ProbabilityType::CREATE_NEW_FIRESTATION:
                     {
                         if (something_already_built)
                         {
@@ -260,7 +260,7 @@ void Simulation::iterate()
                         break;
                     }
 
-                    case (ProbabilityType::CREATE_NEW_SHOP):
+                    case ProbabilityType::CREATE_NEW_SHOP:
                     {
                         if (something_already_built)
                         {
@@ -289,7 +289,7 @@ void Simulation::iterate()
                         break;
                     }
 
-                    case (ProbabilityType::CREATE_NEW_FACTORY):
+                    case ProbabilityType::CREATE_NEW_FACTORY:
                     {
                         if (something_already_built)
                         {
@@ -318,7 +318,7 @@ void Simulation::iterate()
                         }
                         break;
                     }
-                    case (ProbabilityType::CREATE_NEW_CHURCH):
+                    case ProbabilityType::CREATE_NEW_CHURCH:
                     {
                         if (something_already_built)
                         {
