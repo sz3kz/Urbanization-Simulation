@@ -1,5 +1,6 @@
 #pragma once
 #include "Coordinates.hpp"
+#include <utility>
 #include <vector>
 
 template<typename T>
@@ -31,8 +32,8 @@ class Board
 template<typename T>
 auto Board<T>::checkCellExistsAtCoordinates(Coordinates const& coordinates) const -> bool
 {
-    if (coordinates.x < 0 || static_cast<unsigned int>(coordinates.x) >= width) return false;
-    if (coordinates.y < 0 || static_cast<unsigned int>(coordinates.y) >= height) return false;
+    if (coordinates.x < 0 || std::cmp_greater_equal(coordinates.x, width)) return false;
+    if (coordinates.y < 0 || std::cmp_greater_equal(coordinates.y, height)) return false;
     return true;
 }
 
