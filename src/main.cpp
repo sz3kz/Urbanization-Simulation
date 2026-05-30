@@ -1,4 +1,3 @@
-#include "../include/World.hpp"
 #include "Simulation.hpp"
 #include "World.hpp"
 
