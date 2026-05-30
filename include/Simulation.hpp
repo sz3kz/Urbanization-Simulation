@@ -13,6 +13,7 @@ class Simulation
     std::mt19937 generator;
 
     void iterate();
+    void setEmptyCellBurningProbabilityToZero();
     void print(std::ofstream& file) const;
     auto rollProbabilityDice(double percentage) -> bool;
 
