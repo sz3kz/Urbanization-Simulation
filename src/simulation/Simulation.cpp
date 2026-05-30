@@ -410,7 +410,7 @@ void Simulation::run()
     }
 }
 
-void Simulation::print(std::ofstream& file)
+void Simulation::print(std::ofstream& file) const
 {
     for (unsigned int _ = 0; _ < 3; ++_)
     {
