@@ -8,7 +8,6 @@
 void usage(const char* name)
 {
     std::cout << "Usage: ./" << name << " <width> <height> <random-seed>\n";
-    return;
 }
 
 auto main(int argc, char* argv[]) -> int
@@ -16,7 +15,7 @@ auto main(int argc, char* argv[]) -> int
     if (argc != static_cast<int>(ArgumentType::ARGS))
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
-        return 1;
+        return -1;
     }
     // here loading 3 first arguments - numbers
     int width, height, random_seed;
@@ -27,6 +26,7 @@ auto main(int argc, char* argv[]) -> int
     catch (std::invalid_argument& e)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
     }
     try
     {
@@ -35,6 +35,7 @@ auto main(int argc, char* argv[]) -> int
     catch (std::invalid_argument& e)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
     }
     try
     {
@@ -43,12 +44,13 @@ auto main(int argc, char* argv[]) -> int
     catch (std::invalid_argument& e)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
     }
 
     if (width < 1 || height < 1 || random_seed < 1)
     {
         usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
-        return 1;
+        return -1;
     }
 
     std::locale::global(std::locale(""));
@@ -56,5 +58,4 @@ auto main(int argc, char* argv[]) -> int
     Simulation simulation(width, height, random_seed);
     std::cout << "Started simulation:" << '\n';
     simulation.run();
-    return 0;
 }
