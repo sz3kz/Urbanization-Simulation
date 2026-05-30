@@ -45,7 +45,8 @@ auto operator<<(std::ostream& os, BoardOccupants const& board) -> std::ostream&
     {
         for (unsigned int j = 0; j < board.getHeight(); ++j)
         {
-            os << board.contents.at(board.calculateIndexFromCoordinates(Coordinates(i, j)));
+            auto current_coordinates = Coordinates(static_cast<int>(i), static_cast<int>(j));
+            os << board.contents.at(board.calculateIndexFromCoordinates(current_coordinates));
         }
         os << '\n';
     }
