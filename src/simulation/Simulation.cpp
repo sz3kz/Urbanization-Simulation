@@ -112,7 +112,7 @@ void Simulation::iterate()
                 /* OMG THIS CASE SWITCH DICTATES PROBABILITY PRECEDENSE */
                 /* I HAVE TO KEEP TRACK IF AN EMPTY CELL WAS POPULATED WITH A BOOL*/
                 /* JESUS CHRIST PLEASE HELP ME */
-                auto& [last_modified_iteration, value] = probability;
+                const auto& [last_modified_iteration, value] = probability;
                 switch (probability_type)
                 {
                     case (ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE):
