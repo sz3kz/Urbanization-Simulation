@@ -4,6 +4,7 @@
 #include "World.hpp"
 #include <algorithm>
 #include <iostream>
+#include <ranges>
 
 constexpr unsigned long church_probability_multiplier = 100;
 
@@ -77,7 +78,8 @@ void Church::applyProbabilities(
             bool is_normal = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Normal");
             if (is_normal && self_is_normal)
             {
-                for (auto const& [probability_type, _] : probability_default_percentages)
+                for (const auto& probability_type :
+                     probability_default_percentages | std::views::keys)
                 {
                     double current_probability = askProbabilityTypePercentageAtCoordinates(
                       Coordinates(i, j), probability_type);
