@@ -25,69 +25,75 @@ void Shop::applyProbabilities(
     {
         for (int j = (-1) * static_cast<int>(radius); j <= static_cast<int>(radius); ++j)
         {
-            bool is_self = (i == 0 && j == 0);
-            if (is_self)
+
+            Coordinates neighbour_position(i, j);
+            Coordinates source_position(0, 0);
+            bool neighbour_is_source = (neighbour_position.x == source_position.x &&
+                                        neighbour_position.y == source_position.y);
+            if (neighbour_is_source)
             {
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_HOUSE, 0.0);
+                  neighbour_position, ProbabilityType::CREATE_NEW_HOUSE, 0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_FIRESTATION, 0.0);
+                  neighbour_position, ProbabilityType::CREATE_NEW_FIRESTATION, 0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_SHOP, 0.0);
+                  neighbour_position, ProbabilityType::CREATE_NEW_SHOP, 0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_FACTORY, 0.0);
+                  neighbour_position, ProbabilityType::CREATE_NEW_FACTORY, 0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_CHURCH, 0.0);
-                bool is_normal = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Normal");
-                if (is_normal)
+                  neighbour_position, ProbabilityType::CREATE_NEW_CHURCH, 0.0);
+                bool self_in_normal_state =
+                  askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Normal");
+                if (self_in_normal_state)
                 {
                     setCellPercentageOfProbabilityAtCoordinates(
-                      Coordinates(i, j),
+                      neighbour_position,
                       ProbabilityType::RESTORE_TIME_TO_LIVE,
                       shop_restore_time_to_live_boost);
                 }
                 else
                 {
                     setCellPercentageOfProbabilityAtCoordinates(
-                      Coordinates(i, j), ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0);
+                      neighbour_position, ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0);
                 }
                 continue;
             }
 
-            bool exists = askCellExistsAtCoordinates(Coordinates(i, j));
-            if (!exists)
+            bool neighbour_exists = askCellExistsAtCoordinates(neighbour_position);
+            if (!neighbour_exists)
             {
                 continue;
             }
 
-            bool empty = askCellEmptyAtCoordinates(Coordinates(i, j));
-            if (empty)
+            bool neightbour_is_empty = askCellEmptyAtCoordinates(neighbour_position);
+            if (neightbour_is_empty)
             {
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_SHOP, 0.0);
+                  neighbour_position, ProbabilityType::CREATE_NEW_SHOP, 0.0);
                 continue;
             }
 
-            bool self_is_on_fire = (getStateName() == "Burning");
-            bool in_closes_neighbourhood = (i * i + j * j <= 2);
-            bool is_ruin = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Ruin");
-            bool is_on_fire = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Burning");
+            bool self_in_burning_state =
+              askBuildingAtCoordinatesIsInState(source_position, "Burning");
+            bool neighbour_in_close_neighbourhood = (i * i + j * j <= 2);
+            bool neighbour_in_normal_state =
+              askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Normal");
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
-              Coordinates(i, j), ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE);
-            if (self_is_on_fire && in_closes_neighbourhood && !is_ruin && !is_on_fire &&
-                !is_cell_probability_already_set)
+              neighbour_position, ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE);
+            if (self_in_burning_state && neighbour_in_close_neighbourhood &&
+                neighbour_in_normal_state && !is_cell_probability_already_set)
             {
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j),
+                  neighbour_position,
                   ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
                   set_adjacent_building_on_fire);
             }
 
-            bool self_is_normal = askBuildingAtCoordinatesIsInState(Coordinates(0, 0), "Normal");
-            bool is_normal = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Normal");
-            if (is_normal && self_is_normal)
+            bool self_in_normal_state =
+              askBuildingAtCoordinatesIsInState(Coordinates(0, 0), "Normal");
+            if (neighbour_in_normal_state && self_in_normal_state)
             {
-                setCellPercentageOfProbabilityAtCoordinates(Coordinates(i, j),
+                setCellPercentageOfProbabilityAtCoordinates(neighbour_position,
                                                             ProbabilityType::RESTORE_TIME_TO_LIVE,
                                                             shop_restore_time_to_live_boost);
             }
