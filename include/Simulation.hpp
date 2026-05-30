@@ -14,6 +14,7 @@ class Simulation
 
     void iterate();
     void setEmptyCellBurningProbabilityToZero();
+    void decayBuildings();
     void print(std::ofstream& file) const;
     auto rollProbabilityDice(double percentage) -> bool;
 

@@ -35,6 +35,46 @@ void Simulation::setEmptyCellBurningProbabilityToZero()
     }
 }
 
+void Simulation::decayBuildings()
+{
+
+    for (unsigned int row_position = 0; row_position < next_board.getWidth(); ++row_position)
+        for (unsigned int column_position = 0; column_position < next_board.getHeight();
+             ++column_position)
+        {
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
+            /*
+            std::cout << "(" << current_coordinates.x << "," << current_coordinates.y << ")
+            TIME2LIVE" << '\n';
+            */
+            bool is_empty = next_board.checkCellEmptyAtCoordinates(current_coordinates);
+            if (is_empty)
+            {
+                /*
+                std::cout << "\t EMPTY -> continue" << '\n';
+                */
+                continue;
+            }
+            CellOccupant& cell = next_board.getCellAtCoordinates(current_coordinates);
+            Building* building = cell.getBuilding();
+            if (building->getTimeToLive() < decay)
+            {
+                /*
+                std::cout << "\t LOW TTL -> STATE TRANSFORMATION" << '\n';
+                */
+                cell.transformState();
+            }
+            else
+            {
+                /*
+                std::cout << "\t HIGH TTL -> DECREMENT" << '\n';
+                */
+                building->setTimeToLive(building->getTimeToLive() - decay);
+            }
+        }
+}
+
 void Simulation::iterate()
 {
     /* 1. iteration: Iterate through previous_board to populate probability_board */
@@ -369,42 +409,6 @@ void Simulation::iterate()
             }
         }
     }
-
-    /* 3. Implement time to live */
-    for (unsigned int row_position = 0; row_position < next_board.getWidth(); ++row_position)
-        for (unsigned int column_position = 0; column_position < next_board.getHeight();
-             ++column_position)
-        {
-            auto current_coordinates = Coordinates(row_position, column_position);
-            /*
-            std::cout << "(" << current_coordinates.x << "," << current_coordinates.y << ")
-            TIME2LIVE" << '\n';
-            */
-            bool is_empty = next_board.checkCellEmptyAtCoordinates(current_coordinates);
-            if (is_empty)
-            {
-                /*
-                std::cout << "\t EMPTY -> continue" << '\n';
-                */
-                continue;
-            }
-            CellOccupant& cell = next_board.getCellAtCoordinates(current_coordinates);
-            Building* building = cell.getBuilding();
-            if (building->getTimeToLive() < decay)
-            {
-                /*
-                std::cout << "\t LOW TTL -> STATE TRANSFORMATION" << '\n';
-                */
-                cell.transformState();
-            }
-            else
-            {
-                /*
-                std::cout << "\t HIGH TTL -> DECREMENT" << '\n';
-                */
-                building->setTimeToLive(building->getTimeToLive() - decay);
-            }
-        }
 }
 
 auto Simulation::rollProbabilityDice(double percentage) -> bool
@@ -422,6 +426,7 @@ void Simulation::run()
     {
         setEmptyCellBurningProbabilityToZero();
         iterate();
+        decayBuildings();
         next_board.contents.swap(previous_board.contents);
         probability_board.resetProbabilities();
         print(myfile);
