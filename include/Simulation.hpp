@@ -1,6 +1,8 @@
 #pragma once
 #include "BoardOccupants.hpp"
 #include "BoardProbabilities.hpp"
+
+#include <chrono>
 #include <fstream>
 #include <random>
 class Simulation
@@ -12,8 +14,14 @@ class Simulation
     BoardOccupants next_board;
     std::mt19937 generator;
 
-    void iterate();
-    void print(std::ofstream& file);
+    void incrementIteration();
+    static void sleep(std::chrono::milliseconds timespan);
+    void recycleBoards();
+    void executeProbability();
+    void propagateBuildingProbabilities();
+    void setEmptyCellBurningProbabilityToZero();
+    void decayBuildings();
+    void print(std::ofstream& file) const;
     auto rollProbabilityDice(double percentage) -> bool;
 
   public:
