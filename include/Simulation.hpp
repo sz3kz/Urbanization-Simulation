@@ -12,7 +12,7 @@ class Simulation
     BoardOccupants next_board;
     std::mt19937 generator;
 
-    void iterate();
+    void executeProbability();
     void propagateBuildingProbabilities();
     void setEmptyCellBurningProbabilityToZero();
     void decayBuildings();
