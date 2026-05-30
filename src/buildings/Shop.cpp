@@ -21,10 +21,9 @@ void Shop::applyProbabilities(
     setCellPercentageOfProbabilityAtCoordinates,
   [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
 {
-    int signed_radius = static_cast<int>(radius);
-    for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
+    for (int i = (-1) * static_cast<int>(radius); i <= static_cast<int>(radius); ++i)
     {
-        for (int j = (-1) * signed_radius; j <= signed_radius; ++j)
+        for (int j = (-1) * static_cast<int>(radius); j <= static_cast<int>(radius); ++j)
         {
             bool is_self = (i == 0 && j == 0);
             if (is_self)
@@ -70,7 +69,7 @@ void Shop::applyProbabilities(
             }
 
             bool self_is_on_fire = (getStateName() == "Burning");
-            bool in_closes_neighbourhood = ((i * i) + (j * j) <= 2);
+            bool in_closes_neighbourhood = (i * i + j * j <= 2);
             bool is_ruin = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Ruin");
             bool is_on_fire = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Burning");
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(

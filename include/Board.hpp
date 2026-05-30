@@ -1,6 +1,5 @@
 #pragma once
 #include "Coordinates.hpp"
-#include <utility>
 #include <vector>
 
 template<typename T>
@@ -23,7 +22,7 @@ class Board
     auto getWidth() const -> unsigned int;
     [[nodiscard]]
     auto getHeight() const -> unsigned int;
-    auto getCellAtCoordinates(Coordinates const& coordinates) -> T&
+    T& getCellAtCoordinates(Coordinates const& coordinates)
     {
         return contents.at(calculateIndexFromCoordinates(coordinates));
     }
@@ -32,15 +31,15 @@ class Board
 template<typename T>
 auto Board<T>::checkCellExistsAtCoordinates(Coordinates const& coordinates) const -> bool
 {
-    if (coordinates.x < 0 || std::cmp_greater_equal(coordinates.x, width)) return false;
-    if (coordinates.y < 0 || std::cmp_greater_equal(coordinates.y, height)) return false;
+    if (coordinates.x < 0 || static_cast<unsigned int>(coordinates.x) >= width) return false;
+    if (coordinates.y < 0 || static_cast<unsigned int>(coordinates.y) >= height) return false;
     return true;
 }
 
 template<typename T>
 auto Board<T>::calculateIndexFromCoordinates(Coordinates const& coordinates) const -> unsigned int
 {
-    return (coordinates.y * width) + coordinates.x;
+    return coordinates.y * width + coordinates.x;
 }
 
 template<typename T>
