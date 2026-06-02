@@ -2,7 +2,9 @@
 #include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
 #include "World.hpp"
+#include <algorithm>
 #include <iostream>
+#include <ranges>
 
 constexpr unsigned long church_probability_multiplier = 100;
 
@@ -22,9 +24,10 @@ void Church::applyProbabilities(
     setCellPercentageOfProbabilityAtCoordinates,
   [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
 {
-    for (int i = (-1) * static_cast<int>(radius); i <= static_cast<int>(radius); ++i)
+    int signed_radius = static_cast<int>(radius);
+    for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
     {
-        for (int j = (-1) * static_cast<int>(radius); j <= static_cast<int>(radius); ++j)
+        for (int j = (-1) * signed_radius; j <= signed_radius; ++j)
         {
             Coordinates neighbour_position(i, j);
             Coordinates source_position(0, 0);
@@ -59,7 +62,7 @@ void Church::applyProbabilities(
 
             bool self_in_burning_state =
               askBuildingAtCoordinatesIsInState(source_position, "Burning");
-            bool neighbour_in_close_neighbourhood = (i * i + j * j <= 2);
+            bool neighbour_in_close_neighbourhood = ((i * i) + (j * j) <= 2);
             bool neighbour_in_normal_state =
               askBuildingAtCoordinatesIsInState(neighbour_position, "Normal");
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
@@ -77,15 +80,13 @@ void Church::applyProbabilities(
               askBuildingAtCoordinatesIsInState(source_position, "Normal");
             if (neighbour_in_normal_state && self_in_normal_state)
             {
-                for (auto const& [probability_type, _] : probability_default_percentages)
+                for (const auto& probability_type :
+                     probability_default_percentages | std::views::keys)
                 {
                     double current_probability = askProbabilityTypePercentageAtCoordinates(
                       neighbour_position, probability_type);
-                    double new_probability = current_probability * church_probability_multiplier;
-                    if (new_probability > 1.0)
-                    {
-                        new_probability = 1.0;
-                    }
+                    double new_probability =
+                      std::min(current_probability * church_probability_multiplier, 1.0);
 
                     setCellPercentageOfProbabilityAtCoordinates(
                       neighbour_position, probability_type, new_probability);
