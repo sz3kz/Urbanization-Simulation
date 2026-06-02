@@ -2,9 +2,9 @@
 #include "../../include/CellProbabilities.hpp"
 #include "../../include/World.hpp"
 #include <iostream>
-auto BoardProbabilities::getProbabilityTypePercentageAtCoordinates(Coordinates const& coordinates,
-                                                                   ProbabilityType probability_type)
-  -> double
+auto BoardProbabilities::getProbabilityTypePercentageAtCoordinates(
+  Coordinates const& coordinates,
+  ProbabilityType probability_type) const -> double
 {
     unsigned int index = this->calculateIndexFromCoordinates(coordinates);
     return this->contents.at(index).probabilities.at(probability_type).value;
@@ -13,7 +13,7 @@ auto BoardProbabilities::getProbabilityTypePercentageAtCoordinates(Coordinates c
 auto BoardProbabilities::checkProbabilityTypePercentageIsSetAtCoordinates(
   Coordinates const& coordinates,
   ProbabilityType probability_type,
-  unsigned long current_iteration) -> bool
+  unsigned long current_iteration) const -> bool
 {
     unsigned int index = this->calculateIndexFromCoordinates(coordinates);
     return this->contents.at(index).probabilities.at(probability_type).last_updated_at_iteration ==
@@ -31,12 +31,12 @@ void BoardProbabilities::setProbabilityTypePercentageAtCoordinates(Coordinates c
 }
 void BoardProbabilities::resetProbabilities()
 {
-    for (unsigned int i = 0; i < this->contents.size(); i++)
+    for (auto& content : this->contents)
     {
-        for (auto const& [probability_type, probability] : this->contents.at(i).probabilities)
+        for (auto const& [probability_type, probability] : content.probabilities)
         {
-            double preserved_iteration = probability.last_updated_at_iteration;
-            this->contents.at(i).probabilities[probability_type] =
+            auto preserved_iteration = probability.last_updated_at_iteration;
+            content.probabilities[probability_type] =
               Probability(preserved_iteration, probability_default_percentages[probability_type]);
         }
     }

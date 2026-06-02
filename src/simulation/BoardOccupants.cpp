@@ -5,14 +5,10 @@
 #include "../../include/House.hpp"
 #include "../../include/World.hpp"
 
-auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) -> bool
+auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
 {
     unsigned int index = calculateIndexFromCoordinates(coordinates);
-    if (this->contents.at(index).occupant == nullptr)
-    {
-        return true;
-    }
-    return false;
+    return this->contents.at(index).occupant == nullptr;
 }
 
 auto BoardOccupants::releaseOccupantAtCoordinates(Coordinates const& coordinates)
@@ -27,7 +23,7 @@ void BoardOccupants::acquireOccupantToCoordinates(Coordinates const& coordinates
     contents.at(calculateIndexFromCoordinates(coordinates)).occupant = std::move(building);
 }
 
-auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) -> BuildingType
+auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) const -> BuildingType
 {
     /*
     unsigned int index = calculateIndexFromCoordinates(coordinates);
@@ -49,7 +45,8 @@ auto operator<<(std::ostream& os, BoardOccupants const& board) -> std::ostream&
     {
         for (unsigned int j = 0; j < board.getHeight(); ++j)
         {
-            os << board.contents.at(board.calculateIndexFromCoordinates(Coordinates(i, j)));
+            os << board.contents.at(board.calculateIndexFromCoordinates(
+              Coordinates(static_cast<int>(i), static_cast<int>(j))));
         }
         os << '\n';
     }
