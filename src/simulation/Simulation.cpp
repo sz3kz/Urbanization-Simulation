@@ -405,14 +405,14 @@ void Simulation::propagateBuildingProbabilities()
                       percentage);
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      std::string const& state_name) -> bool
+                                                      BuildingState const& state_name) -> bool
                 {
                     auto coordinates =
                       Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
                                   static_cast<int>(column_position) + relative_coordinates.y);
                     Building const* building =
                       this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
-                    return building->getStateName() == state_name;
+                    return building->getBuildingState() == state_name;
                 });
         }
     }
