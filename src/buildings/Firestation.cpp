@@ -20,7 +20,7 @@ void Firestation::applyProbabilities(
   [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
     askBuildingAtCoordinatesIsInState)
 {
-    int signed_radius = static_cast<int>(radius);
+    int signed_radius = static_cast<int>(this->getRadius());
     for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
     {
         for (int j = (-1) * signed_radius; j <= signed_radius; ++j)
