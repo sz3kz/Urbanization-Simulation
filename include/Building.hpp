@@ -10,14 +10,13 @@
 
 class Building
 {
-  protected:
     unsigned int radius;
     unsigned int time_to_live{ normal_state_initial_time_to_live };
     std::string state_name{ "Normal" };
-    Building(unsigned int radius)
-      : radius(radius) {};
 
   public:
+    Building(unsigned int radius)
+      : radius(radius) {};
     /* Virtual destructor
      * Can aid in child class identification via dynamic_cast.
      * Since we use the Building::getBuildingType() function to identify child classes
@@ -47,6 +46,12 @@ class Building
     {
         return this->state_name;
     };
+    [[nodiscard]]
+    auto getRadius() const -> unsigned int
+    {
+        return this->radius;
+    }
+
     void setBurning()
     {
         time_to_live = burning_state_initial_time_to_live;
