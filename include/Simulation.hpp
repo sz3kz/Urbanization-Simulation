@@ -7,7 +7,7 @@
 #include <random>
 class Simulation
 {
-    unsigned long current_iteration;
+    unsigned long current_iteration{ 0 };
     unsigned int random_seed;
     BoardOccupants previous_board;
     BoardProbabilities probability_board;
@@ -26,8 +26,7 @@ class Simulation
 
   public:
     Simulation(unsigned int width, unsigned int height, unsigned int random_seed)
-      : current_iteration(0)
-      , random_seed{ random_seed }
+      : random_seed{ random_seed }
       , previous_board(width, height)
       , probability_board(width, height)
       , next_board(width, height)
