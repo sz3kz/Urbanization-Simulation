@@ -1,6 +1,7 @@
 #include "House.hpp"
 #include "Coordinates.hpp"
 #include "World.hpp"
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -92,12 +93,9 @@ void House::applyProbabilities(
                 double current_probability = askProbabilityTypePercentageAtCoordinates(
                   neighbour_position, ProbabilityType::CREATE_NEW_HOUSE);
                 double new_probability =
-                  current_probability -
-                  another_house_in_the_neighbourhood_new_building_probability_decline;
-                if (new_probability < 0.0)
-                {
-                    new_probability = 0.0;
-                }
+                  std::max(current_probability -
+                             another_house_in_the_neighbourhood_new_building_probability_decline,
+                           0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position, ProbabilityType::CREATE_NEW_HOUSE, new_probability);
             }
