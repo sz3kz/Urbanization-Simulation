@@ -172,7 +172,7 @@ void Simulation::executeProbability()
                              * normal ttl */
                             if (next_board.getCellAtCoordinates(current_coordinates)
                                   .getBuilding()
-                                  ->getStateName() == "Normal")
+                                  ->getBuildingState() == BuildingState::NORMAL)
                             {
                                 /* Primary use case */
                                 next_board.getCellAtCoordinates(current_coordinates)
@@ -181,7 +181,7 @@ void Simulation::executeProbability()
                             }
                             else if (next_board.getCellAtCoordinates(current_coordinates)
                                        .getBuilding()
-                                       ->getStateName() == "Burning")
+                                       ->getBuildingState() == BuildingState::BURNING)
                             {
                                 /* Should only proc for shops which were burned in current iteration
                                  */
@@ -193,7 +193,7 @@ void Simulation::executeProbability()
                             }
                             else if (next_board.getCellAtCoordinates(current_coordinates)
                                        .getBuilding()
-                                       ->getStateName() == "Ruin")
+                                       ->getBuildingState() == BuildingState::RUIN)
                             {
                                 /* Should only proc for shops which were ruined in current
                                  * iteration... but during testing the problem was not observable */
@@ -405,14 +405,14 @@ void Simulation::propagateBuildingProbabilities()
                       percentage);
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      std::string const& state_name) -> bool
+                                                      BuildingState const& state_name) -> bool
                 {
                     auto coordinates =
                       Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
                                   static_cast<int>(column_position) + relative_coordinates.y);
                     Building const* building =
                       this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
-                    return building->getStateName() == state_name;
+                    return building->getBuildingState() == state_name;
                 });
         }
     }

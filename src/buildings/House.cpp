@@ -1,4 +1,5 @@
 #include "House.hpp"
+#include "../../include/World.hpp"
 #include "Coordinates.hpp"
 #include "World.hpp"
 #include <algorithm>
@@ -22,7 +23,8 @@ void House::applyProbabilities(
     askProbabilityTypePercentageAtCoordinates,
   [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
     setCellPercentageOfProbabilityAtCoordinates,
-  [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
+  [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
+    askBuildingAtCoordinatesIsInState)
 {
     int signed_radius = static_cast<int>(this->getRadius());
     for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
@@ -44,7 +46,7 @@ void House::applyProbabilities(
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position, ProbabilityType::CREATE_NEW_CHURCH, 0.0);
                 bool self_in_normal_state =
-                  askBuildingAtCoordinatesIsInState(source_position, "Normal");
+                  askBuildingAtCoordinatesIsInState(source_position, BuildingState::NORMAL);
                 if (!self_in_normal_state)
                 {
                     setCellPercentageOfProbabilityAtCoordinates(
@@ -62,10 +64,10 @@ void House::applyProbabilities(
             if (!neighbour_is_empty)
             {
                 bool self_in_burning_state =
-                  askBuildingAtCoordinatesIsInState(source_position, "Burning");
+                  askBuildingAtCoordinatesIsInState(source_position, BuildingState::BURNING);
                 bool neighbour_in_close_neighbourhood = ((i * i) + (j * j) <= 2);
                 bool neighbour_in_normal_state =
-                  askBuildingAtCoordinatesIsInState(neighbour_position, "Normal");
+                  askBuildingAtCoordinatesIsInState(neighbour_position, BuildingState::NORMAL);
                 bool is_cell_probability_already_set =
                   askProbabilityTypePercentageIsSetAtCoordinates(
                     neighbour_position, ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE);
@@ -80,7 +82,7 @@ void House::applyProbabilities(
             }
 
             bool self_in_normal_state =
-              askBuildingAtCoordinatesIsInState(source_position, "Normal");
+              askBuildingAtCoordinatesIsInState(source_position, BuildingState::NORMAL);
             if (!self_in_normal_state)
             {
                 continue;

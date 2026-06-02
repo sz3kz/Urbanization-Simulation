@@ -22,7 +22,8 @@ void Church::applyProbabilities(
     askProbabilityTypePercentageAtCoordinates,
   [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
     setCellPercentageOfProbabilityAtCoordinates,
-  [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
+  [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
+    askBuildingAtCoordinatesIsInState)
 {
     int signed_radius = static_cast<int>(this->getRadius());
     for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
@@ -61,10 +62,14 @@ void Church::applyProbabilities(
             }
 
             bool self_in_burning_state =
-              askBuildingAtCoordinatesIsInState(source_position, "Burning");
+              askBuildingAtCoordinatesIsInState(source_position, BuildingState::BURNING);
             bool neighbour_in_close_neighbourhood = ((i * i) + (j * j) <= 2);
+            // bool is_ruin =
+            // askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::RUIN);
+            // bool is_on_fire =
+            // askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::BURNING);
             bool neighbour_in_normal_state =
-              askBuildingAtCoordinatesIsInState(neighbour_position, "Normal");
+              askBuildingAtCoordinatesIsInState(neighbour_position, BuildingState::NORMAL);
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
               neighbour_position, ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE);
             if (self_in_burning_state && neighbour_in_close_neighbourhood &&
@@ -77,7 +82,7 @@ void Church::applyProbabilities(
             }
 
             bool self_in_normal_state =
-              askBuildingAtCoordinatesIsInState(source_position, "Normal");
+              askBuildingAtCoordinatesIsInState(source_position, BuildingState::NORMAL);
             if (neighbour_in_normal_state && self_in_normal_state)
             {
                 for (const auto& probability_type :

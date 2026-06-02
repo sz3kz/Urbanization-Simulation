@@ -19,7 +19,8 @@ void Factory::applyProbabilities(
     askProbabilityTypePercentageAtCoordinates,
   [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
     setCellPercentageOfProbabilityAtCoordinates,
-  [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
+  [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
+    askBuildingAtCoordinatesIsInState)
 {
     int signed_radius = static_cast<int>(this->getRadius());
     for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
@@ -58,10 +59,10 @@ void Factory::applyProbabilities(
             }
 
             bool self_in_burning_state =
-              askBuildingAtCoordinatesIsInState(source_position, "Burning");
+              askBuildingAtCoordinatesIsInState(source_position, BuildingState::BURNING);
             bool neighbour_in_close_neighbourhood = ((i * i) + (j * j) <= 2);
             bool neighbour_in_normal_state =
-              askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Ruin");
+              askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::RUIN);
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
               Coordinates(i, j), ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE);
             if (self_in_burning_state && neighbour_in_close_neighbourhood &&
@@ -74,7 +75,7 @@ void Factory::applyProbabilities(
             }
 
             bool neighbour_in_ruin_state =
-              askBuildingAtCoordinatesIsInState(source_position, "Ruin");
+              askBuildingAtCoordinatesIsInState(source_position, BuildingState::RUIN);
             if (self_in_burning_state && neighbour_in_ruin_state)
             {
                 setCellPercentageOfProbabilityAtCoordinates(

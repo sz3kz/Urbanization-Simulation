@@ -12,7 +12,7 @@ class Building
 {
     unsigned int radius;
     unsigned int time_to_live{ normal_state_initial_time_to_live };
-    std::string state_name{ "Normal" };
+    BuildingState state_name{ BuildingState::NORMAL };
 
   public:
     Building(unsigned int radius)
@@ -42,7 +42,7 @@ class Building
         this->time_to_live = suppled_time_to_live;
     };
     [[nodiscard]]
-    auto getStateName() const -> std::string
+    auto getBuildingState() const -> BuildingState
     {
         return this->state_name;
     };
@@ -55,17 +55,17 @@ class Building
     void setBurning()
     {
         time_to_live = burning_state_initial_time_to_live;
-        state_name = "Burning";
+        state_name = BuildingState::BURNING;
     };
     void setNormal()
     {
         time_to_live = normal_state_initial_time_to_live;
-        state_name = "Normal";
+        state_name = BuildingState::NORMAL;
     };
     void setRuin()
     {
         time_to_live = ruin_state_initial_time_to_live;
-        state_name = "Ruin";
+        state_name = BuildingState::RUIN;
     };
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(
@@ -77,6 +77,6 @@ class Building
         askProbabilityTypePercentageAtCoordinates,
       [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
         setCellPercentageOfProbabilityAtCoordinates,
-      [[maybe_unused]] std::function<bool(Coordinates, std::string)>
+      [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
         askBuildingAtCoordinatesIsInState) = 0;
 };

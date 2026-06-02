@@ -17,7 +17,8 @@ void Firestation::applyProbabilities(
     askProbabilityTypePercentageAtCoordinates,
   [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
     setCellPercentageOfProbabilityAtCoordinates,
-  [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
+  [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
+    askBuildingAtCoordinatesIsInState)
 {
     int signed_radius = static_cast<int>(this->getRadius());
     for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
@@ -39,10 +40,10 @@ void Firestation::applyProbabilities(
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position, ProbabilityType::CREATE_NEW_CHURCH, 0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0);
-                bool self_in_normal_state =
-                  askBuildingAtCoordinatesIsInState(source_position, "Normal");
-                if (!self_in_normal_state)
+                  Coordinates(i, j), ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0);
+                bool is_normal =
+                  askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::NORMAL);
+                if (!is_normal)
                 {
                     setCellPercentageOfProbabilityAtCoordinates(
                       neighbour_position, ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0);
@@ -65,7 +66,7 @@ void Firestation::applyProbabilities(
             }
 
             bool self_in_normal_state =
-              askBuildingAtCoordinatesIsInState(neighbour_position, "Normal");
+              askBuildingAtCoordinatesIsInState(neighbour_position, BuildingState::NORMAL);
             if (self_in_normal_state)
             {
                 setCellPercentageOfProbabilityAtCoordinates(
