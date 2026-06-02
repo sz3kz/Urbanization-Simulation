@@ -97,7 +97,8 @@ void Simulation::executeProbability()
         for (unsigned int column_position = 0; column_position < probability_board.getHeight();
              ++column_position)
         {
-            auto current_coordinates = Coordinates(row_position, column_position);
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
             /* preserve previous value */
             auto previous_occupant =
               previous_board.releaseOccupantAtCoordinates(current_coordinates);
