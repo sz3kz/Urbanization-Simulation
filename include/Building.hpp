@@ -12,13 +12,10 @@ class Building
 {
   protected:
     unsigned int radius;
-    unsigned int time_to_live;
-    std::string state_name;
+    unsigned int time_to_live{ normal_state_initial_time_to_live };
+    std::string state_name{ "Normal" };
     Building(unsigned int radius)
-      : radius(radius)
-    {
-        this->setNormal();
-    };
+      : radius(radius) {};
 
   public:
     /* Virtual destructor
