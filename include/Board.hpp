@@ -40,7 +40,7 @@ auto Board<T>::checkCellExistsAtCoordinates(Coordinates const& coordinates) cons
 template<typename T>
 auto Board<T>::calculateIndexFromCoordinates(Coordinates const& coordinates) const -> unsigned int
 {
-    return coordinates.y * width + coordinates.x;
+    return (coordinates.y * width) + coordinates.x;
 }
 
 template<typename T>
