@@ -8,11 +8,7 @@
 auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
 {
     unsigned int index = calculateIndexFromCoordinates(coordinates);
-    if (this->contents.at(index).occupant == nullptr)
-    {
-        return true;
-    }
-    return false;
+    return this->contents.at(index).occupant == nullptr;
 }
 
 auto BoardOccupants::releaseOccupantAtCoordinates(Coordinates const& coordinates)
