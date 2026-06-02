@@ -60,7 +60,7 @@ void Church::applyProbabilities(
 
             bool self_in_burning_state =
               askBuildingAtCoordinatesIsInState(source_position, "Burning");
-            bool neighbour_in_close_neighbourhood = (i * i + j * j <= 2);
+            bool neighbour_in_close_neighbourhood = ((i * i) + (j * j) <= 2);
             bool neighbour_in_normal_state =
               askBuildingAtCoordinatesIsInState(neighbour_position, "Normal");
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
