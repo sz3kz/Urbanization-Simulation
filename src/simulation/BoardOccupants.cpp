@@ -5,7 +5,7 @@
 #include "../../include/House.hpp"
 #include "../../include/World.hpp"
 
-auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) -> bool
+auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
 {
     unsigned int index = calculateIndexFromCoordinates(coordinates);
     if (this->contents.at(index).occupant == nullptr)
@@ -27,7 +27,7 @@ void BoardOccupants::acquireOccupantToCoordinates(Coordinates const& coordinates
     contents.at(calculateIndexFromCoordinates(coordinates)).occupant = std::move(building);
 }
 
-auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) -> BuildingType
+auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) const -> BuildingType
 {
     /*
     unsigned int index = calculateIndexFromCoordinates(coordinates);
