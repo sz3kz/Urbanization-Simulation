@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <map>
+#include <string>
 
 enum class ArgumentType : std::uint8_t
 {
@@ -18,6 +19,19 @@ enum class BuildingType : std::uint8_t
     FIRESTATION,
     FACTORY,
     CHURCH,
+};
+
+inline std::map<BuildingType, std::string> building_images = {
+    { BuildingType::HOUSE, "🏠️" },  { BuildingType::FIRESTATION, "🚒️" },
+    { BuildingType::SHOP, "🏪️" },   { BuildingType::FACTORY, "🏭️" },
+    { BuildingType::CHURCH, "⛪️" },
+};
+
+enum class BuildingState : std::uint8_t
+{
+    BURNING,
+    NORMAL,
+    RUIN,
 };
 
 enum class ProbabilityType : std::uint8_t

@@ -20,6 +20,6 @@ class Church : public Building
         askProbabilityTypePercentageAtCoordinates,
       [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
         setCellPercentageOfProbabilityAtCoordinates,
-      [[maybe_unused]] std::function<bool(Coordinates, std::string)>
+      [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
         askBuildingAtCoordinatesIsInState) override;
 };

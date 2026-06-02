@@ -21,11 +21,12 @@ struct CellOccupant
     [[nodiscard]] auto getBuilding() const -> Building* { return occupant.get(); };
     void transformState()
     {
-        if (occupant->getStateName() == "Normal" || occupant->getStateName() == "Burning")
+        if (occupant->getBuildingState() == BuildingState::NORMAL ||
+            occupant->getBuildingState() == BuildingState::BURNING)
         {
             occupant->setRuin();
         }
-        else if (occupant->getStateName() == "Ruin")
+        else if (occupant->getBuildingState() == BuildingState::RUIN)
         {
             release();
         }

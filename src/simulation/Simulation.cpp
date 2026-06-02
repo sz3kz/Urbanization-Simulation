@@ -78,13 +78,13 @@ void Simulation::iterate()
                       percentage);
                 },
                 [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      std::string const& state_name)
+                                                      BuildingState const& state_name)
                 {
                     auto coordinates = Coordinates(relative_coordinates.x + row_position,
                                                    relative_coordinates.y + column_position);
                     Building const* building =
                       this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
-                    return building->getStateName() == state_name;
+                    return building->getBuildingState() == state_name;
                 });
         }
     }
@@ -171,7 +171,7 @@ void Simulation::iterate()
                              * normal ttl */
                             if (next_board.getCellAtCoordinates(current_coordinates)
                                   .getBuilding()
-                                  ->getStateName() == "Normal")
+                                  ->getBuildingState() == BuildingState::NORMAL)
                             {
                                 /* Primary use case */
                                 next_board.getCellAtCoordinates(current_coordinates)
@@ -180,7 +180,7 @@ void Simulation::iterate()
                             }
                             else if (next_board.getCellAtCoordinates(current_coordinates)
                                        .getBuilding()
-                                       ->getStateName() == "Burning")
+                                       ->getBuildingState() == BuildingState::BURNING)
                             {
                                 /* Should only proc for shops which were burned in current iteration
                                  */
@@ -192,7 +192,7 @@ void Simulation::iterate()
                             }
                             else if (next_board.getCellAtCoordinates(current_coordinates)
                                        .getBuilding()
-                                       ->getStateName() == "Ruin")
+                                       ->getBuildingState() == BuildingState::RUIN)
                             {
                                 /* Should only proc for shops which were ruined in current
                                  * iteration... but during testing the problem was not observable */
