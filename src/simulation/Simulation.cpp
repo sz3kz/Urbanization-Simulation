@@ -428,7 +428,7 @@ auto Simulation::rollProbabilityDice(double percentage) -> bool
 [[noreturn]]
 void Simulation::run()
 {
-    std::ofstream myfile("output.txt");
+    std::ofstream myfile(filename);
     while (true)
     {
         setEmptyCellBurningProbabilityToZero();
