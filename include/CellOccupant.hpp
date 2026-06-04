@@ -19,6 +19,7 @@ struct CellOccupant
     }
     auto release() -> std::unique_ptr<Building>;
     [[nodiscard]] auto getBuilding() const -> Building* { return occupant.get(); };
+    [[nodiscard]] auto checkCellEmpty() const -> bool { return occupant == nullptr; }
     void transformState()
     {
         if (occupant->getBuildingState() == BuildingState::NORMAL ||
