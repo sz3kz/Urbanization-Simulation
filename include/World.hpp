@@ -22,7 +22,20 @@ enum class BuildingType : std::uint8_t
     CHURCH,
 };
 
+namespace Emoji
+{
+inline constexpr std::string House = "🏠️";
+inline constexpr std::string Shop = "🏪️";
+inline constexpr std::string Church = "⛪️";
+inline constexpr std::string Factory = "🏭️";
+inline constexpr std::string FireEngine = "🚒️";
+inline constexpr std::string Fire = "🔥️";
+inline constexpr std::string Ruin = "🏚️️";
+inline constexpr std::string BlueTile = "🟦️";
+}
+
 inline std::map<BuildingType, std::string> building_images = {
+    // remove this when implementing <<
     { BuildingType::HOUSE, "🏠️" },  { BuildingType::FIRESTATION, "🚒️" },
     { BuildingType::SHOP, "🏪️" },   { BuildingType::FACTORY, "🏭️" },
     { BuildingType::CHURCH, "⛪️" },

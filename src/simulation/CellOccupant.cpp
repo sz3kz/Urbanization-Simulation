@@ -11,22 +11,22 @@ auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ost
 {
     if (cell_occupant.occupant == nullptr)
     {
-        os << "🟦";
+        os << Emoji::BlueTile;
         return os;
     }
     Building const* building = cell_occupant.getBuilding();
 
     if (building->getBuildingState() == BuildingState::BURNING)
     {
-        os << "🔥";
+        os << Emoji::Fire;
     }
     else if (building->getBuildingState() == BuildingState::RUIN)
     {
-        os << "🏚️";
+        os << Emoji::Ruin;
     }
     else
     {
-        os << building_images[building->getBuildingType()];
+        os << building_images[building->getBuildingType()]; // change this when implementing <<
     }
     return os;
 }
