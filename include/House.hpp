@@ -7,7 +7,10 @@ class House : public Building
 {
   public:
     explicit House(unsigned int supplied_radius)
-      : Building(supplied_radius) {};
+      : Building(supplied_radius)
+    {
+        setEmoji(building_images[BuildingType::HOUSE]);
+    };
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 
