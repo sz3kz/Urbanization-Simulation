@@ -8,9 +8,9 @@ class Board
 {
     unsigned int width;
     unsigned int height;
+    std::vector<T> contents;
 
   public:
-    std::vector<T> contents;
     Board(unsigned int width, unsigned int height)
       : width(width)
       , height(height)
@@ -20,13 +20,13 @@ class Board
     [[nodiscard]]
     auto calculateIndexFromCoordinates(Coordinates const& coordinates) const -> unsigned int;
     [[nodiscard]]
+    auto getCellAtCoordinates(Coordinates const& coordinates) const -> const T&;
+    [[nodiscard]]
+    auto getCellAtCoordinates(Coordinates const& coordinates) -> T&;
+    [[nodiscard]]
     auto getWidth() const -> unsigned int;
     [[nodiscard]]
     auto getHeight() const -> unsigned int;
-    auto getCellAtCoordinates(Coordinates const& coordinates) -> T&
-    {
-        return contents.at(calculateIndexFromCoordinates(coordinates));
-    }
 };
 
 template<typename T>
@@ -35,6 +35,18 @@ auto Board<T>::checkCellExistsAtCoordinates(Coordinates const& coordinates) cons
     if (coordinates.x < 0 || std::cmp_greater_equal(coordinates.x, width)) return false;
     if (coordinates.y < 0 || std::cmp_greater_equal(coordinates.y, height)) return false;
     return true;
+}
+
+template<typename T>
+auto Board<T>::getCellAtCoordinates(Coordinates const& coordinates) const -> const T&
+{
+    return this->contents.at(calculateIndexFromCoordinates(coordinates));
+}
+
+template<typename T>
+auto Board<T>::getCellAtCoordinates(Coordinates const& coordinates) -> T&
+{
+    return this->contents.at(calculateIndexFromCoordinates(coordinates));
 }
 
 template<typename T>

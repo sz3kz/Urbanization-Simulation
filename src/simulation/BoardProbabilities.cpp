@@ -2,12 +2,12 @@
 #include "../../include/CellProbabilities.hpp"
 #include "../../include/World.hpp"
 #include <iostream>
-auto BoardProbabilities::getProbabilityTypePercentageAtCoordinates(
-  Coordinates const& coordinates,
-  ProbabilityType probability_type) const -> double
+auto BoardProbabilities::getProbabilityTypePercentageAtCoordinates(Coordinates const& coordinates,
+                                                                   ProbabilityType probability_type)
+  -> double
 {
-    unsigned int index = this->calculateIndexFromCoordinates(coordinates);
-    return this->contents.at(index).probabilities.at(probability_type).value;
+    auto const& cell = this->getCellAtCoordinates(coordinates);
+    return cell.probabilities.at(probability_type).value;
 }
 
 auto BoardProbabilities::checkProbabilityTypePercentageIsSetAtCoordinates(
@@ -15,9 +15,8 @@ auto BoardProbabilities::checkProbabilityTypePercentageIsSetAtCoordinates(
   ProbabilityType probability_type,
   unsigned long current_iteration) const -> bool
 {
-    unsigned int index = this->calculateIndexFromCoordinates(coordinates);
-    return this->contents.at(index).probabilities.at(probability_type).last_updated_at_iteration ==
-           current_iteration;
+    auto const& cell = this->getCellAtCoordinates(coordinates);
+    return cell.probabilities.at(probability_type).last_updated_at_iteration == current_iteration;
 }
 
 void BoardProbabilities::setProbabilityTypePercentageAtCoordinates(Coordinates const& coordinates,
@@ -25,19 +24,25 @@ void BoardProbabilities::setProbabilityTypePercentageAtCoordinates(Coordinates c
                                                                    unsigned long current_iteration,
                                                                    double percentage)
 {
-    unsigned int index = this->calculateIndexFromCoordinates(coordinates);
-    this->contents.at(index).probabilities[probability_type] =
-      Probability(current_iteration, percentage);
+    // unsigned int index = this->calculateIndexFromCoordinates(coordinates);
+    auto& cell = this->getCellAtCoordinates(coordinates);
+    cell.probabilities.at(probability_type) = Probability(current_iteration, percentage);
 }
 void BoardProbabilities::resetProbabilities()
 {
-    for (auto& content : this->contents)
+
+    for (unsigned int i = 0; i < this->getWidth(); ++i)
     {
-        for (auto const& [probability_type, probability] : content.probabilities)
+        for (unsigned int j = 0; j < this->getHeight(); ++j)
         {
-            auto preserved_iteration = probability.last_updated_at_iteration;
-            content.probabilities[probability_type] =
-              Probability(preserved_iteration, probability_default_percentages[probability_type]);
+            auto& cell =
+              this->getCellAtCoordinates(Coordinates(static_cast<int>(i), static_cast<int>(j)));
+            for (auto const& [probability_type, probability] : cell.probabilities)
+            {
+                auto preserved_iteration = probability.last_updated_at_iteration;
+                cell.probabilities[probability_type] = Probability(
+                  preserved_iteration, probability_default_percentages[probability_type]);
+            }
         }
     }
 }
