@@ -9,7 +9,7 @@ class House : public Building
     explicit House(unsigned int supplied_radius)
       : Building(supplied_radius)
     {
-        setEmoji(building_images[BuildingType::HOUSE]);
+        setEmoji(Emoji::House);
     };
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;

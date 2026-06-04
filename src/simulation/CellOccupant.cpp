@@ -9,7 +9,7 @@ auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ost
 {
     if (cell_occupant.occupant == nullptr)
     {
-        os << "🟦";
+        os << Emoji::BlueTile;
     }
     else
     {

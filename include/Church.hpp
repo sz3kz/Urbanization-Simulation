@@ -1,6 +1,7 @@
 #pragma once
 #include "Building.hpp"
 #include "Coordinates.hpp"
+#include "World.hpp"
 #include <functional>
 
 class Church : public Building
@@ -9,7 +10,7 @@ class Church : public Building
     explicit Church(unsigned int supplied_radius)
       : Building(supplied_radius)
     {
-        setEmoji(building_images[BuildingType::CHURCH]);
+        setEmoji(Emoji::Church);
     };
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;

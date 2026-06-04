@@ -8,11 +8,11 @@ auto operator<<(std::ostream& os, const Building& building) -> std::ostream&
 {
     if (building.state_name == BuildingState::RUIN)
     {
-        os << "🏚️";
+        os << Emoji::DerelicHouse;
     }
     else if (building.state_name == BuildingState::BURNING)
     {
-        os << "🔥";
+        os << Emoji::Fire;
     }
     else if (building.state_name == BuildingState::NORMAL)
     {

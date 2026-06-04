@@ -9,7 +9,7 @@ class Shop : public Building
     explicit Shop(unsigned int supplied_radius)
       : Building(supplied_radius)
     {
-        setEmoji(building_images[BuildingType::SHOP]);
+        setEmoji(Emoji::Shop);
     };
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
