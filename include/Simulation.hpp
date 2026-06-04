@@ -3,7 +3,6 @@
 #include "BoardProbabilities.hpp"
 
 #include <chrono>
-#include <fstream>
 #include <random>
 class Simulation
 {

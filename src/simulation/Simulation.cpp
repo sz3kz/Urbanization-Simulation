@@ -88,7 +88,15 @@ void Simulation::sleep(std::chrono::milliseconds timespan)
 
 void Simulation::recycleBoards()
 {
-    this->next_board.contents.swap(this->previous_board.contents);
+    for (unsigned int i = 0; i < next_board.getWidth(); ++i)
+    {
+        for (unsigned int j = 0; j < next_board.getHeight(); ++j)
+        {
+            auto coordinates = Coordinates(static_cast<int>(i), static_cast<int>(j));
+            auto next_building = next_board.getCellAtCoordinates(coordinates).release();
+            previous_board.acquireOccupantToCoordinates(coordinates, std::move(next_building));
+        }
+    }
 }
 
 void Simulation::executeProbability()
@@ -361,59 +369,58 @@ void Simulation::propagateBuildingProbabilities()
             {
                 continue;
             }
-            this->previous_board.contents
-              .at(previous_board.calculateIndexFromCoordinates(current_coordinates))
-              .occupant->applyProbabilities(
-                [this, row_position, column_position](Coordinates relative_coordinates) -> bool
-                {
-                    return this->previous_board.checkCellExistsAtCoordinates(
-                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
-                                  static_cast<int>(column_position) + relative_coordinates.y));
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates) -> bool
-                {
-                    return this->previous_board.checkCellEmptyAtCoordinates(
-                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
-                                  static_cast<int>(column_position) + relative_coordinates.y));
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type) -> bool
-                {
-                    return this->probability_board.checkProbabilityTypePercentageIsSetAtCoordinates(
-                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
-                                  static_cast<int>(column_position) + relative_coordinates.y),
-                      probability_type,
-                      this->current_iteration);
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type) -> double
-                {
-                    return this->probability_board.getProbabilityTypePercentageAtCoordinates(
-                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
-                                  static_cast<int>(column_position) + relative_coordinates.y),
-                      probability_type);
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type,
-                                                      double percentage) -> void
-                {
-                    this->probability_board.setProbabilityTypePercentageAtCoordinates(
-                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
-                                  static_cast<int>(column_position) + relative_coordinates.y),
-                      probability_type,
-                      this->current_iteration,
-                      percentage);
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      BuildingState const& state_name) -> bool
-                {
-                    auto coordinates =
-                      Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
-                                  static_cast<int>(column_position) + relative_coordinates.y);
-                    Building const* building =
-                      this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
-                    return building->getBuildingState() == state_name;
-                });
+            const auto& cell = previous_board.getCellAtCoordinates(current_coordinates);
+            cell.occupant->applyProbabilities(
+              [this, row_position, column_position](Coordinates relative_coordinates) -> bool
+              {
+                  return this->previous_board.checkCellExistsAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y));
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates) -> bool
+              {
+                  return this->previous_board.checkCellEmptyAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y));
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    ProbabilityType probability_type) -> bool
+              {
+                  return this->probability_board.checkProbabilityTypePercentageIsSetAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y),
+                    probability_type,
+                    this->current_iteration);
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    ProbabilityType probability_type) -> double
+              {
+                  return this->probability_board.getProbabilityTypePercentageAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y),
+                    probability_type);
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    ProbabilityType probability_type,
+                                                    double percentage) -> void
+              {
+                  this->probability_board.setProbabilityTypePercentageAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y),
+                    probability_type,
+                    this->current_iteration,
+                    percentage);
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    BuildingState const& state_name) -> bool
+              {
+                  auto coordinates =
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y);
+                  Building const* building =
+                    this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
+                  return building->getBuildingState() == state_name;
+              });
         }
     }
 }
