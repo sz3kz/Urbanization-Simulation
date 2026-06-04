@@ -30,16 +30,6 @@ void Firestation::applyProbabilities(
             if (neighbour_position == source_position)
             {
                 setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_HOUSE, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_FIRESTATION, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_SHOP, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_FACTORY, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_CHURCH, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
                   Coordinates(i, j), ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0);
                 bool is_normal =
                   askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::NORMAL);

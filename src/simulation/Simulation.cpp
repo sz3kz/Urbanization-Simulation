@@ -443,7 +443,7 @@ void Simulation::run()
         executeProbability();
         decayBuildings();
         recycleBoards();
-        probability_board.resetProbabilities();
+        probability_board.resetProbabilities(previous_board);
         print(myfile);
         sleep(std::chrono::milliseconds(100));
         incrementIteration();

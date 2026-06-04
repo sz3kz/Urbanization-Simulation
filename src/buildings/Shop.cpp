@@ -31,16 +31,6 @@ void Shop::applyProbabilities(
             Coordinates source_position(0, 0);
             if (neighbour_position == source_position)
             {
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_HOUSE, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_FIRESTATION, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_SHOP, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_FACTORY, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_CHURCH, 0.0);
                 bool self_in_normal_state =
                   askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::NORMAL);
                 if (self_in_normal_state)

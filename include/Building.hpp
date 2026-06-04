@@ -1,8 +1,7 @@
 #pragma once
+#include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
 #include <functional>
-#include <string>
 
 // virtual <return-type> func(<parameters>) = 0
 //  Pure virtual function: don't implement it here, force implementation at child,
