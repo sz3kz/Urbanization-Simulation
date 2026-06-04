@@ -7,7 +7,10 @@ class Firestation : public Building
 {
   public:
     explicit Firestation(unsigned int supplied_radius)
-      : Building(supplied_radius) {};
+      : Building(supplied_radius)
+    {
+        setEmoji(building_images[BuildingType::FIRESTATION]);
+    };
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 
