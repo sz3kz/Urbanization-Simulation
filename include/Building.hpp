@@ -1,5 +1,6 @@
 #pragma once
 #include "Coordinates.hpp"
+#include "State.hpp"
 #include "World.hpp"
 #include <functional>
 #include <string>
@@ -11,8 +12,7 @@
 class Building
 {
     unsigned int radius;
-    unsigned int time_to_live{ normal_state_initial_time_to_live };
-    BuildingState state_name{ BuildingState::NORMAL };
+    State* building_state{ new State() };
 
   public:
     Building(unsigned int radius)
@@ -32,41 +32,40 @@ class Building
 
     [[nodiscard]]
     virtual auto getBuildingType() const -> BuildingType = 0;
-    [[nodiscard]]
-    auto getTimeToLive() const -> unsigned int
-    {
-        return this->time_to_live;
-    };
-    void setTimeToLive(unsigned int suppled_time_to_live)
-    {
-        this->time_to_live = suppled_time_to_live;
-    };
-    [[nodiscard]]
-    auto getBuildingState() const -> BuildingState
-    {
-        return this->state_name;
-    };
+
     [[nodiscard]]
     auto getRadius() const -> unsigned int
     {
         return this->radius;
     }
 
-    void setBurning()
+    [[nodiscard]]
+    auto getState() const -> State*
     {
-        time_to_live = burning_state_initial_time_to_live;
-        state_name = BuildingState::BURNING;
-    };
-    void setNormal()
+        return this->building_state;
+    }
+    void setState(State* building_state) { this->building_state = building_state; }
+
+    [[nodiscard]]
+    auto getBuildingState() const -> BuildingState
     {
-        time_to_live = normal_state_initial_time_to_live;
-        state_name = BuildingState::NORMAL;
-    };
-    void setRuin()
+        return this->building_state->getBuildingState();
+    }
+    void setBuildingState(const BuildingState building_state) const
     {
-        time_to_live = ruin_state_initial_time_to_live;
-        state_name = BuildingState::RUIN;
-    };
+        this->building_state->setBuildingState(building_state);
+    }
+
+    [[nodiscard]]
+    auto getTimeToLive() const -> unsigned int
+    {
+        return this->building_state->getTimeToLive();
+    }
+
+    void decay() const { this->building_state->doDecay(); }
+
+    void resetTimeToLive() const { this->building_state->resetTimeToLive(); }
+
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(
       [[maybe_unused]] std::function<bool(Coordinates)> askCellExistsAtCoordinates,
