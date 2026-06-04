@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include <map>
 #include <string>
 
 enum class ArgumentType : std::uint8_t
@@ -24,22 +23,15 @@ enum class BuildingType : std::uint8_t
 
 namespace Emoji
 {
-inline constexpr std::string House = "🏠️";
-inline constexpr std::string Shop = "🏪️";
-inline constexpr std::string Church = "⛪️";
-inline constexpr std::string Factory = "🏭️";
-inline constexpr std::string FireEngine = "🚒️";
+inline constexpr std::string House = "🏠";
+inline constexpr std::string Shop = "🏪";
+inline constexpr std::string Church = "⛪";
+inline constexpr std::string Factory = "🏭";
+inline constexpr std::string FireTruck = "🚒";
 inline constexpr std::string Fire = "🔥️";
-inline constexpr std::string Ruin = "🏚️️";
+inline constexpr std::string DerelicHouse = "🏚️";
 inline constexpr std::string BlueTile = "🟦️";
 }
-
-inline std::map<BuildingType, std::string> building_images = {
-    // remove this when implementing <<
-    { BuildingType::HOUSE, "🏠️" },  { BuildingType::FIRESTATION, "🚒️" },
-    { BuildingType::SHOP, "🏪️" },   { BuildingType::FACTORY, "🏭️" },
-    { BuildingType::CHURCH, "⛪️" },
-};
 
 enum class BuildingState : std::uint8_t
 {

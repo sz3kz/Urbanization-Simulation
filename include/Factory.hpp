@@ -7,7 +7,10 @@ class Factory : public Building
 {
   public:
     explicit Factory(unsigned int supplied_radius)
-      : Building(supplied_radius) {};
+      : Building(supplied_radius)
+    {
+        setEmoji(Emoji::Factory);
+    };
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 

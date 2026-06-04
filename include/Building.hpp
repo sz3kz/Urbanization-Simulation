@@ -9,6 +9,7 @@
 
 class Building
 {
+    std::string emoji{ "❌" };
     unsigned int radius;
     unsigned int time_to_live{ normal_state_initial_time_to_live };
     BuildingState state_name{ BuildingState::NORMAL };
@@ -66,6 +67,8 @@ class Building
         time_to_live = ruin_state_initial_time_to_live;
         state_name = BuildingState::RUIN;
     };
+    void setEmoji(std::string const& supplied_emoji) { this->emoji = supplied_emoji; }
+
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(
       [[maybe_unused]] std::function<bool(Coordinates)> askCellExistsAtCoordinates,
@@ -78,4 +81,5 @@ class Building
         setCellPercentageOfProbabilityAtCoordinates,
       [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
         askBuildingAtCoordinatesIsInState) = 0;
+    friend auto operator<<(std::ostream& os, const Building& building) -> std::ostream&;
 };
