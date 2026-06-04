@@ -1,6 +1,11 @@
 #pragma once
 #include "World.hpp"
 
+namespace StateConstants
+{
+constexpr unsigned int TimeToLiveDecayValue = 20;
+}
+
 class State
 {
     BuildingState state_name{ BuildingState::NORMAL };

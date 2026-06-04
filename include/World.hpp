@@ -71,5 +71,3 @@ constexpr unsigned int default_properties_shop_radius = 4;
 constexpr unsigned int default_properties_firestation_radius = 6;
 constexpr unsigned int default_properties_factory_radius = 4;
 constexpr unsigned int default_properties_church_radius = 4;
-
-constexpr unsigned int decay = 20;

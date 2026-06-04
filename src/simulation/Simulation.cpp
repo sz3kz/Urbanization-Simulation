@@ -59,7 +59,7 @@ void Simulation::decayBuildings()
             }
             CellOccupant& cell = next_board.getCellAtCoordinates(current_coordinates);
             Building* building = cell.getBuilding();
-            if (building->getTimeToLive() < decay)
+            if (building->getTimeToLive() < StateConstants::TimeToLiveDecayValue)
             {
                 /*
                 std::cout << "\t LOW TTL -> STATE TRANSFORMATION" << '\n';
