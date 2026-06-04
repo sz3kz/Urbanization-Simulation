@@ -6,7 +6,7 @@
 
 void usage(const char* name)
 {
-    std::cout << "Usage: ./" << name << " <width> <height> <random-seed>\n";
+    std::cout << "Usage: ./" << name << " <width> <height> <random-seed> <output-filename\n";
 }
 
 auto main(int argc, char* argv[]) -> int
@@ -56,9 +56,17 @@ auto main(int argc, char* argv[]) -> int
         return -1;
     }
 
+    // filename checks - more needed
+    if (argv[static_cast<int>(ArgumentType::OUTPUT_FILENAME)][0] == 0)
+    {
+        usage(argv[static_cast<int>(ArgumentType::EXEC_NAME)]);
+        return -1;
+    }
+
     std::locale::global(std::locale(""));
     std::cout.imbue(std::locale());
-    Simulation simulation(width, height, random_seed);
+    Simulation simulation(
+      width, height, random_seed, argv[static_cast<int>(ArgumentType::OUTPUT_FILENAME)]);
     std::cout << "Started simulation:" << '\n';
     simulation.run();
 }

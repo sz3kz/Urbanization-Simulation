@@ -9,6 +9,7 @@ enum class ArgumentType : std::uint8_t
     WIDTH,
     HEIGHT,
     SEED,
+    OUTPUT_FILENAME,
     ARGS,
 };
 
