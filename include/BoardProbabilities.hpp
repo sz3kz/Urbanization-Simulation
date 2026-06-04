@@ -1,7 +1,7 @@
 #pragma once
 #include "Board.hpp"
+#include "BoardOccupants.hpp"
 #include "CellProbabilities.hpp"
-#include "World.hpp"
 
 class BoardProbabilities : public Board<CellProbabilities>
 {
@@ -19,5 +19,5 @@ class BoardProbabilities : public Board<CellProbabilities>
                                                    ProbabilityType probability_type,
                                                    unsigned long current_iteration,
                                                    double percentage);
-    void resetProbabilities();
+    void resetProbabilities(BoardOccupants const& occupants);
 };
