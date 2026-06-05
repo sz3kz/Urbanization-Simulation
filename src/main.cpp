@@ -1,5 +1,5 @@
+#include "main.hpp"
 #include "Simulation.hpp"
-#include "World.hpp"
 
 #include <iostream>
 #include <locale>
