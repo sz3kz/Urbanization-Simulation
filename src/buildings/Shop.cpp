@@ -1,7 +1,5 @@
 #include "Shop.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
-#include <iostream>
 
 constexpr double shop_restore_time_to_live_boost = 1.0;
 

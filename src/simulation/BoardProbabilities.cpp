@@ -1,6 +1,5 @@
 #include "BoardProbabilities.hpp"
 #include "CellProbabilities.hpp"
-#include <iostream>
 auto BoardProbabilities::getProbabilityTypePercentageAtCoordinates(Coordinates const& coordinates,
                                                                    ProbabilityType probability_type)
   -> double

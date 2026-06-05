@@ -1,6 +1,5 @@
 #include "Factory.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
 
 auto Factory::getBuildingType() const -> BuildingType
 {

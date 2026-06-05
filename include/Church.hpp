@@ -1,7 +1,7 @@
 #pragma once
 #include "Building.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
+#include "Emoji.hpp"
 #include <functional>
 
 namespace ChurchConstants

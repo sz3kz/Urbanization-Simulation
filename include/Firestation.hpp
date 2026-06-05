@@ -1,6 +1,7 @@
 #pragma once
 #include "Building.hpp"
 #include "Coordinates.hpp"
+#include "Emoji.hpp"
 #include <functional>
 
 class Firestation : public Building

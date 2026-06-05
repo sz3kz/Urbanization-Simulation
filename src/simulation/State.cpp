@@ -1,5 +1,4 @@
 #include "State.hpp"
-#include "../../include/State.hpp"
 
 auto State::getTimeToLive() const -> unsigned int
 {

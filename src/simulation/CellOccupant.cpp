@@ -1,4 +1,5 @@
 #include "CellOccupant.hpp"
+#include "Emoji.hpp"
 
 auto CellOccupant::release() -> std::unique_ptr<Building>
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "World.hpp"
+#include <cstdint>
 #include <map>
 
 namespace EmptyCellDefaultProbabilities
