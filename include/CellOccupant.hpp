@@ -25,7 +25,7 @@ struct CellOccupant
         if (occupant->getBuildingState() == BuildingState::NORMAL ||
             occupant->getBuildingState() == BuildingState::BURNING)
         {
-            occupant->setRuin();
+            occupant->setBuildingState(BuildingState::RUIN);
         }
         else if (occupant->getBuildingState() == BuildingState::RUIN)
         {

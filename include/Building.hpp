@@ -1,7 +1,10 @@
 #pragma once
 #include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
+#include "State.hpp"
+#include "World.hpp"
 #include <functional>
+#include <memory>
 
 // virtual <return-type> func(<parameters>) = 0
 //  Pure virtual function: don't implement it here, force implementation at child,
@@ -11,12 +14,12 @@ class Building
 {
     std::string emoji{ "❌" };
     unsigned int radius;
-    unsigned int time_to_live{ normal_state_initial_time_to_live };
-    BuildingState state_name{ BuildingState::NORMAL };
+    std::unique_ptr<State> building_state;
 
   public:
     Building(unsigned int radius)
-      : radius(radius) {};
+      : radius(radius)
+      , building_state(std::make_unique<State>()) {};
     /* Virtual destructor
      * Can aid in child class identification via dynamic_cast.
      * Since we use the Building::getBuildingType() function to identify child classes
@@ -32,41 +35,32 @@ class Building
 
     [[nodiscard]]
     virtual auto getBuildingType() const -> BuildingType = 0;
-    [[nodiscard]]
-    auto getTimeToLive() const -> unsigned int
-    {
-        return this->time_to_live;
-    };
-    void setTimeToLive(unsigned int suppled_time_to_live)
-    {
-        this->time_to_live = suppled_time_to_live;
-    };
-    [[nodiscard]]
-    auto getBuildingState() const -> BuildingState
-    {
-        return this->state_name;
-    };
+
     [[nodiscard]]
     auto getRadius() const -> unsigned int
     {
         return this->radius;
     }
 
-    void setBurning()
+    [[nodiscard]]
+    auto getBuildingState() const -> BuildingState
     {
-        time_to_live = burning_state_initial_time_to_live;
-        state_name = BuildingState::BURNING;
-    };
-    void setNormal()
+        return this->building_state->getBuildingState();
+    }
+    void setBuildingState(const BuildingState supplied_building_state) const
     {
-        time_to_live = normal_state_initial_time_to_live;
-        state_name = BuildingState::NORMAL;
-    };
-    void setRuin()
+        this->building_state->setBuildingState(supplied_building_state);
+    }
+
+    [[nodiscard]]
+    auto getTimeToLive() const -> unsigned int
     {
-        time_to_live = ruin_state_initial_time_to_live;
-        state_name = BuildingState::RUIN;
-    };
+        return this->building_state->getTimeToLive();
+    }
+
+    void decay() const { this->building_state->doDecay(); }
+
+    void resetTimeToLive() const { this->building_state->resetTimeToLive(); }
     void setEmoji(std::string const& supplied_emoji) { this->emoji = supplied_emoji; }
 
     // Function that populates probability_board with probabilities

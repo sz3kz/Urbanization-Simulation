@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <map>
 #include <string>
 
 enum class ArgumentType : std::uint8_t
@@ -40,6 +41,12 @@ enum class BuildingState : std::uint8_t
     RUIN,
 };
 
+inline std::map<BuildingState, unsigned int> building_state_initial_time_to_live = {
+    { BuildingState::NORMAL, 3700 },
+    { BuildingState::BURNING, 200 },
+    { BuildingState::RUIN, 560 }
+};
+
 constexpr double set_adjacent_building_on_fire = 0.8;
 
 constexpr unsigned int default_properties_house_radius = 2;
@@ -47,8 +54,3 @@ constexpr unsigned int default_properties_shop_radius = 4;
 constexpr unsigned int default_properties_firestation_radius = 6;
 constexpr unsigned int default_properties_factory_radius = 4;
 constexpr unsigned int default_properties_church_radius = 4;
-
-constexpr unsigned int normal_state_initial_time_to_live = 3750;
-constexpr unsigned int burning_state_initial_time_to_live = 200;
-constexpr unsigned int ruin_state_initial_time_to_live = 560;
-constexpr unsigned int decay = 20;

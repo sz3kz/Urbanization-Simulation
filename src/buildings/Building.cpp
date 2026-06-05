@@ -6,15 +6,16 @@
 
 auto operator<<(std::ostream& os, const Building& building) -> std::ostream&
 {
-    if (building.state_name == BuildingState::RUIN)
+    ;
+    if (building.building_state->getBuildingState() == BuildingState::RUIN)
     {
         os << Emoji::DerelicHouse;
     }
-    else if (building.state_name == BuildingState::BURNING)
+    else if (building.building_state->getBuildingState() == BuildingState::BURNING)
     {
         os << Emoji::Fire;
     }
-    else if (building.state_name == BuildingState::NORMAL)
+    else if (building.building_state->getBuildingState() == BuildingState::NORMAL)
     {
         os << building.emoji;
     }

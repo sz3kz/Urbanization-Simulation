@@ -59,7 +59,7 @@ void Simulation::decayBuildings()
             }
             CellOccupant& cell = next_board.getCellAtCoordinates(current_coordinates);
             Building* building = cell.getBuilding();
-            if (building->getTimeToLive() < decay)
+            if (building->getTimeToLive() < StateConstants::TimeToLiveDecayValue)
             {
                 /*
                 std::cout << "\t LOW TTL -> STATE TRANSFORMATION" << '\n';
@@ -71,7 +71,7 @@ void Simulation::decayBuildings()
                 /*
                 std::cout << "\t HIGH TTL -> DECREMENT" << '\n';
                 */
-                building->setTimeToLive(building->getTimeToLive() - decay);
+                building->decay();
             }
         }
 }
@@ -139,7 +139,7 @@ void Simulation::executeProbability()
                             /* burn it */
                             next_board.getCellAtCoordinates(current_coordinates)
                               .getBuilding()
-                              ->setBurning();
+                              ->setBuildingState(BuildingState::BURNING);
                         }
                         break;
                     }
@@ -158,7 +158,7 @@ void Simulation::executeProbability()
                         {
                             next_board.getCellAtCoordinates(current_coordinates)
                               .getBuilding()
-                              ->setNormal();
+                              ->setBuildingState(BuildingState::NORMAL);
                         }
                         break;
                     }
@@ -178,37 +178,10 @@ void Simulation::executeProbability()
                             /* Need to handle all ttl, although 90% of cases it will be normal */
                             /* When shop is being burned, it should set the correct TTL, not the
                              * normal ttl */
-                            if (next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->getBuildingState() == BuildingState::NORMAL)
-                            {
-                                /* Primary use case */
-                                next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->setTimeToLive(normal_state_initial_time_to_live);
-                            }
-                            else if (next_board.getCellAtCoordinates(current_coordinates)
-                                       .getBuilding()
-                                       ->getBuildingState() == BuildingState::BURNING)
-                            {
-                                /* Should only proc for shops which were burned in current iteration
-                                 */
-                                /* Maybe proc for Houses in the same situation too... but during
-                                 * testing the problem was not observable */
-                                next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->setTimeToLive(burning_state_initial_time_to_live);
-                            }
-                            else if (next_board.getCellAtCoordinates(current_coordinates)
-                                       .getBuilding()
-                                       ->getBuildingState() == BuildingState::RUIN)
-                            {
-                                /* Should only proc for shops which were ruined in current
-                                 * iteration... but during testing the problem was not observable */
-                                next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->setTimeToLive(ruin_state_initial_time_to_live);
-                            }
+
+                            next_board.getCellAtCoordinates(current_coordinates)
+                              .getBuilding()
+                              ->resetTimeToLive();
                         }
                         break;
                     }
