@@ -15,27 +15,6 @@
 #include <random>
 #include <thread>
 
-void Simulation::setEmptyCellBurningProbabilityToZero()
-{
-    for (unsigned int row_position = 0; row_position < previous_board.getWidth(); ++row_position)
-    {
-        for (unsigned int column_position = 0; column_position < previous_board.getHeight();
-             ++column_position)
-        {
-            auto current_coordinates =
-              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
-            if (previous_board.checkCellEmptyAtCoordinates(current_coordinates))
-            {
-                probability_board.setProbabilityTypePercentageAtCoordinates(
-                  current_coordinates,
-                  ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                  current_iteration,
-                  0.0);
-            }
-        }
-    }
-}
-
 void Simulation::decayBuildings()
 {
 
@@ -411,7 +390,6 @@ void Simulation::run()
     std::ofstream myfile(filename);
     while (true)
     {
-        setEmptyCellBurningProbabilityToZero();
         propagateBuildingProbabilities();
         executeProbability();
         decayBuildings();
