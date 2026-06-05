@@ -5,6 +5,7 @@
 #include <chrono>
 #include <random>
 #include <string>
+#include <utility>
 class Simulation
 {
     std::string filename;
@@ -35,7 +36,7 @@ class Simulation
                unsigned int height,
                unsigned int random_seed,
                std::string filename)
-      : filename(filename)
+      : filename(std::move(filename))
       , previous_board(width, height)
       , probability_board(width, height)
       , next_board(width, height)
