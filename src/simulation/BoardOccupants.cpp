@@ -1,7 +1,7 @@
-#include "../../include/BoardOccupants.hpp"
-#include "../../include/Board.hpp"
-#include "../../include/Building.hpp"
-#include "../../include/Coordinates.hpp"
+#include "BoardOccupants.hpp"
+#include "Board.hpp"
+#include "Building.hpp"
+#include "Coordinates.hpp"
 
 auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
 {
