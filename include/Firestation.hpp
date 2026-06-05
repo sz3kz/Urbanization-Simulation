@@ -10,7 +10,7 @@ class Firestation : public Building
     explicit Firestation()
     {
         setEmoji(Emoji::FireTruck);
-        setRadius(BuildingRadius::firestation_radius);
+        setRadius(BuildingRadiusConstants::Firestation);
     };
 
     [[nodiscard]]

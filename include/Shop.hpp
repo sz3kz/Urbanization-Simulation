@@ -10,7 +10,7 @@ class Shop : public Building
     explicit Shop()
     {
         setEmoji(Emoji::Shop);
-        setRadius(BuildingRadius::shop_radius);
+        setRadius(BuildingRadiusConstants::Shop);
     };
 
     [[nodiscard]]

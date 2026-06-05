@@ -16,7 +16,7 @@ class House : public Building
     explicit House()
     {
         setEmoji(Emoji::House);
-        setRadius(BuildingRadius::house_radius);
+        setRadius(BuildingRadiusConstants::House);
     };
 
     [[nodiscard]]

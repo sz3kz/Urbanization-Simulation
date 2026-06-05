@@ -15,7 +15,7 @@ class Factory : public Building
     explicit Factory()
     {
         setEmoji(Emoji::Factory);
-        setRadius(BuildingRadius::factory_radius);
+        setRadius(BuildingRadiusConstants::Factory);
     };
 
     [[nodiscard]]

@@ -9,13 +9,13 @@
 // virtual <return-type> func(<parameters>) = 0
 //  Pure virtual function: don't implement it here, force implementation at child,
 //  disallow direct Building object instantiation.
-namespace BuildingRadius
+namespace BuildingRadiusConstants
 {
-inline constexpr unsigned int house_radius = 2;
-inline constexpr unsigned int shop_radius = 4;
-inline constexpr unsigned int firestation_radius = 6;
-inline constexpr unsigned int factory_radius = 4;
-inline constexpr unsigned int church_radius = 4;
+inline constexpr unsigned int House = 2;
+inline constexpr unsigned int Shop = 4;
+inline constexpr unsigned int Firestation = 6;
+inline constexpr unsigned int Factory = 4;
+inline constexpr unsigned int Church = 4;
 }
 
 class Building

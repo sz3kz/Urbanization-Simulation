@@ -16,7 +16,7 @@ class Church : public Building
     explicit Church()
     {
         setEmoji(Emoji::Church);
-        setRadius(BuildingRadius::church_radius);
+        setRadius(BuildingRadiusConstants::Church);
     };
 
     [[nodiscard]]
