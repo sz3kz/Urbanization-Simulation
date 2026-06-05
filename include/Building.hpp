@@ -11,11 +11,11 @@
 //  disallow direct Building object instantiation.
 namespace BuildingRadiusConstants
 {
-inline constexpr unsigned int House = 2;
-inline constexpr unsigned int Shop = 4;
-inline constexpr unsigned int Firestation = 6;
-inline constexpr unsigned int Factory = 4;
-inline constexpr unsigned int Church = 4;
+inline constexpr unsigned int House{ 2 };
+inline constexpr unsigned int Shop{ 4 };
+inline constexpr unsigned int Firestation{ 6 };
+inline constexpr unsigned int Factory{ 4 };
+inline constexpr unsigned int Church{ 4 };
 }
 
 class Building

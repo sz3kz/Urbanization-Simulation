@@ -3,7 +3,7 @@
 
 namespace StateConstants
 {
-constexpr unsigned int TimeToLiveDecayValue = 20;
+constexpr unsigned int TimeToLiveDecayValue{ 20 };
 }
 
 enum class BuildingState : std::uint8_t
@@ -15,9 +15,9 @@ enum class BuildingState : std::uint8_t
 
 namespace InitialTimeToLive
 {
-inline constexpr unsigned int Normal = 3700;
-inline constexpr unsigned int Burning = 200;
-inline constexpr unsigned int Ruin = 560;
+inline constexpr unsigned int Normal{ 3700 };
+inline constexpr unsigned int Burning{ 200 };
+inline constexpr unsigned int Ruin{ 560 };
 
 }
 
