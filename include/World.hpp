@@ -47,8 +47,6 @@ inline std::map<BuildingState, unsigned int> building_state_initial_time_to_live
     { BuildingState::RUIN, 560 }
 };
 
-constexpr double set_adjacent_building_on_fire = 0.8;
-
 constexpr unsigned int default_properties_house_radius = 2;
 constexpr unsigned int default_properties_shop_radius = 4;
 constexpr unsigned int default_properties_firestation_radius = 6;
