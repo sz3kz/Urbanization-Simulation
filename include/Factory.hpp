@@ -3,6 +3,11 @@
 #include "Coordinates.hpp"
 #include <functional>
 
+namespace FactoryConstants
+{
+inline constexpr double RestoreFromRuinProbabilityBoost{ 0.3 };
+}
+
 class Factory : public Building
 {
   public:

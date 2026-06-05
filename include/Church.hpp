@@ -4,6 +4,11 @@
 #include "World.hpp"
 #include <functional>
 
+namespace ChurchConstants
+{
+inline constexpr unsigned long ProbabilityMultiplier{ 100 };
+}
+
 class Church : public Building
 {
   public:

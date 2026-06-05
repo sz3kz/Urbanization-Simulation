@@ -24,6 +24,7 @@ inline constexpr double CreateNewChurch{ 0.0 };
 inline constexpr double SetCurrentBuildingOnFire{ 0.0001 };
 inline constexpr double RestoreBuildingFromRuin{ 0 };
 inline constexpr double RestoreBuildingTimeToLive{ 0 };
+inline constexpr double SetAdjacentBuildingOnFire{ 0.8 };
 }
 
 enum class CellState : uint8_t

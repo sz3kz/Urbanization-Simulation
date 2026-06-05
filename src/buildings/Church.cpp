@@ -6,8 +6,6 @@
 #include <iostream>
 #include <ranges>
 
-constexpr unsigned long church_probability_multiplier = 100;
-
 auto Church::getBuildingType() const -> BuildingType
 {
     return BuildingType::CHURCH;
@@ -68,7 +66,7 @@ void Church::applyProbabilities(
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position,
                   ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                  set_adjacent_building_on_fire);
+                  OccupiedCellDefaultProbabilities::SetAdjacentBuildingOnFire);
             }
 
             bool self_in_normal_state =
@@ -89,7 +87,7 @@ void Church::applyProbabilities(
                     double current_probability = askProbabilityTypePercentageAtCoordinates(
                       neighbour_position, probability_type);
                     double new_probability =
-                      std::min(current_probability * church_probability_multiplier, 1.0);
+                      std::min(current_probability * ChurchConstants::ProbabilityMultiplier, 1.0);
 
                     setCellPercentageOfProbabilityAtCoordinates(
                       neighbour_position, probability_type, new_probability);
