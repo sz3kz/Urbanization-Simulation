@@ -41,16 +41,6 @@ class Building
     }
 
     [[nodiscard]]
-    auto getState() const -> State*
-    {
-        return this->building_state;
-    }
-    void setState(State* supplied_building_state)
-    {
-        this->building_state = supplied_building_state;
-    }
-
-    [[nodiscard]]
     auto getBuildingState() const -> BuildingState
     {
         return this->building_state->getBuildingState();
