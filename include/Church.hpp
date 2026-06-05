@@ -11,11 +11,12 @@ inline constexpr unsigned long ProbabilityMultiplier{ 100 };
 
 class Church : public Building
 {
+
   public:
-    explicit Church(unsigned int supplied_radius)
-      : Building(supplied_radius)
+    explicit Church()
     {
         setEmoji(Emoji::Church);
+        setRadius(BuildingRadiusConstants::Church);
     };
 
     [[nodiscard]]

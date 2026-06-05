@@ -1,4 +1,5 @@
 #include "State.hpp"
+#include "../../include/State.hpp"
 
 auto State::getTimeToLive() const -> unsigned int
 {
@@ -16,8 +17,8 @@ auto State::getBuildingState() const -> BuildingState
 // sets state and initial time to live
 void State::setBuildingState(BuildingState supplied_state_name)
 {
-    time_to_live = building_state_initial_time_to_live[supplied_state_name];
     this->state_name = supplied_state_name;
+    resetTimeToLive();
 }
 
 void State::doDecay()
@@ -27,5 +28,22 @@ void State::doDecay()
 
 void State::resetTimeToLive()
 {
-    this->time_to_live = building_state_initial_time_to_live[this->state_name];
+    switch (state_name)
+    {
+        case BuildingState::NORMAL:
+        {
+            this->time_to_live = InitialTimeToLive::Normal;
+            break;
+        }
+        case BuildingState::BURNING:
+        {
+            this->time_to_live = InitialTimeToLive::Burning;
+            break;
+        }
+        case BuildingState::RUIN:
+        {
+            this->time_to_live = InitialTimeToLive::Ruin;
+            break;
+        }
+    }
 }

@@ -72,7 +72,7 @@ void House::applyProbabilities(
             {
                 continue;
             }
-            /* Only if house is normal! */
+            /* Only if house is Normal! */
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
               neighbour_position, ProbabilityType::CREATE_NEW_HOUSE);
             if (is_cell_probability_already_set)

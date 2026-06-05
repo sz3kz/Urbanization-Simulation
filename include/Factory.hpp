@@ -10,11 +10,12 @@ inline constexpr double RestoreFromRuinProbabilityBoost{ 0.3 };
 
 class Factory : public Building
 {
+
   public:
-    explicit Factory(unsigned int supplied_radius)
-      : Building(supplied_radius)
+    explicit Factory()
     {
         setEmoji(Emoji::Factory);
+        setRadius(BuildingRadiusConstants::Factory);
     };
 
     [[nodiscard]]

@@ -154,9 +154,9 @@ void Simulation::executeProbability()
                         if (rollProbabilityDice(value))
                         {
                             /* Restore TTL*/
-                            /* Need to handle all ttl, although 90% of cases it will be normal */
+                            /* Need to handle all ttl, although 90% of cases it will be Normal */
                             /* When shop is being burned, it should set the correct TTL, not the
-                             * normal ttl */
+                             * Normal ttl */
 
                             next_board.getCellAtCoordinates(current_coordinates)
                               .getBuilding()
@@ -182,9 +182,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New house!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<House>(default_properties_house_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<House>());
                             something_already_built = true;
                         }
                         break;
@@ -211,8 +210,7 @@ void Simulation::executeProbability()
                             std::cout << "New firestation!" << '\n';
                             */
                             next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Firestation>(default_properties_firestation_radius));
+                              current_coordinates, std::make_unique<Firestation>());
                             something_already_built = true;
                         }
                         break;
@@ -238,9 +236,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New Shop!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Shop>(default_properties_shop_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Shop>());
                             something_already_built = true;
                         }
                         break;
@@ -266,9 +263,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New Factory!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Factory>(default_properties_factory_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Factory>());
                             something_already_built = true;
                         }
                         break;
@@ -293,9 +289,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New Church!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Church>(default_properties_church_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Church>());
                             something_already_built = true;
                         }
                         break;

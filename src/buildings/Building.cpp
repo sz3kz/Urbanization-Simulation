@@ -9,7 +9,7 @@ auto operator<<(std::ostream& os, const Building& building) -> std::ostream&
     ;
     if (building.building_state->getBuildingState() == BuildingState::RUIN)
     {
-        os << Emoji::DerelicHouse;
+        os << Emoji::DerelictHouse;
     }
     else if (building.building_state->getBuildingState() == BuildingState::BURNING)
     {

@@ -11,11 +11,12 @@ inline constexpr double HouseInTheNeighbourhoodNewBuildingProbabilityInitialPerc
 
 class House : public Building
 {
+
   public:
-    explicit House(unsigned int supplied_radius)
-      : Building(supplied_radius)
+    explicit House()
     {
         setEmoji(Emoji::House);
+        setRadius(BuildingRadiusConstants::House);
     };
 
     [[nodiscard]]

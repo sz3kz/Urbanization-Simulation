@@ -5,11 +5,12 @@
 
 class Firestation : public Building
 {
+
   public:
-    explicit Firestation(unsigned int supplied_radius)
-      : Building(supplied_radius)
+    explicit Firestation()
     {
         setEmoji(Emoji::FireTruck);
+        setRadius(BuildingRadiusConstants::Firestation);
     };
 
     [[nodiscard]]
