@@ -37,31 +37,21 @@ class Building
     virtual auto getBuildingType() const -> BuildingType = 0;
 
     [[nodiscard]]
-    auto getRadius() const -> unsigned int
-    {
-        return this->radius;
-    }
+    auto getRadius() const -> unsigned int;
 
     [[nodiscard]]
-    auto getBuildingState() const -> BuildingState
-    {
-        return this->building_state->getBuildingState();
-    }
-    void setBuildingState(const BuildingState supplied_building_state) const
-    {
-        this->building_state->setBuildingState(supplied_building_state);
-    }
+    auto getBuildingState() const -> BuildingState;
+
+    void setBuildingState(BuildingState const& supplied_building_state) const;
 
     [[nodiscard]]
-    auto getTimeToLive() const -> unsigned int
-    {
-        return this->building_state->getTimeToLive();
-    }
+    auto getTimeToLive() const -> unsigned int;
 
-    void decay() const { this->building_state->doDecay(); }
+    void decay() const;
 
-    void resetTimeToLive() const { this->building_state->resetTimeToLive(); }
-    void setEmoji(std::string const& supplied_emoji) { this->emoji = supplied_emoji; }
+    void resetTimeToLive() const;
+
+    void setEmoji(std::string const& supplied_emoji);
 
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(
@@ -75,5 +65,6 @@ class Building
         setCellPercentageOfProbabilityAtCoordinates,
       [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
         askBuildingAtCoordinatesIsInState) = 0;
+
     friend auto operator<<(std::ostream& os, const Building& building) -> std::ostream&;
 };

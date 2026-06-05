@@ -17,6 +17,7 @@ class Church : public Building
     {
         setEmoji(Emoji::Church);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 

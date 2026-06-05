@@ -11,6 +11,7 @@ class Shop : public Building
     {
         setEmoji(Emoji::Shop);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 
