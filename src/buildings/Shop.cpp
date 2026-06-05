@@ -1,7 +1,10 @@
 #include "Shop.hpp"
 #include "Coordinates.hpp"
 
-constexpr double shop_restore_time_to_live_boost = 1.0;
+namespace ShopConstants
+{
+inline constexpr double RestoreTimeToLiveBoost{ 1.0 };
+}
 
 auto Shop::getBuildingType() const -> BuildingType
 {
@@ -36,7 +39,7 @@ void Shop::applyProbabilities(
                     setCellPercentageOfProbabilityAtCoordinates(
                       neighbour_position,
                       ProbabilityType::RESTORE_TIME_TO_LIVE,
-                      shop_restore_time_to_live_boost);
+                      ShopConstants::RestoreTimeToLiveBoost);
                 }
                 else
                 {
@@ -82,7 +85,7 @@ void Shop::applyProbabilities(
             {
                 setCellPercentageOfProbabilityAtCoordinates(neighbour_position,
                                                             ProbabilityType::RESTORE_TIME_TO_LIVE,
-                                                            shop_restore_time_to_live_boost);
+                                                            ShopConstants::RestoreTimeToLiveBoost);
             }
         }
     }
