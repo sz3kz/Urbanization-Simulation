@@ -182,9 +182,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New house!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<House>(default_properties_house_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<House>());
                             something_already_built = true;
                         }
                         break;
@@ -211,8 +210,7 @@ void Simulation::executeProbability()
                             std::cout << "New firestation!" << '\n';
                             */
                             next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Firestation>(default_properties_firestation_radius));
+                              current_coordinates, std::make_unique<Firestation>());
                             something_already_built = true;
                         }
                         break;
@@ -238,9 +236,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New Shop!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Shop>(default_properties_shop_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Shop>());
                             something_already_built = true;
                         }
                         break;
@@ -266,9 +263,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New Factory!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Factory>(default_properties_factory_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Factory>());
                             something_already_built = true;
                         }
                         break;
@@ -293,9 +289,8 @@ void Simulation::executeProbability()
                             /*
                             std::cout << "New Church!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::make_unique<Church>(default_properties_church_radius));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Church>());
                             something_already_built = true;
                         }
                         break;

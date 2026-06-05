@@ -1,15 +1,30 @@
 #pragma once
-#include "World.hpp"
+#include <cstdint>
 
 namespace StateConstants
 {
 constexpr unsigned int TimeToLiveDecayValue = 20;
 }
 
+enum class BuildingState : std::uint8_t
+{
+    BURNING,
+    NORMAL,
+    RUIN,
+};
+
+namespace InitialTimeToLive
+{
+inline constexpr unsigned int normal = 3700;
+inline constexpr unsigned int burning = 200;
+inline constexpr unsigned int ruin = 560;
+
+}
+
 class State
 {
     BuildingState state_name{ BuildingState::NORMAL };
-    unsigned int time_to_live{ building_state_initial_time_to_live[BuildingState::NORMAL] };
+    unsigned int time_to_live{ InitialTimeToLive::normal };
 
   public:
     State() = default;

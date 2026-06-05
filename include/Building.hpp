@@ -9,17 +9,27 @@
 // virtual <return-type> func(<parameters>) = 0
 //  Pure virtual function: don't implement it here, force implementation at child,
 //  disallow direct Building object instantiation.
+namespace BuildingRadius
+{
+inline constexpr unsigned int house_radius = 2;
+inline constexpr unsigned int shop_radius = 4;
+inline constexpr unsigned int firestation_radius = 6;
+inline constexpr unsigned int factory_radius = 4;
+inline constexpr unsigned int church_radius = 4;
+}
 
 class Building
 {
+  protected:
     std::string emoji{ "❌" };
-    unsigned int radius;
+    unsigned int radius{ 0 };
     std::unique_ptr<State> building_state;
 
+    void setRadius(const unsigned int new_radius) { radius = new_radius; }
+
   public:
-    Building(unsigned int radius)
-      : radius(radius)
-      , building_state(std::make_unique<State>()) {};
+    Building()
+      : building_state(std::make_unique<State>()) {};
     /* Virtual destructor
      * Can aid in child class identification via dynamic_cast.
      * Since we use the Building::getBuildingType() function to identify child classes

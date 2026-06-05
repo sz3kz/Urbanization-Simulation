@@ -5,12 +5,14 @@
 
 class Firestation : public Building
 {
+
   public:
-    explicit Firestation(unsigned int supplied_radius)
-      : Building(supplied_radius)
+    explicit Firestation()
     {
         setEmoji(Emoji::FireTruck);
+        setRadius(BuildingRadius::firestation_radius);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 

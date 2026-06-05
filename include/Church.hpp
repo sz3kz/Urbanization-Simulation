@@ -6,12 +6,14 @@
 
 class Church : public Building
 {
+
   public:
-    explicit Church(unsigned int supplied_radius)
-      : Building(supplied_radius)
+    explicit Church()
     {
         setEmoji(Emoji::Church);
+        setRadius(BuildingRadius::church_radius);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 
