@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include <map>
 #include <string>
 
 enum class ArgumentType : std::uint8_t
@@ -33,5 +32,3 @@ inline constexpr std::string Fire = "🔥️";
 inline constexpr std::string DerelictHouse = "🏚️";
 inline constexpr std::string BlueTile = "🟦️";
 }
-
-constexpr double set_adjacent_building_on_fire = 0.8;
