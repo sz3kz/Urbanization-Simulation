@@ -67,7 +67,7 @@ void House::applyProbabilities(
                     setCellPercentageOfProbabilityAtCoordinates(
                       neighbour_position,
                       ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                      set_adjacent_building_on_fire);
+                      OccupiedCellDefaultProbabilities::SetAdjacentBuildingOnFire);
                 }
             }
 

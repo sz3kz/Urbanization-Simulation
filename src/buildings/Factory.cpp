@@ -61,7 +61,7 @@ void Factory::applyProbabilities(
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position,
                   ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                  set_adjacent_building_on_fire);
+                  OccupiedCellDefaultProbabilities::SetAdjacentBuildingOnFire);
             }
 
             bool neighbour_in_ruin_state =
