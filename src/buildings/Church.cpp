@@ -34,16 +34,6 @@ void Church::applyProbabilities(
             Coordinates source_position(0, 0);
             if (neighbour_position == source_position)
             {
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_HOUSE, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_FIRESTATION, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_SHOP, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_FACTORY, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  neighbour_position, ProbabilityType::CREATE_NEW_CHURCH, 0.0);
                 continue;
             }
 
@@ -85,8 +75,16 @@ void Church::applyProbabilities(
               askBuildingAtCoordinatesIsInState(source_position, BuildingState::NORMAL);
             if (neighbour_in_normal_state && self_in_normal_state)
             {
-                for (const auto& probability_type :
-                     probability_default_percentages | std::views::keys)
+                for (const auto& probability_type : {
+                       ProbabilityType::CREATE_NEW_HOUSE,
+                       ProbabilityType::CREATE_NEW_FIRESTATION,
+                       ProbabilityType::CREATE_NEW_SHOP,
+                       ProbabilityType::CREATE_NEW_FACTORY,
+                       ProbabilityType::CREATE_NEW_CHURCH,
+                       ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
+                       ProbabilityType::RESTORE_TIME_TO_LIVE,
+                       ProbabilityType::RESTORE_FROM_RUIN,
+                     })
                 {
                     double current_probability = askProbabilityTypePercentageAtCoordinates(
                       neighbour_position, probability_type);

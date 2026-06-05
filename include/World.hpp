@@ -22,11 +22,17 @@ enum class BuildingType : std::uint8_t
     CHURCH,
 };
 
-inline std::map<BuildingType, std::string> building_images = {
-    { BuildingType::HOUSE, "🏠️" },  { BuildingType::FIRESTATION, "🚒️" },
-    { BuildingType::SHOP, "🏪️" },   { BuildingType::FACTORY, "🏭️" },
-    { BuildingType::CHURCH, "⛪️" },
-};
+namespace Emoji
+{
+inline constexpr std::string House = "🏠";
+inline constexpr std::string Shop = "🏪";
+inline constexpr std::string Church = "⛪";
+inline constexpr std::string Factory = "🏭";
+inline constexpr std::string FireTruck = "🚒";
+inline constexpr std::string Fire = "🔥️";
+inline constexpr std::string DerelicHouse = "🏚️";
+inline constexpr std::string BlueTile = "🟦️";
+}
 
 enum class BuildingState : std::uint8_t
 {
@@ -39,29 +45,6 @@ inline std::map<BuildingState, unsigned int> building_state_initial_time_to_live
     { BuildingState::NORMAL, 3700 },
     { BuildingState::BURNING, 200 },
     { BuildingState::RUIN, 560 }
-};
-
-enum class ProbabilityType : std::uint8_t
-{
-    CREATE_NEW_HOUSE,
-    CREATE_NEW_FIRESTATION,
-    CREATE_NEW_SHOP,
-    CREATE_NEW_FACTORY,
-    CREATE_NEW_CHURCH,
-    SET_CURRENT_BUILDING_ON_FIRE,
-    RESTORE_TIME_TO_LIVE,
-    RESTORE_FROM_RUIN,
-};
-
-inline std::map<ProbabilityType, double> probability_default_percentages = {
-    { ProbabilityType::CREATE_NEW_HOUSE, 0.001 },
-    { ProbabilityType::CREATE_NEW_FIRESTATION, 0.00001 },
-    { ProbabilityType::CREATE_NEW_SHOP, 0.00001 },
-    { ProbabilityType::CREATE_NEW_FACTORY, 0.00001 },
-    { ProbabilityType::CREATE_NEW_CHURCH, 0.00001 },
-    { ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE, 0.0001 },
-    { ProbabilityType::RESTORE_FROM_RUIN, 0 },
-    { ProbabilityType::RESTORE_TIME_TO_LIVE, 0 }
 };
 
 constexpr double set_adjacent_building_on_fire = 0.8;

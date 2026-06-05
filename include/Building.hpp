@@ -1,9 +1,9 @@
 #pragma once
+#include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
 #include "State.hpp"
 #include "World.hpp"
 #include <functional>
-#include <string>
 
 // virtual <return-type> func(<parameters>) = 0
 //  Pure virtual function: don't implement it here, force implementation at child,
@@ -11,8 +11,9 @@
 
 class Building
 {
+    std::string emoji{ "❌" };
     unsigned int radius;
-    State* building_state{ new State() };
+    State* building_state{ new State() }; // czy  to bedzie leakować?
 
   public:
     Building(unsigned int radius)
@@ -44,16 +45,19 @@ class Building
     {
         return this->building_state;
     }
-    void setState(State* building_state) { this->building_state = building_state; }
+    void setState(State* supplied_building_state)
+    {
+        this->building_state = supplied_building_state;
+    }
 
     [[nodiscard]]
     auto getBuildingState() const -> BuildingState
     {
         return this->building_state->getBuildingState();
     }
-    void setBuildingState(const BuildingState building_state) const
+    void setBuildingState(const BuildingState supplied_building_state) const
     {
-        this->building_state->setBuildingState(building_state);
+        this->building_state->setBuildingState(supplied_building_state);
     }
 
     [[nodiscard]]
@@ -65,6 +69,7 @@ class Building
     void decay() const { this->building_state->doDecay(); }
 
     void resetTimeToLive() const { this->building_state->resetTimeToLive(); }
+    void setEmoji(std::string const& supplied_emoji) { this->emoji = supplied_emoji; }
 
     // Function that populates probability_board with probabilities
     virtual void applyProbabilities(
@@ -78,4 +83,5 @@ class Building
         setCellPercentageOfProbabilityAtCoordinates,
       [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
         askBuildingAtCoordinatesIsInState) = 0;
+    friend auto operator<<(std::ostream& os, const Building& building) -> std::ostream&;
 };

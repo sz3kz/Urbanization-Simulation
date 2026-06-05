@@ -27,6 +27,7 @@ add_library(simulation_library
         src/simulation/CellOccupant.cpp
         src/simulation/CellProbabilities.cpp
         src/simulation/State.cpp
+        src/buildings/Building.cpp
         src/buildings/House.cpp
         src/buildings/Firestation.cpp
         src/buildings/Shop.cpp
