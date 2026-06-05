@@ -15,16 +15,16 @@ enum class BuildingState : std::uint8_t
 
 namespace InitialTimeToLive
 {
-inline constexpr unsigned int normal = 3700;
-inline constexpr unsigned int burning = 200;
-inline constexpr unsigned int ruin = 560;
+inline constexpr unsigned int Normal = 3700;
+inline constexpr unsigned int Burning = 200;
+inline constexpr unsigned int Ruin = 560;
 
 }
 
 class State
 {
     BuildingState state_name{ BuildingState::NORMAL };
-    unsigned int time_to_live{ InitialTimeToLive::normal };
+    unsigned int time_to_live{ InitialTimeToLive::Normal };
 
   public:
     State() = default;

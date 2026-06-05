@@ -154,9 +154,9 @@ void Simulation::executeProbability()
                         if (rollProbabilityDice(value))
                         {
                             /* Restore TTL*/
-                            /* Need to handle all ttl, although 90% of cases it will be normal */
+                            /* Need to handle all ttl, although 90% of cases it will be Normal */
                             /* When shop is being burned, it should set the correct TTL, not the
-                             * normal ttl */
+                             * Normal ttl */
 
                             next_board.getCellAtCoordinates(current_coordinates)
                               .getBuilding()

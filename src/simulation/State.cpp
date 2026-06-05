@@ -32,17 +32,17 @@ void State::resetTimeToLive()
     {
         case BuildingState::NORMAL:
         {
-            this->time_to_live = InitialTimeToLive::normal;
+            this->time_to_live = InitialTimeToLive::Normal;
             break;
         }
         case BuildingState::BURNING:
         {
-            this->time_to_live = InitialTimeToLive::burning;
+            this->time_to_live = InitialTimeToLive::Burning;
             break;
         }
         case BuildingState::RUIN:
         {
-            this->time_to_live = InitialTimeToLive::ruin;
+            this->time_to_live = InitialTimeToLive::Ruin;
             break;
         }
     }
