@@ -20,11 +20,11 @@ inline constexpr unsigned int Church = 4;
 
 class Building
 {
-  protected:
     std::string emoji{ "❌" };
     unsigned int radius{ 0 };
     std::unique_ptr<State> building_state;
 
+  protected:
     void setRadius(const unsigned int new_radius) { radius = new_radius; }
 
   public:
