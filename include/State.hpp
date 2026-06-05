@@ -12,7 +12,7 @@ class State
     unsigned int time_to_live{ building_state_initial_time_to_live[BuildingState::NORMAL] };
 
   public:
-    State() {};
+    State() = default;
 
     [[nodiscard]]
     auto getTimeToLive() const -> unsigned int;
