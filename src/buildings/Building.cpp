@@ -21,3 +21,38 @@ auto operator<<(std::ostream& os, const Building& building) -> std::ostream&
     }
     return os;
 }
+
+auto Building::getRadius() const -> unsigned int
+{
+    return this->radius;
+}
+
+auto Building::getBuildingState() const -> BuildingState
+{
+    return this->building_state->getBuildingState();
+}
+
+void Building::setBuildingState(BuildingState const& supplied_building_state) const
+{
+    this->building_state->setBuildingState(supplied_building_state);
+}
+
+auto Building::getTimeToLive() const -> unsigned int
+{
+    return this->building_state->getTimeToLive();
+}
+
+void Building::decay() const
+{
+    this->building_state->doDecay();
+}
+
+void Building::resetTimeToLive() const
+{
+    this->building_state->resetTimeToLive();
+}
+
+void Building::setEmoji(std::string const& supplied_emoji)
+{
+    this->emoji = supplied_emoji;
+}

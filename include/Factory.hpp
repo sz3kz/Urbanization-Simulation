@@ -16,6 +16,7 @@ class Factory : public Building
     {
         setEmoji(Emoji::Factory);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 

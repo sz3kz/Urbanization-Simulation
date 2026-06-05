@@ -15,12 +15,19 @@ class Simulation
     std::mt19937 generator;
 
     void incrementIteration();
+
     static void sleep(std::chrono::milliseconds timespan);
+
     void recycleBoards();
+
     void executeProbability();
+
     void propagateBuildingProbabilities();
+
     void decayBuildings();
+
     void print(std::ofstream& file) const;
+
     auto rollProbabilityDice(double percentage) -> bool;
 
   public:

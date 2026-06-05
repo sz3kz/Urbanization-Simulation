@@ -7,7 +7,6 @@ namespace HouseConstants
 {
 inline constexpr double AnotherHouseInTheNeighbourhoodNewBuildingProbabilityDecline{ 0.0015 };
 inline constexpr double HouseInTheNeighbourhoodNewBuildingProbabilityInitialPercentage{ 0.01 };
-
 }
 
 class House : public Building
@@ -18,6 +17,7 @@ class House : public Building
     {
         setEmoji(Emoji::House);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 

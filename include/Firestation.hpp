@@ -11,6 +11,7 @@ class Firestation : public Building
     {
         setEmoji(Emoji::FireTruck);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 

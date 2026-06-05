@@ -7,6 +7,7 @@ struct Coordinates
     Coordinates(int x, int y)
       : x(x)
       , y(y) {};
+
     friend auto operator==(const Coordinates& first, const Coordinates& second) -> bool;
 };
 
