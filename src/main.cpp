@@ -18,9 +18,9 @@ auto main(int argc, char* argv[]) -> int
     }
 
     // here loading 3 first arguments - numbers
-    int width;
-    int height;
-    int random_seed;
+    int width{ 0 };
+    int height{ 0 };
+    int random_seed{ 0 };
 
     try
     {
