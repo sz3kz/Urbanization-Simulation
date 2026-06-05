@@ -2,15 +2,6 @@
 #include <cstdint>
 #include <string>
 
-enum class BuildingType : std::uint8_t
-{
-    SHOP,
-    HOUSE,
-    FIRESTATION,
-    FACTORY,
-    CHURCH,
-};
-
 namespace Emoji
 {
 inline constexpr std::string House{ "🏠" };

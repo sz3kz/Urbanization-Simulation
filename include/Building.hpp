@@ -2,9 +2,17 @@
 #include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
 #include "State.hpp"
-#include "World.hpp"
 #include <functional>
 #include <memory>
+
+enum class BuildingType : std::uint8_t
+{
+    SHOP,
+    HOUSE,
+    FIRESTATION,
+    FACTORY,
+    CHURCH,
+};
 
 // virtual <return-type> func(<parameters>) = 0
 //  Pure virtual function: don't implement it here, force implementation at child,
