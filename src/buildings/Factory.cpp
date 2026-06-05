@@ -1,9 +1,6 @@
 #include "Factory.hpp"
 #include "Coordinates.hpp"
 #include "World.hpp"
-#include <iostream>
-
-constexpr double restore_from_ruin_probability_initial_value = 0.3;
 
 auto Factory::getBuildingType() const -> BuildingType
 {
@@ -61,7 +58,7 @@ void Factory::applyProbabilities(
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position,
                   ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                  set_adjacent_building_on_fire);
+                  OccupiedCellDefaultProbabilities::SetAdjacentBuildingOnFire);
             }
 
             bool neighbour_in_ruin_state =
@@ -71,7 +68,7 @@ void Factory::applyProbabilities(
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position,
                   ProbabilityType::RESTORE_FROM_RUIN,
-                  restore_from_ruin_probability_initial_value);
+                  FactoryConstants::RestoreFromRuinProbabilityBoost);
             }
         }
     }

@@ -1,13 +1,8 @@
 #include "House.hpp"
 #include "../../include/World.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
 #include <algorithm>
 #include <iostream>
-#include <string>
-
-constexpr double another_house_in_the_neighbourhood_new_building_probability_decline = 0.0015;
-constexpr double house_in_the_neighbourhood_new_building_probability_initial_percentage = 0.01;
 
 auto House::getBuildingType() const -> BuildingType
 {
@@ -67,7 +62,7 @@ void House::applyProbabilities(
                     setCellPercentageOfProbabilityAtCoordinates(
                       neighbour_position,
                       ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                      set_adjacent_building_on_fire);
+                      OccupiedCellDefaultProbabilities::SetAdjacentBuildingOnFire);
                 }
             }
 
@@ -84,10 +79,10 @@ void House::applyProbabilities(
             {
                 double current_probability = askProbabilityTypePercentageAtCoordinates(
                   neighbour_position, ProbabilityType::CREATE_NEW_HOUSE);
-                double new_probability =
-                  std::max(current_probability -
-                             another_house_in_the_neighbourhood_new_building_probability_decline,
-                           0.0);
+                double new_probability = std::max(
+                  current_probability -
+                    HouseConstants::AnotherHouseInTheNeighbourhoodNewBuildingProbabilityDecline,
+                  0.0);
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position, ProbabilityType::CREATE_NEW_HOUSE, new_probability);
             }
@@ -96,7 +91,7 @@ void House::applyProbabilities(
                 setCellPercentageOfProbabilityAtCoordinates(
                   neighbour_position,
                   ProbabilityType::CREATE_NEW_HOUSE,
-                  house_in_the_neighbourhood_new_building_probability_initial_percentage);
+                  HouseConstants::HouseInTheNeighbourhoodNewBuildingProbabilityInitialPercentage);
             }
         }
     }

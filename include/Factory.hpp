@@ -3,6 +3,11 @@
 #include "Coordinates.hpp"
 #include <functional>
 
+namespace FactoryConstants
+{
+inline constexpr double RestoreFromRuinProbabilityBoost{ 0.3 };
+}
+
 class Factory : public Building
 {
 
@@ -12,6 +17,7 @@ class Factory : public Building
         setEmoji(Emoji::Factory);
         setRadius(BuildingRadius::factory_radius);
     };
+
     [[nodiscard]]
     auto getBuildingType() const -> BuildingType override;
 

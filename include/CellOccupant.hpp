@@ -17,20 +17,16 @@ struct CellOccupant
       : occupant(std::move(building))
     {
     }
+
     auto release() -> std::unique_ptr<Building>;
-    [[nodiscard]] auto getBuilding() const -> Building* { return occupant.get(); };
-    [[nodiscard]] auto checkCellEmpty() const -> bool { return occupant == nullptr; }
-    void transformState()
-    {
-        if (occupant->getBuildingState() == BuildingState::NORMAL ||
-            occupant->getBuildingState() == BuildingState::BURNING)
-        {
-            occupant->setBuildingState(BuildingState::RUIN);
-        }
-        else if (occupant->getBuildingState() == BuildingState::RUIN)
-        {
-            release();
-        }
-    }
+
+    [[nodiscard]]
+    auto getBuilding() const -> Building*;
+
+    [[nodiscard]]
+    auto checkCellEmpty() const -> bool;
+
+    void transformState();
+
     friend auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ostream&;
 };

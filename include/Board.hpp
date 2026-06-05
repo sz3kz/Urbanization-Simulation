@@ -15,16 +15,22 @@ class Board
       : width(width)
       , height(height)
       , contents(width * height) {};
+
     [[nodiscard]]
     auto checkCellExistsAtCoordinates(Coordinates const& coordinates) const -> bool;
+
     [[nodiscard]]
     auto calculateIndexFromCoordinates(Coordinates const& coordinates) const -> unsigned int;
+
     [[nodiscard]]
     auto getCellAtCoordinates(Coordinates const& coordinates) const -> const T&;
+
     [[nodiscard]]
     auto getCellAtCoordinates(Coordinates const& coordinates) -> T&;
+
     [[nodiscard]]
     auto getWidth() const -> unsigned int;
+
     [[nodiscard]]
     auto getHeight() const -> unsigned int;
 };

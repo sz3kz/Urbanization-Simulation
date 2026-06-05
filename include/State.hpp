@@ -31,7 +31,9 @@ class State
 
     [[nodiscard]]
     auto getTimeToLive() const -> unsigned int;
+
     void setTimeToLive(unsigned int supplied_time_to_live);
+
     [[nodiscard]]
     auto getBuildingState() const -> BuildingState;
 
@@ -39,5 +41,6 @@ class State
     void setBuildingState(BuildingState state_name);
 
     void doDecay();
+
     void resetTimeToLive();
 };

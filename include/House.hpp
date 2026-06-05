@@ -3,6 +3,12 @@
 #include "Coordinates.hpp"
 #include <functional>
 
+namespace HouseConstants
+{
+inline constexpr double AnotherHouseInTheNeighbourhoodNewBuildingProbabilityDecline{ 0.0015 };
+inline constexpr double HouseInTheNeighbourhoodNewBuildingProbabilityInitialPercentage{ 0.01 };
+}
+
 class House : public Building
 {
 
