@@ -4,6 +4,7 @@
 #include "State.hpp"
 #include "World.hpp"
 #include <functional>
+#include <memory>
 
 // virtual <return-type> func(<parameters>) = 0
 //  Pure virtual function: don't implement it here, force implementation at child,
@@ -13,11 +14,12 @@ class Building
 {
     std::string emoji{ "❌" };
     unsigned int radius;
-    State* building_state{ new State() }; // czy  to bedzie leakować?
+    std::unique_ptr<State> building_state;
 
   public:
     Building(unsigned int radius)
-      : radius(radius) {};
+      : radius(radius)
+      , building_state(std::make_unique<State>()) {};
     /* Virtual destructor
      * Can aid in child class identification via dynamic_cast.
      * Since we use the Building::getBuildingType() function to identify child classes
