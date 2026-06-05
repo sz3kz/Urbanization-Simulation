@@ -2,7 +2,7 @@
 #include "Board.hpp"
 #include "Building.hpp"
 #include "CellOccupant.hpp"
-#include "World.hpp"
+#include "Emoji.hpp"
 #include <iostream>
 
 class BoardOccupants : public Board<CellOccupant>

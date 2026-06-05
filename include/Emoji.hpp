@@ -1,25 +1,5 @@
 #pragma once
-#include <cstdint>
 #include <string>
-
-enum class ArgumentType : std::uint8_t
-{
-    EXEC_NAME,
-    WIDTH,
-    HEIGHT,
-    SEED,
-    OUTPUT_FILENAME,
-    ARGS,
-};
-
-enum class BuildingType : std::uint8_t
-{
-    SHOP,
-    HOUSE,
-    FIRESTATION,
-    FACTORY,
-    CHURCH,
-};
 
 namespace Emoji
 {

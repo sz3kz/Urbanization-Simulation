@@ -5,7 +5,6 @@
 #include "../../include/Firestation.hpp"
 #include "../../include/House.hpp"
 #include "../../include/Shop.hpp"
-#include "../../include/World.hpp"
 #include "Church.hpp"
 #include "Factory.hpp"
 #include <chrono>

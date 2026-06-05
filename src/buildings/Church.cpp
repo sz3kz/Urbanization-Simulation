@@ -2,7 +2,6 @@
 #include "../../include/Building.hpp"
 #include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
 
 #include <algorithm>
 #include <iostream>

@@ -1,5 +1,4 @@
 #include "House.hpp"
-#include "../../include/World.hpp"
 #include "Coordinates.hpp"
 #include <algorithm>
 #include <iostream>

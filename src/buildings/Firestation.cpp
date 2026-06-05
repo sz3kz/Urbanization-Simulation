@@ -1,9 +1,6 @@
 #include "Firestation.hpp"
 #include "../../include/Building.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
-
-#include <iostream>
 
 auto Firestation::getBuildingType() const -> BuildingType
 {
