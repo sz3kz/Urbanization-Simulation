@@ -40,7 +40,13 @@ target_compile_features(simulation_library PUBLIC cxx_std_23)
 add_executable(simulation_tests 
   tests/CoordinatesTests.cpp
   tests/BoardTests.cpp
+  tests/StateTests.cpp
   tests/CellOccupantTests.cpp
+  tests/HouseTests.cpp
+  tests/ShopTests.cpp
+  tests/FirestationTests.cpp
+  tests/FactoryTests.cpp
+  tests/ChurchTests.cpp
 )
 
 add_executable(simulation
