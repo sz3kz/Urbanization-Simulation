@@ -1,0 +1,126 @@
+@startuml
+title Urban Simulation Snapshot (Iteration 5)
+
+' =========================
+' Simulation
+' =========================
+
+object "simulation : Simulation" as Sim {
+    filename = "simulation.txt"
+    current_iteration = 5
+    generator = mt19937
+}
+
+' =========================
+' Boards
+' =========================
+
+object "previous_board : BoardOccupants" as Prev {
+    width = 100
+    height = 100
+}
+
+object "next_board : BoardOccupants" as Next {
+    width = 100
+    height = 100
+}
+
+object "probability_board : BoardProbabilities" as Prob {
+    width = 100
+    height = 100
+}
+
+Sim *-- Prev : current state
+Sim *-- Next : next state buffer
+Sim *-- Prob : probabilities
+
+' =========================
+' Occupant cells
+' =========================
+
+object "cell(0,0) : CellOccupant" as C1 {
+    occupant = House
+}
+
+object "cell(0,1) : CellOccupant" as C2 {
+    occupant = nullptr
+}
+
+Prev o-- C1
+Prev o-- C2
+
+' =========================
+' Building
+' =========================
+
+object "house : House" as H1 {
+    radius = 2
+    emoji = 🏠
+}
+
+C1 *-- H1
+
+' =========================
+' State object
+' =========================
+
+object "state : State" as S1 {
+    state_name = BURNING
+    time_to_live = 120
+}
+
+H1 *-- S1
+
+' =========================
+' Probability board
+' =========================
+
+object "probCell(0,1) : CellProbabilities" as PC1
+
+Prob o-- PC1
+
+object "create_house : Probability" as P1 {
+    last_updated_at_iteration = 5
+    value = 0.01
+}
+
+object "set_on_fire : Probability" as P2 {
+    last_updated_at_iteration = 5
+    value = 0.15
+}
+
+PC1 *-- P1 : CREATE_NEW_HOUSE
+PC1 *-- P2 : SET_CURRENT_BUILDING_ON_FIRE
+
+' =========================
+' Coordinates
+' =========================
+
+object "coords : Coordinates" as CRD {
+    x = 0
+    y = 1
+}
+
+' =========================
+' Notes
+' =========================
+
+note right of Sim
+Simulation iteration cycle:
+
+1. propagateBuildingProbabilities()
+2. executeProbability()
+3. decayBuildings()
+4. recycleBoards()
+5. resetProbabilities()
+6. incrementIteration()
+end note
+
+note right of S1
+Building currently burning.
+
+When TTL reaches threshold:
+BURNING -> RUIN
+end note
+
+@enduml
