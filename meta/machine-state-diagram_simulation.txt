@@ -1,20 +1,35 @@
 @startuml
-title Cykl życia Iteracji Symulacji (Simulation Engine)
+title Simulation Engine State Machine
 
-[*] --> Initialized : Start programu
+[*] --> Initialization
 
-state Initialized {
-  state "Zerowanie plansz" as Reset
-  state "Obliczanie Prawdopodobieństw" as CalcProb
-  state "Losowanie Stanów" as Randomize
-  state "Zamiana Buforów (Swap)" as Swap
-  
-  [*] --> Reset
-  Reset --> CalcProb : Wywołanie iterate()
-  CalcProb --> Randomize : Zapisanie ProbabilityBoard
-  Randomize --> Swap : Nowe stany gotowe
-  Swap --> Reset : Koniec tury / Następna tura
+Initialization : Construct Simulation
+Initialization : Initialize boards
+Initialization : Seed random generator
+
+Initialization --> Running
+
+state Running {
+
+    [*] --> PrintBoard
+
+    PrintBoard --> PropagateProbabilities
+    PropagateProbabilities --> ExecuteProbabilities
+    ExecuteProbabilities --> DecayBuildings
+    DecayBuildings --> RecycleBoards
+    RecycleBoards --> ResetProbabilities
+    ResetProbabilities --> IncrementIteration
+    IncrementIteration --> Sleep
+    Sleep --> PrintBoard
+
+    PrintBoard : Outputs the board
+    PropagateProbabilities : Executes building algorithms to populate probability board
+    ExecuteProbabilities : Roll dice and execute random events based on probability
+    DecayBuildings : Decay occupied cells, transform / empty them if necessary
+    RecycleBoards : Swap previous and next board so we need not allocate a new board again
+    ResetProbabilities : Re-default the probability board for next iteration
+    IncrementIteration : Increment iteration counter
+    Sleep : sleep for a bit to not overclock system
 }
 
-Initialized --> [*] : Zamknięcie programu
 @enduml

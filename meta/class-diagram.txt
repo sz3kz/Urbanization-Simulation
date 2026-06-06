@@ -1,0 +1,193 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' =========================
+' ENUMS
+' =========================
+
+enum BuildingType {
+    HOUSE
+    SHOP
+    FACTORY
+    FIRESTATION
+    CHURCH
+}
+
+enum BuildingState {
+    NORMAL
+    BURNING
+    RUIN
+}
+
+enum ProbabilityType {
+    CREATE_NEW_HOUSE
+    CREATE_NEW_FIRESTATION
+    CREATE_NEW_SHOP
+    CREATE_NEW_FACTORY
+    CREATE_NEW_CHURCH
+    SET_CURRENT_BUILDING_ON_FIRE
+    RESTORE_TIME_TO_LIVE
+    RESTORE_FROM_RUIN
+}
+
+enum CellState {
+    Empty
+    Occupied
+}
+
+' =========================
+' SUPPORT TYPES
+' =========================
+
+class Coordinates {
+    +int x
+    +int y
+}
+
+class Probability {
+    +unsigned long last_updated_at_iteration
+    +double value
+}
+
+class State {
+    -BuildingState state_name
+    -unsigned int time_to_live
+
+    +getTimeToLive()
+    +setTimeToLive()
+    +getBuildingState()
+    +setBuildingState()
+    +doDecay()
+    +resetTimeToLive()
+}
+
+' =========================
+' BOARDS
+' =========================
+
+abstract class "Board<T>" as Board {
+    -unsigned int width
+    -unsigned int height
+    -std::vector<T> contents
+
+    +checkCellExistsAtCoordinates()
+    +calculateIndexFromCoordinates()
+    +getCellAtCoordinates()
+    +getWidth()
+    +getHeight()
+}
+
+class BoardOccupants {
+    +checkCellEmptyAtCoordinates()
+    +releaseOccupantAtCoordinates()
+    +acquireOccupantToCoordinates()
+    +getCellBuildingType()
+}
+
+class BoardProbabilities {
+    +checkProbabilityTypePercentageIsSetAtCoordinates()
+    +getProbabilityTypePercentageAtCoordinates()
+    +setProbabilityTypePercentageAtCoordinates()
+    +resetProbabilities()
+}
+
+BoardOccupants --|> Board
+BoardProbabilities --|> Board
+
+' =========================
+' CELLS
+' =========================
+
+class CellOccupant {
+    -unique_ptr<Building> occupant
+
+    +release()
+    +getBuilding()
+    +checkCellEmpty()
+    +transformState()
+}
+
+class CellProbabilities {
+    +map<ProbabilityType, Probability> probabilities
+}
+
+CellProbabilities *-- Probability
+
+' =========================
+' BUILDINGS
+' =========================
+
+abstract class Building {
+    -string emoji
+    -unsigned int radius
+    -unique_ptr<State> building_state
+
+    +getBuildingType()
+    +getRadius()
+    +getBuildingState()
+    +setBuildingState()
+    +getTimeToLive()
+    +decay()
+    +resetTimeToLive()
+
+    +applyProbabilities()
+}
+
+class House
+class Shop
+class Factory
+class Firestation
+class Church
+
+House --|> Building
+Shop --|> Building
+Factory --|> Building
+Firestation --|> Building
+Church --|> Building
+
+Building *-- State
+
+' =========================
+' SIMULATION
+' =========================
+
+class Simulation {
+    -string filename
+    -unsigned long current_iteration
+
+    -BoardOccupants previous_board
+    -BoardOccupants next_board
+    -BoardProbabilities probability_board
+
+    -mt19937 generator
+
+    +run()
+
+    -executeProbability()
+    -propagateBuildingProbabilities()
+    -decayBuildings()
+    -recycleBoards()
+    -rollProbabilityDice()
+}
+
+' =========================
+' RELATIONSHIPS
+' =========================
+
+Simulation *-- BoardOccupants : previous_board
+Simulation *-- BoardOccupants : next_board
+Simulation *-- BoardProbabilities : probability_board
+
+BoardOccupants o-- CellOccupant
+BoardProbabilities o-- CellProbabilities
+
+CellOccupant *-- Building
+
+Building ..> Coordinates
+Building ..> ProbabilityType
+Building ..> BuildingState
+
+Simulation ..> Building
+Simulation ..> Coordinates
+
+@enduml
