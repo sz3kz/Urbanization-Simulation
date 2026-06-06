@@ -1,5 +1,5 @@
 #include "Church.hpp"
-#include "../../include/Building.hpp"
+#include "Building.hpp"
 #include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
 
