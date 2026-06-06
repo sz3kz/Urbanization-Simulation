@@ -316,7 +316,7 @@ void Simulation::propagateBuildingProbabilities()
                 continue;
             }
             const auto& cell = previous_board.getCellAtCoordinates(current_coordinates);
-            cell.occupant->applyProbabilities(
+            cell.getBuilding()->applyProbabilities(
               [this, row_position, column_position](Coordinates relative_coordinates) -> bool
               {
                   return this->previous_board.checkCellExistsAtCoordinates(
