@@ -4,10 +4,6 @@ auto State::getTimeToLive() const -> unsigned int
 {
     return this->time_to_live;
 }
-void State::setTimeToLive(unsigned int supplied_time_to_live)
-{
-    this->time_to_live = supplied_time_to_live;
-}
 
 auto State::getBuildingState() const -> BuildingState
 {

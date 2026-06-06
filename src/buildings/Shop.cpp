@@ -1,11 +1,6 @@
 #include "Shop.hpp"
 #include "Coordinates.hpp"
 
-namespace ShopConstants
-{
-inline constexpr double RestoreTimeToLiveBoost{ 1.0 };
-}
-
 auto Shop::getBuildingType() const -> BuildingType
 {
     return BuildingType::SHOP;

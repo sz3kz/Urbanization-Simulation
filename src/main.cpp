@@ -4,11 +4,6 @@
 #include <iostream>
 #include <locale>
 
-void usage(const char* name)
-{
-    std::cout << "Usage: ./" << name << " <width> <height> <random-seed> <output-filename\n";
-}
-
 auto main(int argc, char* argv[]) -> int
 {
     if (argc != static_cast<int>(ArgumentType::ARGS))
@@ -69,4 +64,9 @@ auto main(int argc, char* argv[]) -> int
       width, height, random_seed, argv[static_cast<int>(ArgumentType::OUTPUT_FILENAME)]);
     std::cout << "Started simulation:" << '\n';
     simulation.run();
+}
+
+void usage(const char* name)
+{
+    std::cout << "Usage: ./" << name << " <width> <height> <random-seed> <output-filename\n";
 }

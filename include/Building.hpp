@@ -5,6 +5,9 @@
 #include <functional>
 #include <memory>
 
+/**
+ * @brief Enumerates all supported building types.
+ */
 enum class BuildingType : std::uint8_t
 {
     SHOP,
@@ -14,9 +17,11 @@ enum class BuildingType : std::uint8_t
     CHURCH,
 };
 
-// virtual <return-type> func(<parameters>) = 0
-//  Pure virtual function: don't implement it here, force implementation at child,
-//  disallow direct Building object instantiation.
+/**
+ * @brief Constants defining infuence radiuses of building-derived
+ * classes.
+ * Used when constructing a specific building.
+ */
 namespace BuildingRadiusConstants
 {
 inline constexpr unsigned int House{ 2 };
@@ -26,52 +31,139 @@ inline constexpr unsigned int Factory{ 4 };
 inline constexpr unsigned int Church{ 4 };
 }
 
+/**
+ * @brief Abstract base class representing a building on the board.
+ *
+ * A Building has:
+ * - A visual emoji representation.
+ * - An influence radius.
+ * - A state object
+ *
+ * Concrete building types must derive from this class and implement:
+ * - getBuildingType()
+ * - applyProbabilities()
+ *
+ * Building objects are intended to be managed through
+ * std::unique_ptr<Building>.
+ */
 class Building
 {
-    std::string emoji{ "❌" };
-    unsigned int radius{ 0 };
-    std::unique_ptr<State> building_state;
+    std::string emoji{ "❌" };             ///< Emoji used when rendering the building.
+    unsigned int radius{ 0 };              ///< Area-of-effect radius.
+    std::unique_ptr<State> building_state; ///< Lifecycle state.
 
   protected:
+    /**
+     * @brief Sets the building influence radius.
+     *
+     * Intended for use by derived classes during construction to
+     * set their radius.
+     *
+     * @param new_radius Radius of the object
+     */
     void setRadius(const unsigned int new_radius) { radius = new_radius; }
 
+    /**
+     * @brief Returns the building influence radius.
+     *
+     * @return Radius of influence of building object
+     */
+    [[nodiscard]]
+    auto getRadius() const -> unsigned int;
+
+    /**
+     * @brief Classic setter to the building emoji.
+     *
+     *
+     * Intended for use by derived classes during construction to
+     * set their emoji.
+     *
+     * @param supplied_emoji Emoji string
+     */
+    void setEmoji(std::string const& supplied_emoji);
+
   public:
+    /**
+     * @brief Constructs a building with a default state(normal).
+     */
     Building()
-      : building_state(std::make_unique<State>()) {};
-    /* Virtual destructor
-     * Can aid in child class identification via dynamic_cast.
-     * Since we use the Building::getBuildingType() function to identify child classes
-     *  this is not really needed
+      : building_state(std::make_unique<State>())
+    {
+    }
+    /**
+     * @brief Virtual destructor.
      */
     virtual ~Building() = default;
 
-    /* Disable all other special methods*/
+    /// @name Non-copyable and non-movable
+    /// @{
     Building(Building const&) = delete;
     auto operator=(Building const&) -> Building& = delete;
     Building(Building&&) = delete;
     auto operator=(Building&&) -> Building& = delete;
+    /// @}
 
+    /**
+     * @brief Classic getter to the building type of the cell's occupant.
+     *
+     * @return Type identifier of the derived building
+     */
     [[nodiscard]]
     virtual auto getBuildingType() const -> BuildingType = 0;
 
-    [[nodiscard]]
-    auto getRadius() const -> unsigned int;
-
+    /**
+     * @brief Classic getter to the building state of the cell's occupant.
+     *
+     * @return Current BuildingState value
+     */
     [[nodiscard]]
     auto getBuildingState() const -> BuildingState;
 
+    /**
+     * @brief Classic setter of the building state of the cell's occupant.
+     *
+     * @param supplied_building_state New state
+     */
     void setBuildingState(BuildingState const& supplied_building_state) const;
 
+    /**
+     * @brief Classic getter to the building state's Time To Live.
+     *
+     * @return Remaining time-to-live value.
+     */
     [[nodiscard]]
     auto getTimeToLive() const -> unsigned int;
 
+    /**
+     * @brief Advances the building decay process.
+     *
+     * Delegates decay logic to the internal State object.
+     */
     void decay() const;
 
+    /**
+     * @brief Restores the building's time-to-live value.
+     */
     void resetTimeToLive() const;
 
-    void setEmoji(std::string const& supplied_emoji);
-
-    // Function that populates probability_board with probabilities
+    /**
+     * @brief Implements building specific algorithm for probability propagation.
+     *
+     * Derived classes use this function to set probability values in
+     * the probability board with their algorithm.
+     *
+     * The supplied callbacks provide controlled access to board
+     * state without exposing board internals directly(with nice relative coordinate handing :D)
+     *
+     * @param askCellExistsAtCoordinates Checks whether a coordinate exists.
+     * @param askCellEmptyAtCoordinates Checks whether a cell is empty.
+     * @param askProbabilityTypePercentageIsSetAtCoordinates Checks whether a probability value was
+     * already modified during this iteration.
+     * @param askProbabilityTypePercentageAtCoordinates Retrieves a probability value.
+     * @param setCellPercentageOfProbabilityAtCoordinates Stores a probability value.
+     * @param askBuildingAtCoordinatesIsInState Checks whether a building is in a.
+     *        specific state.
+     */
     virtual void applyProbabilities(
       [[maybe_unused]] std::function<bool(Coordinates)> askCellExistsAtCoordinates,
       [[maybe_unused]] std::function<bool(Coordinates)> askCellEmptyAtCoordinates,
@@ -84,5 +176,17 @@ class Building
       [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
         askBuildingAtCoordinatesIsInState) = 0;
 
+    /**
+     * @brief Genius-Level operator<< overloading for nice output syntax.
+     *
+     * Output depends on the current building state:
+     * - RUIN    -> Derelict house emoji
+     * - BURNING -> Fire emoji
+     * - NORMAL  -> Building-specific emoji
+     *
+     * @param os Output stream.
+     * @param building Building to render.
+     * @return Reference to the output stream.
+     */
     friend auto operator<<(std::ostream& os, const Building& building) -> std::ostream&;
 };
