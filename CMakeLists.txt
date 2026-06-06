@@ -43,6 +43,7 @@ add_executable(simulation_tests
   tests/CellOccupantTests.cpp
   tests/HouseTests.cpp
   tests/ShopTests.cpp
+  tests/FirestationTests.cpp
 )
 
 add_executable(simulation
