@@ -39,6 +39,7 @@ target_compile_features(simulation_library PUBLIC cxx_std_23)
 
 add_executable(simulation_tests 
   tests/CoordinatesTests.cpp
+  tests/StateTests.cpp
   tests/BoardTests.cpp
   tests/CellOccupantTests.cpp
 )
