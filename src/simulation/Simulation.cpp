@@ -1,12 +1,12 @@
-#include "../../include/Simulation.hpp"
+#include "Simulation.hpp"
 
-#include "../../include/BoardOccupants.hpp"
-#include "../../include/Coordinates.hpp"
-#include "../../include/Firestation.hpp"
-#include "../../include/House.hpp"
-#include "../../include/Shop.hpp"
+#include "BoardOccupants.hpp"
 #include "Church.hpp"
+#include "Coordinates.hpp"
 #include "Factory.hpp"
+#include "Firestation.hpp"
+#include "House.hpp"
+#include "Shop.hpp"
 #include <chrono>
 #include <fstream>
 #include <iostream>
