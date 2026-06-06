@@ -31,6 +31,7 @@
             ];
             buildInputs = [
               pkgs.jetbrains.clion
+              pkgs.graphviz
               pkgs.doxygen
               pkgs.gcc
               pkgs.cmake
