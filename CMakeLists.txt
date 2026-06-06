@@ -41,6 +41,7 @@ add_executable(simulation_tests
   tests/CoordinatesTests.cpp
   tests/StateTests.cpp
   tests/CellOccupantTests.cpp
+  tests/HouseTests.cpp
 )
 
 add_executable(simulation
