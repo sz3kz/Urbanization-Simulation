@@ -4,6 +4,11 @@
 #include "Emoji.hpp"
 #include <functional>
 
+namespace ShopConstants
+{
+inline constexpr double RestoreTimeToLiveBoost{ 1.0 };
+}
+
 class Shop : public Building
 {
 
