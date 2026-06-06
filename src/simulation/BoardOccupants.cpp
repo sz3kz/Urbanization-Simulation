@@ -6,7 +6,7 @@
 auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
 {
     const auto& cell = this->getCellAtCoordinates(coordinates);
-    return cell.occupant == nullptr;
+    return cell.checkCellEmpty();
 }
 
 auto BoardOccupants::releaseOccupantAtCoordinates(Coordinates const& coordinates)
@@ -20,7 +20,7 @@ void BoardOccupants::acquireOccupantToCoordinates(Coordinates const& coordinates
                                                   std::unique_ptr<Building> building)
 {
     auto& cell = this->getCellAtCoordinates(coordinates);
-    cell.occupant = std::move(building);
+    cell.acquireBuilding(std::move(building));
 }
 
 auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) const -> BuildingType
@@ -36,7 +36,7 @@ auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) const -
     return BuildingType::NONE;
     */
     auto const& cell = this->getCellAtCoordinates(coordinates);
-    return cell.occupant->getBuildingType();
+    return cell.getBuildingType();
 }
 
 auto operator<<(std::ostream& os, BoardOccupants const& board) -> std::ostream&

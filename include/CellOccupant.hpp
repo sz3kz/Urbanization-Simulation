@@ -11,7 +11,7 @@
  *
  * An empty cell is represented by a nullptr occupant.
  */
-struct CellOccupant
+class CellOccupant
 {
     /**
      * @brief Building currently occupying the cell.
@@ -20,6 +20,7 @@ struct CellOccupant
      */
     std::unique_ptr<Building> occupant;
 
+  public:
     /**
      * @brief Constructs a cell (empty by default).
      *
@@ -63,6 +64,22 @@ struct CellOccupant
      */
     [[nodiscard]]
     auto getBuilding() const -> Building*;
+
+    /**
+     * @brief Overwrites current occupant building with new one.
+     *
+     * @param building Building object to capture in the cell
+     */
+    void acquireBuilding(std::unique_ptr<Building> building);
+
+    /**
+     * @brief Wrapper around the occupant building's getBuildingType method.
+     *
+     * @return BuildingType of the occupant building
+     * @warning Will not check whether self is occupied. Will not error handle.
+     */
+    [[nodiscard]]
+    auto getBuildingType() const -> BuildingType;
 
     /**
      * @brief Checks whether the cell contains a building.

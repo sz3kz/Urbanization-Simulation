@@ -11,6 +11,16 @@ auto CellOccupant::getBuilding() const -> Building*
     return occupant.get();
 }
 
+void CellOccupant::acquireBuilding(std::unique_ptr<Building> building)
+{
+    occupant = std::move(building);
+}
+
+auto CellOccupant::getBuildingType() const -> BuildingType
+{
+    return occupant->getBuildingType();
+}
+
 auto CellOccupant::checkCellEmpty() const -> bool
 {
     return occupant == nullptr;
