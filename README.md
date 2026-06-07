@@ -33,7 +33,7 @@ cd Urbanization-Simulation/
 ```
 Then, set up the environment:
 ```bash
-cmake -S . -B ninja -G Ninja 
+cmake -S . -B build -G Ninja 
 ```
 **BONUS**: You can generate documentation for the project:
 ```bash
@@ -42,9 +42,14 @@ doxygen Doxyfile
 Lastly, decide whether to run tests or execute the simulation:
 ```bash
 cd build/
-ninja run_tests
-./simulation <width> <height> <random_seed_value> <output_file_name>
+````
+```bash
+ninja simulation_tests && ./simulation_tests
 ```
+```bash
+ninja simulation && ./simulation <width> <height> <random_seed_value> <output_file_name>
+```
+<video src="meta/demo-compressed.mp4" width="100%" controls></video>
 
 ### Developer 
 These are the minimum prerequesites to running the simulation:
@@ -67,13 +72,19 @@ Then, set up the environment:
 make check-prerequesites
 pre-commit install
 pre-commit install --hook-type pre-push
-cmake -S . -B ninja -G Ninja 
+cmake -S . -B build -G Ninja 
 ```
 Lastly, decide whether to run tests or execute the simulation:
 ```bash
 cd build/
+```
+```bash
+ninja simulation_tests && ./simulation_tests
 ninja run_tests
-ninja run_simulation 
+```
+```bash
+ninja simulation && ./simulation <width> <height> <random_seed_value> <output_file_name>
+ninja run_simulation
 ```
 **BONUS**: Setup can also be done entirely via the makefile:
 ```bash
