@@ -49,7 +49,7 @@ ninja simulation_tests && ./simulation_tests
 ```bash
 ninja simulation && ./simulation <width> <height> <random_seed_value> <output_file_name>
 ```
-<video src="meta/demo.mp4" width="100%" controls></video>
+<video src="meta/demo-compressed.mp4" width="100%" controls></video>
 
 ### Developer 
 These are the minimum prerequesites to running the simulation:
