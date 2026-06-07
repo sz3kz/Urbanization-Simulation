@@ -1,33 +1,29 @@
-#include "../../include/BoardOccupants.hpp"
-#include "../../include/Board.hpp"
-#include "../../include/Building.hpp"
-#include "../../include/Coordinates.hpp"
-#include "../../include/House.hpp"
-#include "../../include/World.hpp"
+#include "BoardOccupants.hpp"
+#include "Board.hpp"
+#include "Building.hpp"
+#include "Coordinates.hpp"
 
-auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) -> bool
+auto BoardOccupants::checkCellEmptyAtCoordinates(Coordinates const& coordinates) const -> bool
 {
-    unsigned int index = calculateIndexFromCoordinates(coordinates);
-    if (this->contents.at(index).occupant == nullptr)
-    {
-        return true;
-    }
-    return false;
+    const auto& cell = this->getCellAtCoordinates(coordinates);
+    return cell.checkCellEmpty();
 }
 
 auto BoardOccupants::releaseOccupantAtCoordinates(Coordinates const& coordinates)
   -> std::unique_ptr<Building>
 {
-    return this->contents.at(calculateIndexFromCoordinates(coordinates)).release();
+    auto& cell = this->getCellAtCoordinates(coordinates);
+    return cell.release();
 }
 
 void BoardOccupants::acquireOccupantToCoordinates(Coordinates const& coordinates,
                                                   std::unique_ptr<Building> building)
 {
-    contents.at(calculateIndexFromCoordinates(coordinates)).occupant = std::move(building);
+    auto& cell = this->getCellAtCoordinates(coordinates);
+    cell.acquireBuilding(std::move(building));
 }
 
-auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) -> BuildingType
+auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) const -> BuildingType
 {
     /*
     unsigned int index = calculateIndexFromCoordinates(coordinates);
@@ -39,8 +35,8 @@ auto BoardOccupants::getCellBuildingType(Coordinates const& coordinates) -> Buil
     }
     return BuildingType::NONE;
     */
-    unsigned int index = calculateIndexFromCoordinates(coordinates);
-    return contents.at(index).occupant->getBuildingType();
+    auto const& cell = this->getCellAtCoordinates(coordinates);
+    return cell.getBuildingType();
 }
 
 auto operator<<(std::ostream& os, BoardOccupants const& board) -> std::ostream&
@@ -49,7 +45,7 @@ auto operator<<(std::ostream& os, BoardOccupants const& board) -> std::ostream&
     {
         for (unsigned int j = 0; j < board.getHeight(); ++j)
         {
-            os << board.contents.at(board.calculateIndexFromCoordinates(Coordinates(i, j)));
+            os << board.getCellAtCoordinates(Coordinates(static_cast<int>(i), static_cast<int>(j)));
         }
         os << '\n';
     }

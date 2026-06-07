@@ -1,101 +1,91 @@
-#include "../../include/Simulation.hpp"
+#include "Simulation.hpp"
 
-#include "../../include/BoardOccupants.hpp"
-#include "../../include/Coordinates.hpp"
-#include "../../include/Firestation.hpp"
-#include "../../include/House.hpp"
-#include "../../include/Shop.hpp"
-#include "../../include/World.hpp"
+#include "BoardOccupants.hpp"
 #include "Church.hpp"
+#include "Coordinates.hpp"
 #include "Factory.hpp"
+#include "Firestation.hpp"
+#include "House.hpp"
+#include "Shop.hpp"
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <random>
 #include <thread>
 
-void Simulation::iterate()
+void Simulation::decayBuildings()
 {
-    /* 1. iteration: Iterate through previous_board to populate probability_board */
-    for (unsigned int row_position = 0; row_position < previous_board.getWidth(); ++row_position)
-    {
-        for (unsigned int column_position = 0; column_position < previous_board.getHeight();
+
+    for (unsigned int row_position = 0; row_position < next_board.getWidth(); ++row_position)
+        for (unsigned int column_position = 0; column_position < next_board.getHeight();
              ++column_position)
         {
-            bool empty = previous_board.checkCellEmptyAtCoordinates(
-              Coordinates(row_position, column_position));
-            if (empty)
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
+            /*
+            std::cout << "(" << current_coordinates.x << "," << current_coordinates.y << ")
+            TIME2LIVE" << '\n';
+            */
+            bool is_empty = next_board.checkCellEmptyAtCoordinates(current_coordinates);
+            if (is_empty)
             {
-                probability_board.setProbabilityTypePercentageAtCoordinates(
-                  Coordinates(row_position, column_position),
-                  ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                  current_iteration,
-                  0.0);
+                /*
+                std::cout << "\t EMPTY -> continue" << '\n';
+                */
                 continue;
             }
-            this->previous_board.contents
-              .at(previous_board.calculateIndexFromCoordinates(
-                Coordinates(row_position, column_position)))
-              .occupant->applyProbabilities(
-                [this, row_position, column_position](Coordinates relative_coordinates)
-                {
-                    return this->previous_board.checkCellExistsAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position));
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates)
-                {
-                    return this->previous_board.checkCellEmptyAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position));
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type)
-                {
-                    return this->probability_board.checkProbabilityTypePercentageIsSetAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position),
-                      probability_type,
-                      this->current_iteration);
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type)
-                {
-                    return this->probability_board.getProbabilityTypePercentageAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position),
-                      probability_type);
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      ProbabilityType probability_type,
-                                                      double percentage)
-                {
-                    return this->probability_board.setProbabilityTypePercentageAtCoordinates(
-                      Coordinates(relative_coordinates.x + row_position,
-                                  relative_coordinates.y + column_position),
-                      probability_type,
-                      this->current_iteration,
-                      percentage);
-                },
-                [this, row_position, column_position](Coordinates relative_coordinates,
-                                                      std::string const& state_name)
-                {
-                    auto coordinates = Coordinates(relative_coordinates.x + row_position,
-                                                   relative_coordinates.y + column_position);
-                    Building const* building =
-                      this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
-                    return building->getStateName() == state_name;
-                });
+            CellOccupant& cell = next_board.getCellAtCoordinates(current_coordinates);
+            Building* building = cell.getBuilding();
+            if (building->getTimeToLive() < StateConstants::TimeToLiveDecayValue)
+            {
+                /*
+                std::cout << "\t LOW TTL -> STATE TRANSFORMATION" << '\n';
+                */
+                cell.transformState();
+            }
+            else
+            {
+                /*
+                std::cout << "\t HIGH TTL -> DECREMENT" << '\n';
+                */
+                building->decay();
+            }
+        }
+}
+
+void Simulation::incrementIteration()
+{
+    this->current_iteration++;
+}
+
+void Simulation::sleep(std::chrono::milliseconds timespan)
+{
+    std::this_thread::sleep_for(timespan);
+}
+
+void Simulation::recycleBoards()
+{
+    for (unsigned int i = 0; i < next_board.getWidth(); ++i)
+    {
+        for (unsigned int j = 0; j < next_board.getHeight(); ++j)
+        {
+            auto coordinates = Coordinates(static_cast<int>(i), static_cast<int>(j));
+            auto next_building = next_board.getCellAtCoordinates(coordinates).release();
+            previous_board.acquireOccupantToCoordinates(coordinates, std::move(next_building));
         }
     }
+}
 
-    /* 2. iteration: Iterate through probability_board to populate next_board */
+void Simulation::executeProbability()
+{
     for (unsigned int row_position = 0; row_position < probability_board.getWidth(); ++row_position)
     {
         for (unsigned int column_position = 0; column_position < probability_board.getHeight();
              ++column_position)
         {
-            auto current_coordinates = Coordinates(row_position, column_position);
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
             /* preserve previous value */
             auto previous_occupant =
               previous_board.releaseOccupantAtCoordinates(current_coordinates);
@@ -112,98 +102,68 @@ void Simulation::iterate()
                 /* OMG THIS CASE SWITCH DICTATES PROBABILITY PRECEDENSE */
                 /* I HAVE TO KEEP TRACK IF AN EMPTY CELL WAS POPULATED WITH A BOOL*/
                 /* JESUS CHRIST PLEASE HELP ME */
-                auto& [last_modified_iteration, value] = probability;
+                const auto& [last_modified_iteration, value] = probability;
                 switch (probability_type)
                 {
-                    case (ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE):
+                    case ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE:
                     {
                         /*
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "SET_BUILDING_ON_FIRE Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* burn it */
                             next_board.getCellAtCoordinates(current_coordinates)
                               .getBuilding()
-                              ->setBurning();
+                              ->setBuildingState(BuildingState::BURNING);
                         }
                         break;
                     }
 
-                    case (ProbabilityType::RESTORE_FROM_RUIN):
+                    case ProbabilityType::RESTORE_FROM_RUIN:
                     {
                         /*
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "RESTORE_FROM_RUIN Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new ttl restoration..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             next_board.getCellAtCoordinates(current_coordinates)
                               .getBuilding()
-                              ->setNormal();
+                              ->setBuildingState(BuildingState::NORMAL);
                         }
                         break;
                     }
-                    case (ProbabilityType::RESTORE_TIME_TO_LIVE):
+                    case ProbabilityType::RESTORE_TIME_TO_LIVE:
                     {
                         /*
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "RESTORE_TIME_TO_LIVE Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new ttl restoration..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* Restore TTL*/
-                            /* Need to handle all ttl, although 90% of cases it will be normal */
+                            /* Need to handle all ttl, although 90% of cases it will be Normal */
                             /* When shop is being burned, it should set the correct TTL, not the
-                             * normal ttl */
-                            if (next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->getStateName() == "Normal")
-                            {
-                                /* Primary use case */
-                                next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->setTimeToLive(normal_state_initial_time_to_live);
-                            }
-                            else if (next_board.getCellAtCoordinates(current_coordinates)
-                                       .getBuilding()
-                                       ->getStateName() == "Burning")
-                            {
-                                /* Should only proc for shops which were burned in current iteration
-                                 */
-                                /* Maybe proc for Houses in the same situation too... but during
-                                 * testing the problem was not observable */
-                                next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->setTimeToLive(burning_state_initial_time_to_live);
-                            }
-                            else if (next_board.getCellAtCoordinates(current_coordinates)
-                                       .getBuilding()
-                                       ->getStateName() == "Ruin")
-                            {
-                                /* Should only proc for shops which were ruined in current
-                                 * iteration... but during testing the problem was not observable */
-                                next_board.getCellAtCoordinates(current_coordinates)
-                                  .getBuilding()
-                                  ->setTimeToLive(ruin_state_initial_time_to_live);
-                            }
+                             * Normal ttl */
+
+                            next_board.getCellAtCoordinates(current_coordinates)
+                              .getBuilding()
+                              ->resetTimeToLive();
                         }
                         break;
                     }
-                    case (ProbabilityType::CREATE_NEW_HOUSE):
+                    case ProbabilityType::CREATE_NEW_HOUSE:
                     {
                         if (something_already_built)
                         {
@@ -215,22 +175,20 @@ void Simulation::iterate()
 
                         std::cout << "Rolling for new house..." << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new House */
                             /*
                             std::cout << "New house!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::unique_ptr<House>(new House(default_properties_house_radius)));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<House>());
                             something_already_built = true;
                         }
                         break;
                     }
 
-                    case (ProbabilityType::CREATE_NEW_FIRESTATION):
+                    case ProbabilityType::CREATE_NEW_FIRESTATION:
                     {
                         if (something_already_built)
                         {
@@ -240,27 +198,24 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_FIRESTATION Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new firestation..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new Firestation */
                             /*
                             std::cout << "New firestation!" << '\n';
                             */
                             next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::unique_ptr<Firestation>(
-                                new Firestation(default_properties_firestation_radius)));
+                              current_coordinates, std::make_unique<Firestation>());
                             something_already_built = true;
                         }
                         break;
                     }
 
-                    case (ProbabilityType::CREATE_NEW_SHOP):
+                    case ProbabilityType::CREATE_NEW_SHOP:
                     {
                         if (something_already_built)
                         {
@@ -270,26 +225,24 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_SHOP Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new SHop..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new SHop */
                             /*
                             std::cout << "New Shop!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::unique_ptr<Shop>(new Shop(default_properties_shop_radius)));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Shop>());
                             something_already_built = true;
                         }
                         break;
                     }
 
-                    case (ProbabilityType::CREATE_NEW_FACTORY):
+                    case ProbabilityType::CREATE_NEW_FACTORY:
                     {
                         if (something_already_built)
                         {
@@ -299,26 +252,23 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_FACTORY Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new Factory..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new Factory */
                             /*
                             std::cout << "New Factory!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::unique_ptr<Factory>(
-                                new Factory(default_properties_factory_radius)));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Factory>());
                             something_already_built = true;
                         }
                         break;
                     }
-                    case (ProbabilityType::CREATE_NEW_CHURCH):
+                    case ProbabilityType::CREATE_NEW_CHURCH:
                     {
                         if (something_already_built)
                         {
@@ -328,21 +278,18 @@ void Simulation::iterate()
                         std::cout << "(" << row_position << "," << column_position
                                   << "):" << "CREATE_NEW_CHURCH Percentage:" << value << '\n';
                         */
-                        bool probability_success = rollProbabilityDice(value);
 
                         /*
                         std::cout << "Rolling for new CHURCH..." << '\n';
                         */
-                        if (probability_success)
+                        if (rollProbabilityDice(value))
                         {
                             /* create new church */
                             /*
                             std::cout << "New Church!" << '\n';
                             */
-                            next_board.acquireOccupantToCoordinates(
-                              current_coordinates,
-                              std::unique_ptr<Church>(
-                                new Church(default_properties_church_radius)));
+                            next_board.acquireOccupantToCoordinates(current_coordinates,
+                                                                    std::make_unique<Church>());
                             something_already_built = true;
                         }
                         break;
@@ -353,47 +300,75 @@ void Simulation::iterate()
             }
         }
     }
+}
 
-    /* 3. Implement time to live */
-    for (unsigned int row_position = 0; row_position < next_board.getWidth(); ++row_position)
-        for (unsigned int column_position = 0; column_position < next_board.getHeight();
+void Simulation::propagateBuildingProbabilities()
+{
+    for (unsigned int row_position = 0; row_position < previous_board.getWidth(); ++row_position)
+    {
+        for (unsigned int column_position = 0; column_position < previous_board.getHeight();
              ++column_position)
         {
-            auto current_coordinates = Coordinates(row_position, column_position);
-            /*
-            std::cout << "(" << current_coordinates.x << "," << current_coordinates.y << ")
-            TIME2LIVE" << '\n';
-            */
-            bool is_empty = next_board.checkCellEmptyAtCoordinates(current_coordinates);
-            if (is_empty)
+            auto current_coordinates =
+              Coordinates(static_cast<int>(row_position), static_cast<int>(column_position));
+            if (previous_board.checkCellEmptyAtCoordinates(current_coordinates))
             {
-                /*
-                std::cout << "\t EMPTY -> continue" << '\n';
-                */
                 continue;
             }
-            CellOccupant& cell = next_board.getCellAtCoordinates(current_coordinates);
-            Building* building = cell.getBuilding();
-            if (building->getTimeToLive() < decay)
-            {
-                /*
-                std::cout << "\t LOW TTL -> STATE TRANSFORMATION" << '\n';
-                */
-                cell.transformState();
-            }
-            else
-            {
-                /*
-                std::cout << "\t HIGH TTL -> DECREMENT" << '\n';
-                */
-                building->setTimeToLive(building->getTimeToLive() - decay);
-            }
+            const auto& cell = previous_board.getCellAtCoordinates(current_coordinates);
+            cell.getBuilding()->applyProbabilities(
+              [this, row_position, column_position](Coordinates relative_coordinates) -> bool
+              {
+                  return this->previous_board.checkCellExistsAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y));
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates) -> bool
+              {
+                  return this->previous_board.checkCellEmptyAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y));
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    ProbabilityType probability_type) -> bool
+              {
+                  return this->probability_board.checkProbabilityTypePercentageIsSetAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y),
+                    probability_type,
+                    this->current_iteration);
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    ProbabilityType probability_type) -> double
+              {
+                  return this->probability_board.getProbabilityTypePercentageAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y),
+                    probability_type);
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    ProbabilityType probability_type,
+                                                    double percentage) -> void
+              {
+                  this->probability_board.setProbabilityTypePercentageAtCoordinates(
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y),
+                    probability_type,
+                    this->current_iteration,
+                    percentage);
+              },
+              [this, row_position, column_position](Coordinates relative_coordinates,
+                                                    BuildingState const& state_name) -> bool
+              {
+                  auto coordinates =
+                    Coordinates(static_cast<int>(row_position) + relative_coordinates.x,
+                                static_cast<int>(column_position) + relative_coordinates.y);
+                  Building const* building =
+                    this->previous_board.getCellAtCoordinates(coordinates).getBuilding();
+                  return building->getBuildingState() == state_name;
+              });
         }
-    /* 3. Swap boards */
-    next_board.contents.swap(previous_board.contents);
-    /* 4. Zero out probabilities*/
-    probability_board.resetProbabilities();
-    this->current_iteration++;
+    }
 }
 
 auto Simulation::rollProbabilityDice(double percentage) -> bool
@@ -406,18 +381,21 @@ auto Simulation::rollProbabilityDice(double percentage) -> bool
 [[noreturn]]
 void Simulation::run()
 {
-    std::ofstream myfile("output.txt");
+    std::ofstream myfile(filename);
     while (true)
     {
-        iterate();
+        propagateBuildingProbabilities();
+        executeProbability();
+        decayBuildings();
+        recycleBoards();
+        probability_board.resetProbabilities(previous_board);
         print(myfile);
-        std::chrono::milliseconds timespan(100); // or whatever
-
-        std::this_thread::sleep_for(timespan);
+        sleep(std::chrono::milliseconds(100));
+        incrementIteration();
     }
 }
 
-void Simulation::print(std::ofstream& file)
+void Simulation::print(std::ofstream& file) const
 {
     for (unsigned int _ = 0; _ < 3; ++_)
     {

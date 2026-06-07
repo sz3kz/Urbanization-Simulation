@@ -1,31 +1,40 @@
 @startuml
-title Maszyna Stanów Obiektu Building
+title Building Lifecycle State Machine
 
-[*] --> Empty : Brak obiektu (nullptr)
+[*] --> Normal : Building created
 
-state "NormalState" as Normal {
-  Normal : iterations_till_natural_ruin > 0
-  Normal : applyProbabilities() działa
+state "NORMAL" as Normal {
+  Normal : BuildingState::NORMAL
+  Normal : applyProbabilities() active
+  Normal : TTL = 3700
 }
 
-state "BurningState" as Burning {
-  Burning : ticks < maxTicks
-  Burning : Może podpalać sąsiadów
+state "BURNING" as Burning {
+  Burning : BuildingState::BURNING
+  Burning : Can ignite neighbours
+  Burning : TTL = 200
 }
 
-state "RuinState" as Ruin {
-  Ruin : ticks < maxTicks
-  Ruin : Brak wpływu na prawdopodobieństwo
+state "RUIN" as Ruin {
+  Ruin : BuildingState::RUIN
+  Ruin : Limited influence
+  Ruin : TTL = 560
 }
 
-Empty --> Normal : Losowanie: spawn (np. 60%)
-Normal --> Burning : setOnFire() / Pech
-Normal --> Ruin : decayToRuin() / Licznik = 0
+state "Removed" as Empty {
+  Empty : occupant == nullptr
+}
 
-Burning --> Normal : extinguishFire() / Remiza
-Burning --> Ruin : Spłonięcie całkowite (maxTicks)
+Normal --> Burning : SET_CURRENT_BUILDING_ON_FIRE
 
-Ruin --> Normal : restoreRuin()
-Ruin --> Empty : Total decay / Licznik = 0
+Normal --> Ruin : TTL <= decay threshold : transformState()
+
+Burning --> Ruin : TTL <= decay threshold : transformState()
+
+Ruin --> Normal : RESTORE_FROM_RUIN
+
+Ruin --> Empty : TTL <= decay threshold : transformState()
+
+Empty --> Normal : CREATE_NEW_HOUSE : CREATE_NEW_SHOP : CREATE_NEW_FACTORY : CREATE_NEW_FIRESTATION : CREATE_NEW_CHURCH
 
 @enduml

@@ -1,18 +1,37 @@
 #include "CellOccupant.hpp"
 #include "House.hpp"
 #include <gtest/gtest.h>
-#include <random>
 
-/*
-TEST(SimulationTests,
-     CellOccupant_CorrectConstructionFunctionality_ConstructedCellOccupantHoldsCorrectOccupant)
+struct CelloccupantInitializationTests : public testing::Test
 {
-    int value = 100;
-    auto myHouse = std::make_unique<House>(value);
+    CellOccupant default_cell;
+};
 
-    // 2. Transfer ownership to the CellOccupant
-    // After this line, 'myDummy' becomes null!
-    CellOccupant cell_occupant(std::move(myHouse));
-    EXPECT_EQ(cell_occupant.occupant->x, value);
+TEST_F(CelloccupantInitializationTests,
+       CorrectConstructionFunctionality_CelloccupantConstructionCreatesEmptyCell)
+{
+    EXPECT_EQ(default_cell.checkCellEmpty(), true);
 }
-*/
+
+struct OccupiedCellTests : public testing::Test
+{
+    std::unique_ptr<Building> building = std::make_unique<House>();
+    CellOccupant cell{ std::move(building) };
+};
+
+TEST_F(OccupiedCellTests, OccupantChecking_OccupiedCellReportsBeingOccupied)
+{
+    EXPECT_EQ(cell.checkCellEmpty(), false);
+}
+
+TEST_F(OccupiedCellTests, OccupantChecking_OccupiedCellReportsBeingEmptyAfterReleasing)
+{
+    cell.release();
+    EXPECT_EQ(cell.checkCellEmpty(), true);
+}
+TEST_F(OccupiedCellTests, OccupantChecking_OccupiedCellHoldsCorrectPointer)
+{
+    Building const* ptr = cell.getBuilding();
+    auto uptr = cell.release();
+    EXPECT_EQ(ptr == uptr.get(), true);
+}

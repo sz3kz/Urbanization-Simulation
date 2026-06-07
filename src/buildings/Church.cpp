@@ -1,10 +1,11 @@
 #include "Church.hpp"
+#include "Building.hpp"
 #include "CellProbabilities.hpp"
 #include "Coordinates.hpp"
-#include "World.hpp"
-#include <iostream>
 
-constexpr unsigned long church_probability_multiplier = 100;
+#include <algorithm>
+#include <iostream>
+#include <ranges>
 
 auto Church::getBuildingType() const -> BuildingType
 {
@@ -20,73 +21,77 @@ void Church::applyProbabilities(
     askProbabilityTypePercentageAtCoordinates,
   [[maybe_unused]] std::function<void(Coordinates, ProbabilityType, double)>
     setCellPercentageOfProbabilityAtCoordinates,
-  [[maybe_unused]] std::function<bool(Coordinates, std::string)> askBuildingAtCoordinatesIsInState)
+  [[maybe_unused]] std::function<bool(Coordinates, BuildingState)>
+    askBuildingAtCoordinatesIsInState)
 {
-    for (int i = (-1) * static_cast<int>(radius); i <= static_cast<int>(radius); ++i)
+    int signed_radius = static_cast<int>(this->getRadius());
+    for (int i = (-1) * signed_radius; i <= signed_radius; ++i)
     {
-        for (int j = (-1) * static_cast<int>(radius); j <= static_cast<int>(radius); ++j)
+        for (int j = (-1) * signed_radius; j <= signed_radius; ++j)
         {
-            bool is_self = (i == 0 && j == 0);
-            if (is_self)
-            {
-                setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_HOUSE, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_FIRESTATION, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_SHOP, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_FACTORY, 0.0);
-                setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_CHURCH, 0.0);
-                continue;
-            }
-
-            bool exists = askCellExistsAtCoordinates(Coordinates(i, j));
-            if (!exists)
+            Coordinates neighbour_position(i, j);
+            Coordinates source_position(0, 0);
+            if (neighbour_position == source_position)
             {
                 continue;
             }
 
-            bool empty = askCellEmptyAtCoordinates(Coordinates(i, j));
-            if (empty)
+            bool neighbour_exists = askCellExistsAtCoordinates(neighbour_position);
+            if (!neighbour_exists)
             {
-                setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j), ProbabilityType::CREATE_NEW_CHURCH, 0.0);
                 continue;
             }
 
-            bool self_is_on_fire = (getStateName() == "Burning");
-            bool in_closes_neighbourhood = (i * i + j * j <= 2);
-            bool is_ruin = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Ruin");
-            bool is_on_fire = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Burning");
+            bool neighbour_is_empty = askCellEmptyAtCoordinates(neighbour_position);
+            if (neighbour_is_empty)
+            {
+                setCellPercentageOfProbabilityAtCoordinates(
+                  neighbour_position, ProbabilityType::CREATE_NEW_CHURCH, 0.0);
+                continue;
+            }
+
+            bool self_in_burning_state =
+              askBuildingAtCoordinatesIsInState(source_position, BuildingState::BURNING);
+            bool neighbour_in_close_neighbourhood = ((i * i) + (j * j) <= 2);
+            // bool is_ruin =
+            // askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::RUIN);
+            // bool is_on_fire =
+            // askBuildingAtCoordinatesIsInState(Coordinates(i, j), BuildingState::BURNING);
+            bool neighbour_in_normal_state =
+              askBuildingAtCoordinatesIsInState(neighbour_position, BuildingState::NORMAL);
             bool is_cell_probability_already_set = askProbabilityTypePercentageIsSetAtCoordinates(
-              Coordinates(i, j), ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE);
-            if (self_is_on_fire && in_closes_neighbourhood && !is_ruin && !is_on_fire &&
-                !is_cell_probability_already_set)
+              neighbour_position, ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE);
+            if (self_in_burning_state && neighbour_in_close_neighbourhood &&
+                neighbour_in_normal_state && !is_cell_probability_already_set)
             {
                 setCellPercentageOfProbabilityAtCoordinates(
-                  Coordinates(i, j),
+                  neighbour_position,
                   ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
-                  set_adjacent_building_on_fire);
+                  OccupiedCellDefaultProbabilities::SetAdjacentBuildingOnFire);
             }
 
-            bool self_is_normal = askBuildingAtCoordinatesIsInState(Coordinates(0, 0), "Normal");
-            bool is_normal = askBuildingAtCoordinatesIsInState(Coordinates(i, j), "Normal");
-            if (is_normal && self_is_normal)
+            bool self_in_normal_state =
+              askBuildingAtCoordinatesIsInState(source_position, BuildingState::NORMAL);
+            if (neighbour_in_normal_state && self_in_normal_state)
             {
-                for (auto const& [probability_type, _] : probability_default_percentages)
+                for (const auto& probability_type : {
+                       ProbabilityType::CREATE_NEW_HOUSE,
+                       ProbabilityType::CREATE_NEW_FIRESTATION,
+                       ProbabilityType::CREATE_NEW_SHOP,
+                       ProbabilityType::CREATE_NEW_FACTORY,
+                       ProbabilityType::CREATE_NEW_CHURCH,
+                       ProbabilityType::SET_CURRENT_BUILDING_ON_FIRE,
+                       ProbabilityType::RESTORE_TIME_TO_LIVE,
+                       ProbabilityType::RESTORE_FROM_RUIN,
+                     })
                 {
                     double current_probability = askProbabilityTypePercentageAtCoordinates(
-                      Coordinates(i, j), probability_type);
-                    double new_probability = current_probability * church_probability_multiplier;
-                    if (new_probability > 1.0)
-                    {
-                        new_probability = 1.0;
-                    }
+                      neighbour_position, probability_type);
+                    double new_probability =
+                      std::min(current_probability * ChurchConstants::ProbabilityMultiplier, 1.0);
 
                     setCellPercentageOfProbabilityAtCoordinates(
-                      Coordinates(i, j), probability_type, new_probability);
+                      neighbour_position, probability_type, new_probability);
                 }
             }
         }

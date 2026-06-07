@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.15...4.1)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 project(UrbanizationSimulation CXX)
 
@@ -26,6 +26,8 @@ add_library(simulation_library
         src/simulation/BoardOccupants.cpp
         src/simulation/CellOccupant.cpp
         src/simulation/CellProbabilities.cpp
+        src/simulation/State.cpp
+        src/buildings/Building.cpp
         src/buildings/House.cpp
         src/buildings/Firestation.cpp
         src/buildings/Shop.cpp
@@ -38,7 +40,13 @@ target_compile_features(simulation_library PUBLIC cxx_std_23)
 add_executable(simulation_tests 
   tests/CoordinatesTests.cpp
   tests/BoardTests.cpp
+  tests/StateTests.cpp
   tests/CellOccupantTests.cpp
+  tests/HouseTests.cpp
+  tests/ShopTests.cpp
+  tests/FirestationTests.cpp
+  tests/FactoryTests.cpp
+  tests/ChurchTests.cpp
 )
 
 add_executable(simulation
@@ -60,7 +68,7 @@ add_custom_target(run_tests
                   USES_TERMINAL)
 
 add_custom_target(run_simulation
-        COMMAND simulation 50 50 2
+        COMMAND simulation 50 50 2 default_run_output.log
         DEPENDS simulation
         USES_TERMINAL)
 

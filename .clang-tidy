@@ -25,3 +25,5 @@ CheckOptions:
     value:           CamelCase
   - key:             readability-identifier-naming.FunctionCase
     value:           camelBack
+  - key:             readability-identifier-naming.ConstexprVariableCase
+    value:           CamelCase

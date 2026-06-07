@@ -1,49 +1,53 @@
 #include "CellOccupant.hpp"
+#include "Emoji.hpp"
 
 auto CellOccupant::release() -> std::unique_ptr<Building>
 {
     return std::move(this->occupant);
 }
 
+auto CellOccupant::getBuilding() const -> Building*
+{
+    return occupant.get();
+}
+
+void CellOccupant::acquireBuilding(std::unique_ptr<Building> building)
+{
+    occupant = std::move(building);
+}
+
+auto CellOccupant::getBuildingType() const -> BuildingType
+{
+    return occupant->getBuildingType();
+}
+
+auto CellOccupant::checkCellEmpty() const -> bool
+{
+    return occupant == nullptr;
+}
+
+void CellOccupant::transformState()
+{
+    if (occupant->getBuildingState() == BuildingState::NORMAL ||
+        occupant->getBuildingState() == BuildingState::BURNING)
+    {
+        occupant->setBuildingState(BuildingState::RUIN);
+    }
+    else if (occupant->getBuildingState() == BuildingState::RUIN)
+    {
+        release();
+    }
+}
+
 auto operator<<(std::ostream& os, CellOccupant const& cell_occupant) -> std::ostream&
 {
     if (cell_occupant.occupant == nullptr)
     {
-        os << "🟦";
-        return os;
+        os << Emoji::BlueTile;
     }
-    Building const* building = cell_occupant.getBuilding();
-
-    if (building->getStateName() == "Burning")
+    else
     {
-        os << "🔥";
-    }
-    else if (building->getStateName() == "Ruin")
-    {
-        os << "🏚️";
-        // os << "🟫";
-    }
-    else if (building->getBuildingType() == BuildingType::HOUSE)
-    {
-        os << "🏠";
-        // os << "🟩";
-    }
-    else if (building->getBuildingType() == BuildingType::FIRESTATION)
-    {
-        os << "🚒";
-    }
-    else if (building->getBuildingType() == BuildingType::SHOP)
-    {
-        os << "🏪";
-    }
-    else if (building->getBuildingType() == BuildingType::FACTORY)
-    {
-        os << "🏭";
-    }
-    else if (building->getBuildingType() == BuildingType::CHURCH)
-    {
-        os << "⛪";
-        // os << "🫙";
+        os << *(cell_occupant.occupant);
     }
     return os;
 }
