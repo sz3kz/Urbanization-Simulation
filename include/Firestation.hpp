@@ -25,9 +25,8 @@ class Firestation : public Building
      * - BuildingRadiusConstants::Firestation as the influence radius.
      */
     explicit Firestation()
+      : Building(Emoji::FireTruck, BuildingRadiusConstants::Firestation)
     {
-        setEmoji(Emoji::FireTruck);
-        setRadius(BuildingRadiusConstants::Firestation);
     }
 
     /**
