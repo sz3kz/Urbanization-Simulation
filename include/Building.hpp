@@ -4,6 +4,7 @@
 #include "State.hpp"
 #include <functional>
 #include <memory>
+#include <utility>
 
 /**
  * @brief Enumerates all supported building types.
@@ -54,16 +55,6 @@ class Building
 
   protected:
     /**
-     * @brief Sets the building influence radius.
-     *
-     * Intended for use by derived classes during construction to
-     * set their radius.
-     *
-     * @param new_radius Radius of the object
-     */
-    void setRadius(const unsigned int new_radius) { radius = new_radius; }
-
-    /**
      * @brief Returns the building influence radius.
      *
      * @return Radius of influence of building object
@@ -71,23 +62,17 @@ class Building
     [[nodiscard]]
     auto getRadius() const -> unsigned int;
 
-    /**
-     * @brief Classic setter to the building emoji.
-     *
-     *
-     * Intended for use by derived classes during construction to
-     * set their emoji.
-     *
-     * @param supplied_emoji Emoji string
-     */
-    void setEmoji(std::string const& supplied_emoji);
-
   public:
     /**
      * @brief Constructs a building with a default state(normal).
+     *
+     * @param supplied_emoji Building's unique emoji
+     * @param supplied_radius Building's radius value
      */
-    Building()
-      : building_state(std::make_unique<State>())
+    Building(std::string supplied_emoji, unsigned int supplied_radius)
+      : emoji(std::move(supplied_emoji))
+      , radius(supplied_radius)
+      , building_state(std::make_unique<State>())
     {
     }
     /**
