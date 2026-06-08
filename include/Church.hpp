@@ -38,9 +38,8 @@ class Church : public Building
      * - BuildingRadiusConstants::Church as the influence radius.
      */
     explicit Church()
+      : Building(Emoji::Church, BuildingRadiusConstants::Church)
     {
-        setEmoji(Emoji::Church);
-        setRadius(BuildingRadiusConstants::Church);
     }
 
     /**

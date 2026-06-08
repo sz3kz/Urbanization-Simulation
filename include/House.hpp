@@ -43,9 +43,8 @@ class House : public Building
      * - BuildingRadiusConstants::House as the influence radius.
      */
     explicit House()
+      : Building(Emoji::House, BuildingRadiusConstants::House)
     {
-        setEmoji(Emoji::House);
-        setRadius(BuildingRadiusConstants::House);
     }
 
     /**

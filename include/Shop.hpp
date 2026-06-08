@@ -40,9 +40,8 @@ class Shop : public Building
      * - BuildingRadiusConstants::Shop as the influence radius.
      */
     explicit Shop()
+      : Building(Emoji::Shop, BuildingRadiusConstants::Shop)
     {
-        setEmoji(Emoji::Shop);
-        setRadius(BuildingRadiusConstants::Shop);
     }
 
     /**

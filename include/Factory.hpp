@@ -36,10 +36,10 @@ class Factory : public Building
      * - Emoji::Factory as the visual representation.
      * - BuildingRadiusConstants::Factory as the influence radius.
      */
+
     explicit Factory()
+      : Building(Emoji::Factory, BuildingRadiusConstants::Factory)
     {
-        setEmoji(Emoji::Factory);
-        setRadius(BuildingRadiusConstants::Factory);
     }
 
     /**

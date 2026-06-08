@@ -51,8 +51,3 @@ void Building::resetTimeToLive() const
 {
     this->building_state->resetTimeToLive();
 }
-
-void Building::setEmoji(std::string const& supplied_emoji)
-{
-    this->emoji = supplied_emoji;
-}
