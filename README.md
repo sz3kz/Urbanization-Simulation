@@ -18,6 +18,19 @@ model simply describing complex human behavior.
 All diagrams are inside the `meta/` directory.
 
 ## Usage
+### Warning
+Due to development **time constraints**, the team was **not able** to provide a *gui* 
+interface for displaying the urban grid. As a workaround, the grid itself is 
+being formatted via the simulation, and outputed to `stdout`, the intention being
+to display the grid directly inside a **terminal emulator**. This has led to a few 
+problems as some *older* or *misconfigured* terminal emulators do not output every 
+emoji as the same width (especially the `🏚️` emoji). Correct usage of the simulation
+requires the user to ensure their terminal outputs all emojis as the same width.
+
+If the user is unable to configure their terminal to display emojis as the same width,
+a workaround is suggested, where the user changes the emojis used inside the program to
+normal ascii symbols, compatible with monospace fonts. The emojis are defined inside 
+`include/Emoji.hpp`.
 ### User
 These are the minimum prerequesites to running the simulation:
 * make
